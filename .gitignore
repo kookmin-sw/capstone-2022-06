@@ -63,3 +63,5 @@ crashlytics-build.properties
 
 # Personal work folder
 [Aa]ssets/PersonalWork/
+
+# rm .vsconfig

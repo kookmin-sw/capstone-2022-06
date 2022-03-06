@@ -65,3 +65,6 @@ crashlytics-build.properties
 [Aa]ssets/PersonalWork/
 
 # rm .vsconfig
+
+# Unity UserSettings
+UserSettings/

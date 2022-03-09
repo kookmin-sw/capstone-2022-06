@@ -37,12 +37,10 @@ public class MinionController : MonoBehaviour
     {
         _state = State.Walk;
 
-        // transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-
         InitWayPoints();
-        //_nav.SetDestination(new Vector3(_wayPoints[0].position.x, transform.position.y, _wayPoints[0].position.z));
+        SettingTeam();
 
-        // InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        InvokeRepeating("UpdateTarget", 0f, 0.25f);
 
     }
 
@@ -59,9 +57,23 @@ public class MinionController : MonoBehaviour
                 break;
             case State.Targetting:
                 // TODO
+                _nav.isStopped = false;
+                if (_lockTarget != null)
+                    MoveTo();
                 break;
             case State.Attack:
                 // TODO
+                Animator _anim = GetComponent<Animator>();
+                _anim.SetBool("OnAttack", true);
+
+                if (_lockTarget == null)
+                {
+                    _anim.SetBool("OnAttack", false);
+                    _state = State.Walk;
+                }
+                else
+                    transform.LookAt(_lockTarget.transform);
+
                 break;
         }
     }
@@ -85,13 +97,52 @@ public class MinionController : MonoBehaviour
         }
     }
 
-    //protected void UpdateTarget()
-    //{
-        
-    //}
+    protected void SettingTeam()
+    {
+        if (transform.parent.parent.name == "RTeam")
+            this.gameObject.layer = 6;
+        else
+            this.gameObject.layer = 7;
+    }
 
-    //protected void MoveTo()
-    //{
+    protected void UpdateTarget()
+    {
+        int targetLayer;
 
-    //}
+        if (this.gameObject.layer == 6)
+            targetLayer = 1 << LayerMask.NameToLayer("BlueTeam");
+        else
+            targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
+
+        if (cols.Length > 0)
+        {
+            for(int i = 0; i < cols.Length; i++)
+            {
+                if (_lockTarget == null)
+                {
+                    Debug.Log($"Enemy Spotted : {cols[i].gameObject.name} Found");
+                    _lockTarget = cols[i].gameObject;
+                    _state = State.Targetting;
+                }
+            }
+        }
+        else
+        {
+            _lockTarget = null;
+            _state = State.Walk;
+        }
+    }
+
+    protected void MoveTo()
+    {
+        _nav.SetDestination(_lockTarget.transform.position);
+
+        if ((transform.position - _lockTarget.transform.position).magnitude < _attackRange)
+        {
+            _nav.isStopped = true;
+            _state = State.Attack;
+        }
+    }
 }

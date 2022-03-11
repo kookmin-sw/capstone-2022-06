@@ -17,4 +17,6 @@ public class WorriorMinion : MinionController
     {
         base.Update();
     }
+
+    // Animation Event Call
 }

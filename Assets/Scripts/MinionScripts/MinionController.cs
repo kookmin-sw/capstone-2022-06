@@ -7,16 +7,17 @@ public class MinionController : MonoBehaviour
 {
     protected float _speed = 5f;
 
-    List<Transform> _wayPoints = new List<Transform>();
+    List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
 
     NavMeshAgent _nav;
 
-    protected int _destNum = 0;
+    protected int _destNum = 0;                             // index of _wayPoints List
     protected bool _isDead = false;
-    protected GameObject _lockTarget;
+    protected GameObject _lockTarget;                       // GameObject about target 
 
     protected float _attackRange;
-
+    
+    // minion state enum
     public enum State
     {
         Idle,
@@ -41,7 +42,6 @@ public class MinionController : MonoBehaviour
         SettingTeam();
 
         InvokeRepeating("UpdateTarget", 0f, 0.25f);
-
     }
 
     // Update is called once per frame
@@ -56,13 +56,11 @@ public class MinionController : MonoBehaviour
                 UpdateWayPoints();
                 break;
             case State.Targetting:
-                // TODO
                 _nav.isStopped = false;
                 if (_lockTarget != null)
                     MoveTo();
                 break;
             case State.Attack:
-                // TODO
                 Animator _anim = GetComponent<Animator>();
                 _anim.SetBool("OnAttack", true);
 
@@ -78,6 +76,7 @@ public class MinionController : MonoBehaviour
         }
     }
 
+    // register movement path positions
     protected void InitWayPoints()
     {
         Transform wayPoints = transform.parent.GetChild(0);
@@ -86,6 +85,7 @@ public class MinionController : MonoBehaviour
             _wayPoints.Add(wayPoints.GetChild(i));
     }
 
+    // update to next movement position 
     protected void UpdateWayPoints()
     {
         _nav.SetDestination(new Vector3(_wayPoints[_destNum].position.x, transform.position.y, _wayPoints[_destNum].position.z));
@@ -97,19 +97,21 @@ public class MinionController : MonoBehaviour
         }
     }
 
+    // set team which minion involved
     protected void SettingTeam()
     {
         if (transform.parent.parent.name == "RTeam")
-            this.gameObject.layer = 6;
+            this.gameObject.layer = LayerMask.NameToLayer("RedTeam");
         else
-            this.gameObject.layer = 7;
+            this.gameObject.layer = LayerMask.NameToLayer("BlueTeam");
     }
 
+    // update target based on array of Collider 
     protected void UpdateTarget()
     {
         int targetLayer;
 
-        if (this.gameObject.layer == 6)
+        if (this.gameObject.layer == LayerMask.NameToLayer("RedTeam"))
             targetLayer = 1 << LayerMask.NameToLayer("BlueTeam");
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
@@ -134,7 +136,8 @@ public class MinionController : MonoBehaviour
             _state = State.Walk;
         }
     }
-
+    
+    // set destinaion to target until disance to target lower than attackRange
     protected void MoveTo()
     {
         _nav.SetDestination(_lockTarget.transform.position);

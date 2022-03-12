@@ -69,3 +69,6 @@ crashlytics-build.properties
 
 # Unity UserSettings
 UserSettings/
+
+# Photon App Id Asset
+Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset

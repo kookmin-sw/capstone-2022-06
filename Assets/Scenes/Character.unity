@@ -12640,10 +12640,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 498014925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 497b087c527ea4d458d554712e98cacb, type: 3}
+  m_Script: {fileID: 11500000, guid: 6db95d582865a864fb20a9dc60d8522f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeedMovement: 0.075
+  rotateSpeedMovement: 0.1
   clickParticle: {fileID: 787614489378837785, guid: 2504bcd67d46e7945af5dae9c3475573, type: 3}
 --- !u!4 &498014929
 Transform:
@@ -24444,7 +24444,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58c27651deed354f80322c141d56918, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b987c651e589994ea1f0b03090ff356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panSpeed: 40

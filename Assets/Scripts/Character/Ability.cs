@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Ability : MonoBehaviour
 {
+    // Component에서 스킬의 쿨타임, 인풋 키 설정
+    
     [Header("Skill_Q")]
     public Image skillImage_Q;
     public float cooldown_Q = 3;
@@ -43,6 +45,7 @@ public class Ability : MonoBehaviour
 
     void Start()
     {
+        // 쿨타임 표시를 위한 초기 설정
         skillImage_Q.fillAmount = 0;
         skillImage_W.fillAmount = 0;
         skillImage_E.fillAmount = 0;
@@ -63,6 +66,7 @@ public class Ability : MonoBehaviour
 
     void Skill_Q()
     {
+        // 스킬Q의 쿨타임 UI 이미지
         if(Input.GetKey(skill_Q) && isCooldown_Q == false)
         {
             isCooldown_Q = true;
@@ -83,6 +87,7 @@ public class Ability : MonoBehaviour
 
     void Skill_W()
     {
+        // 스킬W의 쿨타임 UI 이미지
         if (Input.GetKey(skill_W) && isCooldown_W == false)
         {
             isCooldown_W = true;
@@ -103,6 +108,7 @@ public class Ability : MonoBehaviour
 
     void Skill_E()
     {
+        // 스킬E의 쿨타임 UI 이미지
         if (Input.GetKey(skill_E) && isCooldown_E == false)
         {
             isCooldown_E = true;
@@ -123,6 +129,7 @@ public class Ability : MonoBehaviour
 
     void Skill_R()
     {
+        // 스킬R의 쿨타임 UI 이미지
         if (Input.GetKey(skill_R) && isCooldown_R == false)
         {
             isCooldown_R = true;
@@ -143,6 +150,7 @@ public class Ability : MonoBehaviour
 
     void Ability_D()
     {
+        // 어빌리티D의 쿨타임 UI 이미지
         if (Input.GetKey(ability_D) && isCooldown_D == false)
         {
             isCooldown_D = true;
@@ -163,6 +171,7 @@ public class Ability : MonoBehaviour
 
     void Ability_F()
     {
+        // 어빌리티F의 쿨타임 UI 이미지
         if (Input.GetKey(ability_F) && isCooldown_F == false)
         {
             isCooldown_F = true;

@@ -30,6 +30,7 @@ public class ClickMovement : MonoBehaviour
 
     void Update()
     {
+        // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정
         if(Input.GetMouseButton(1))
         {
             RaycastHit hit;
@@ -46,6 +47,7 @@ public class ClickMovement : MonoBehaviour
 
     private void SetDestination(Vector3 dest)
     {
+        // 클릭된 목적지로 이동
         agent.SetDestination(dest);
         destination = dest;
         isMove = true;
@@ -54,6 +56,7 @@ public class ClickMovement : MonoBehaviour
 
     private void LookMoveDirection()
     {
+        // 목적지를 바라보게 캐릭터의 rotation조정
         if (agent.velocity.magnitude == 0f)
         {
             isMove = false;
@@ -70,6 +73,7 @@ public class ClickMovement : MonoBehaviour
 
     IEnumerator ClickEffect(Vector3 dest)
     {
+        // 클릭한 위치를 나타내주기 위한 파티클
         isPlayPart = true;
         GameObject effect = Instantiate(clickParticle, dest, Quaternion.identity);
         yield return new WaitForSeconds(1f);

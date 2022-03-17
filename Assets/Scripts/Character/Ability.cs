@@ -25,11 +25,24 @@ public class Ability : MonoBehaviour
     bool isCooldown_E = false;
     public KeyCode skill_E;
 
+    // Skill_E 인풋 변수
+    Vector3 position;
+    public Canvas skill_ECanvas;
+    public Image skillshot;
+    public Transform player;
+
     [Header("Skill_R")]
     public Image skillImage_R;
     public float cooldown_R = 80;
     bool isCooldown_R = false;
     public KeyCode skill_R;
+
+    // Skill_R 인풋 변수
+    public Image targetCircle;
+    public Image indicatorRangeCircle;
+    public Canvas skill_RCanvas;
+    private Vector3 posUp;
+    public float maxSkill_RDistance;
 
     [Header("Ability_D")]
     public Image abilityImage_D;
@@ -52,6 +65,11 @@ public class Ability : MonoBehaviour
         skillImage_R.fillAmount = 0;
         abilityImage_F.fillAmount = 0;
         abilityImage_D.fillAmount = 0;
+
+        // 초기 스킬샷 UI enable
+        skillshot.GetComponent<Image>().enabled = false;
+        targetCircle.GetComponent<Image>().enabled = false;
+        indicatorRangeCircle.GetComponent<Image>().enabled = false;
     }
 
     void Update()
@@ -62,6 +80,39 @@ public class Ability : MonoBehaviour
         Skill_R();
         Ability_D();
         Ability_F();
+
+        // 마우스 스킬 입력
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Skill_E 입력
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        }
+
+        // Skill_E 캔버스 입력
+        Quaternion transRot = Quaternion.LookRotation(position - player.transform.position);
+        transRot.eulerAngles = new Vector3(0, transRot.eulerAngles.y, 0);
+        skill_ECanvas.transform.rotation = Quaternion.Lerp(transRot, skill_ECanvas.transform.rotation, 0f);
+
+        // Skill_R 입력
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if(hit.collider.gameObject != this.gameObject)
+            {
+                posUp = new Vector3(hit.point.x, 10f, hit.point.z);
+                position = hit.point;
+            }
+        }
+
+        // Skill_R 캔버스 입력
+        var hitPosDir = (hit.point - transform.position).normalized;
+        float distance = Vector3.Distance(hit.point, transform.position);
+        distance = Mathf.Min(distance, maxSkill_RDistance);
+
+        var newHitPos = transform.position + (hitPosDir * distance);
+        skill_RCanvas.transform.position = (newHitPos);
     }
 
     void Skill_Q()
@@ -111,6 +162,15 @@ public class Ability : MonoBehaviour
         // 스킬E의 쿨타임 UI 이미지
         if (Input.GetKey(skill_E) && isCooldown_E == false)
         {
+            skillshot.GetComponent<Image>().enabled = true;
+
+            // 다른 스킬샷 UI disable
+            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            targetCircle.GetComponent<Image>().enabled = false;
+        }
+
+        if (skillshot.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        {
             isCooldown_E = true;
             skillImage_E.fillAmount = 1;
         }
@@ -118,6 +178,7 @@ public class Ability : MonoBehaviour
         if (isCooldown_E)
         {
             skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
+            skillshot.GetComponent<Image>().enabled = false;
 
             if (skillImage_E.fillAmount <= 0)
             {
@@ -132,6 +193,15 @@ public class Ability : MonoBehaviour
         // 스킬R의 쿨타임 UI 이미지
         if (Input.GetKey(skill_R) && isCooldown_R == false)
         {
+            indicatorRangeCircle.GetComponent<Image>().enabled = true;
+            targetCircle.GetComponent<Image>().enabled = true;
+
+            // 다른 스킬샷 UI disable
+            skillshot.GetComponent<Image>().enabled = false;
+        }
+
+        if(targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        {
             isCooldown_R = true;
             skillImage_R.fillAmount = 1;
         }
@@ -139,6 +209,9 @@ public class Ability : MonoBehaviour
         if (isCooldown_R)
         {
             skillImage_R.fillAmount -= 1 / cooldown_R * Time.deltaTime;
+
+            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            targetCircle.GetComponent<Image>().enabled = false;
 
             if (skillImage_R.fillAmount <= 0)
             {

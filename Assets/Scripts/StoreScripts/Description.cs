@@ -11,12 +11,12 @@ public class Description : MonoBehaviour
     [SerializeField]
     private Text itemPrice, title, description;
 
-    public void Awake()
+    public void Awake() //초기화
     {
         ResetDescription();
     }
 
-    public void ResetDescription()
+    public void ResetDescription() // 실행시 item들을 초기화를 위한 함수
     {
         this.itemImage.gameObject.SetActive(false);
         this.itemPrice.text = "";
@@ -24,7 +24,8 @@ public class Description : MonoBehaviour
         this.description.text = "";
     }
 
-    public void SetDescription(Sprite sprite, string itemGold, string itemName, string itemDescription)
+    public void SetDescription(Sprite sprite, string itemGold, string itemName, string itemDescription) 
+        // 선택한 item의 지정된 정보를 Description에 불러오기 
     {
         this.itemImage.gameObject.SetActive(true);
         this.itemImage.sprite = sprite;

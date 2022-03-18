@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TabButton : MonoBehaviour
 {
+    // item 카테고리 select 시 배경 변경 -> 아닐시 기본 배경으로 변경
     Image background;
     public Sprite idleImg;
     public Sprite selectedImg;

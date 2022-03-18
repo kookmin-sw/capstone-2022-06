@@ -1,1 +1,15 @@
 theme: jekyll-theme-minimal
+
+# exclude는 Jekyll컴파일 시 destination에 포함될 필요가
+# 없는것들을 명시한다. (node_modules와 필요없는 것들은 제외)
+exclude:
+  - Assets/
+  - Capstone_Ex_Data/
+  - MonoBleedingEdge/
+  - Packages/
+  - ProjectSettings/
+  - Capstone_Ex.exe
+  - README.md
+  - UnityCrashHandler64.exe
+  - UnityPlayer.dll
+  - WinPixEventRuntime.dll

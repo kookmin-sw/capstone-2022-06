@@ -33,6 +33,8 @@ public class SelectManager : MonoBehaviourPunCallbacks
         GameObject clickObj = EventSystem.current.currentSelectedGameObject;
 
         clickImgName = clickObj.GetComponent<Image>().sprite.name;
+
+        Debug.Log(clickImgName);
     }
 
     [PunRPC]

@@ -32,7 +32,7 @@ public class SelectManager : MonoBehaviourPunCallbacks
     {
         GameObject clickObj = EventSystem.current.currentSelectedGameObject;
 
-        clickImgName = clickObj.name;
+        clickImgName = clickObj.GetComponent<Image>().sprite.name;
     }
 
     [PunRPC]
@@ -40,6 +40,6 @@ public class SelectManager : MonoBehaviourPunCallbacks
     {
         Sprite iconImg = Managers.Resource.Load<Sprite>($"Private/Textures/Character Portraits/{name}");
 
-        playersPick[PV.ViewID - 1].GetComponent<Image>().sprite = iconImg;
+        playersPick[PV.ViewID - 1].transform.Find("Portrait").GetComponent<Image>().sprite = iconImg;
     }
 }

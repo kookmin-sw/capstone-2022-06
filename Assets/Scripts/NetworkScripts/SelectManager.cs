@@ -14,10 +14,19 @@ public class SelectManager : MonoBehaviourPunCallbacks
     List<GameObject> playersPick;
 
     PhotonView PV;
-
+    int playerNum = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
+        foreach (Player p in PhotonNetwork.PlayerList)
+        {
+            if (p.UserId == PhotonNetwork.LocalPlayer.UserId)
+                break;
+            playerNum++;
+        }
+
+        // PV = PhotonNetwork.Instantiate("Prefabs/@PV", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<PhotonView>();
         PV = GetComponent<PhotonView>();
     }
 
@@ -25,7 +34,7 @@ public class SelectManager : MonoBehaviourPunCallbacks
     void Update()
     {
         if (clickImgName != null)
-            PV.RPC("ChangeIcon", RpcTarget.All, clickImgName);
+            PV.RPC("ChangeIcon", RpcTarget.All, clickImgName, playerNum);
     }
 
     public void findClickImg()
@@ -34,14 +43,14 @@ public class SelectManager : MonoBehaviourPunCallbacks
 
         clickImgName = clickObj.GetComponent<Image>().sprite.name;
 
-        Debug.Log(clickImgName);
+        Debug.Log(PhotonNetwork.PlayerList[0].ActorNumber);
     }
 
     [PunRPC]
-    void ChangeIcon(string name)
+    void ChangeIcon(string name, int playerNum)
     {
         Sprite iconImg = Managers.Resource.Load<Sprite>($"Private/Textures/Character Portraits/{name}");
 
-        playersPick[PV.ViewID - 1].transform.Find("Portrait").GetComponent<Image>().sprite = iconImg;
+        playersPick[playerNum].transform.Find("Portrait").GetComponent<Image>().sprite = iconImg;
     }
 }

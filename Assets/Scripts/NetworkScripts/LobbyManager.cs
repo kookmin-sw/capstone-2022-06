@@ -15,6 +15,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         searchingPanel.SetActive(false);
         findMatchBtn.SetActive(false);
 
+        DontDestroyOnLoad(gameObject);
+
         // Connect to the photon Server
         PhotonNetwork.ConnectUsingSettings();   
     }

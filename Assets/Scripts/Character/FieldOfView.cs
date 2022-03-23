@@ -8,6 +8,8 @@ public class FieldOfView : MonoBehaviour
     public float viewAngle = 360;
     public float viewRadius = 10;
     public LayerMask allyMask, opposingMask, obstacleMask;
+
+    [Range(0, 2)]
     public float samplingRate;
     public float edgeDstThreshold;
 

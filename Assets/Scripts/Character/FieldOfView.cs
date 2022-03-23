@@ -42,7 +42,12 @@ public class FieldOfView : MonoBehaviour
     */
     private void ScanVisibleEnemies()
     {
+        foreach (Transform e in visibleEnemies)
+        {
+            Managers.Visible.SubtractVisible(e.gameObject);
+        }
         visibleEnemies.Clear();
+
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
 
         foreach (Collider e in candidates)
@@ -54,6 +59,7 @@ public class FieldOfView : MonoBehaviour
                 float distToEnemy = (target.position - transform.position).magnitude;
                 if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
                 {
+                    Managers.Visible.AddVisible(target.gameObject);
                     visibleEnemies.Add(target);
                 }
             }

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
-    public static Managers s_instance = null;
-    public static Managers Instance { get { Init(); return s_instance; } }
+    static Managers s_instance = null;
+    static Managers Instance { get { Init(); return s_instance; } }
 
     ResourceManager _resource = new ResourceManager();
+    VisibleManager _visible = new VisibleManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
+    public static VisibleManager Visible { get { return Instance._visible; }}
 
     // Start is called before the first frame update
     void Start()

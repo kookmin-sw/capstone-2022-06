@@ -10,12 +10,15 @@ public class SelectManager : MonoBehaviourPunCallbacks
 {
     string clickImgName;
 
-    [SerializeField]
-    List<GameObject> playersPick;
+    [SerializeField] List<GameObject> playersPick;
+    [SerializeField] Button confirmBtn;
+    [SerializeField] GameObject scrollView;
 
     PhotonView PV;
     int playerNum = 0;
-    
+
+    bool completeSelect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +28,12 @@ public class SelectManager : MonoBehaviourPunCallbacks
                 break;
             playerNum++;
         }
-
+       
         // PV = PhotonNetwork.Instantiate("Prefabs/@PV", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<PhotonView>();
         PV = GetComponent<PhotonView>();
+
+        confirmBtn.interactable = false;
+        completeSelect = false;
     }
 
     // Update is called once per frame
@@ -43,7 +49,16 @@ public class SelectManager : MonoBehaviourPunCallbacks
 
         clickImgName = clickObj.GetComponent<Image>().sprite.name;
 
+        if (!confirmBtn.interactable)
+            confirmBtn.interactable = true;
+
         Debug.Log(PhotonNetwork.PlayerList[0].ActorNumber);
+    }
+
+    public void onClickConfirm()
+    {
+        confirmBtn.gameObject.SetActive(false);
+        scrollView.SetActive(false);
     }
 
     [PunRPC]
@@ -53,4 +68,6 @@ public class SelectManager : MonoBehaviourPunCallbacks
 
         playersPick[playerNum].transform.Find("Portrait").GetComponent<Image>().sprite = iconImg;
     }
+
+
 }

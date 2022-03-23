@@ -6,7 +6,7 @@ public class VisibleManager
 {
     Dictionary<GameObject, int> visibleObjects = new Dictionary<GameObject, int>();
 
-    void AddVisible(GameObject unit)
+    public void AddVisible(GameObject unit)
     {
         if (visibleObjects.ContainsKey(unit))
         {
@@ -22,7 +22,7 @@ public class VisibleManager
         }
     }
 
-    void SubtractVisible(GameObject unit)
+    public void SubtractVisible(GameObject unit)
     {
         if (!visibleObjects.ContainsKey(unit))
         {

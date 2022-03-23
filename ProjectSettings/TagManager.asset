@@ -13,10 +13,10 @@ TagManager:
   - UI
   - RedTeam
   - BlueTeam
+  - Neutral
+  - Obstacle
   - FOVRed
   - FOVBlue
-  - FOVObserver
-  - 
   - 
   - 
   - 

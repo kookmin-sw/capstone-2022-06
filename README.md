@@ -30,4 +30,4 @@ Coming soon
 |-|-|
 |사용 스택|버전|
 |Unity Engine|2021.2.1f1|
-|Photon Server PUN2||
+|Photon Server PUN2|2.40|

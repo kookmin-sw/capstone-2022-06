@@ -1,8 +1,6 @@
-# KOS: Kookmin aOS - 실시간 AOS 멀티플레이어 게임
+# KOS: Kookmin aOS - 실시간 멀티플레이어 AOS 게임
 
 [팀 홈페이지(2022-06)](https://kookmin-sw.github.io/capstone-2022-06/)
-
-* * *
 
 ## 프로젝트 소개
 

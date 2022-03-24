@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+# KOS: Kookmin aOS - 실시간 멀티플레이어 AOS 게임
 
-You can use the [editor on GitHub](https://github.com/kookmin-sw/capstone-2022-06/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+[팀 홈페이지(2022-06)](https://kookmin-sw.github.io/capstone-2022-06/)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## 프로젝트 소개
 
-### Markdown
+KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 적을 물리치고 상대편의 본부를 부수는 게임입니다.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+게임의 장르는 Real time 3rd person AOS이며 각 팀은 4명의 전투원과 1명의 지휘관으로 구성되어 상대를 무찌르게 됩니다.
 
-```markdown
-Syntax highlighted code block
+플레이어는 전투원, 지휘관 둘 중 하나의 역할을 선택하여 전투에 임합니다. 전투원의 경우에는 다양한 캐릭터 중 하나를 골라 캐릭터의 특색을 이용해 상대 전투원을 제압하고 본부를 격파해 게임을 승리로 이끌어야 하며, 지휘관은 자신에게 부여된 지원 능력을 활용하여 팀이 전장에서 유리한 상황을 점할 수 있도록 돕고 마찬가지로 게임에서 승리해야 합니다.
 
-# Header 1
-## Header 2
-### Header 3
+## 소개 영상
 
-- Bulleted
-- List
+Coming soon
 
-1. Numbered
-2. List
+## 팀 소개
 
-**Bold** and _Italic_ and `Code` text
+|이름|학번|역할|개인 깃허브|
+|-|-|-|-|
+|남경태|****1614|몬스터, 구조물|[링크](https://github.com/namgyeongtae)|
+|이수연|****1661|Leader, UI|[링크](https://github.com/2Baekgu)|
+|우수빈|****1314|Playable 로직, 레벨 디자인|[링크](https://github.com/wsb8618)|
+|최호경|****1717|SFX, State Pattern, UI|[링크](https://github.com/nicotina04)|
 
-[Link](url) and ![Image](src)
-```
+## Tech Stack
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kookmin-sw/capstone-2022-06/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+|사용 스택|버전|
+|-|-|
+|Unity Engine|2021.2.1f1|
+|Photon Server PUN2|2.40|

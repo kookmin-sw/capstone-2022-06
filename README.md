@@ -16,8 +16,8 @@ Coming soon
 
 ## 팀 소개
 
-|-|-|-|-|
 |이름|학번|역할|개인 깃허브|
+|-|-|-|-|
 |남경태|****1614|몬스터, 구조물|[링크](https://github.com/namgyeongtae)|
 |이수연|****1661|Leader, UI|[링크](https://github.com/2Baekgu)|
 |우수빈|****1314|Playable 로직, 레벨 디자인|[링크](https://github.com/wsb8618)|
@@ -25,7 +25,7 @@ Coming soon
 
 ## Tech Stack
 
-|-|-|
 |사용 스택|버전|
+|-|-|
 |Unity Engine|2021.2.1f1|
 |Photon Server PUN2|2.40|

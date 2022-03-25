@@ -6,22 +6,23 @@ using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SelectManager : MonoBehaviourPunCallbacks
+public class PrepareRoundManager : MonoBehaviourPunCallbacks
 {
     string clickImgName;
 
-    [SerializeField] List<GameObject> playersPick;
-    [SerializeField] Button confirmBtn;
-    [SerializeField] GameObject scrollView;
+    [SerializeField] List<GameObject> playersPick;  // 플레이어 픽창 리스트
+    [SerializeField] Button confirmBtn;             // 플레이어 선택 확정 버튼
+    [SerializeField] GameObject scrollView;         // 챔피언 선택창 스크롤 뷰
 
     PhotonView PV;
-    int playerNum = 0;
+    int playerNum = 0;                              // PlayerList 안에서의 본인의 순서
 
     bool completeSelect;
 
     // Start is called before the first frame update
     void Start()
     {
+        // PlayerList 를 순회하면서 본인의 playerNum을 탐색
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             if (p.UserId == PhotonNetwork.LocalPlayer.UserId)
@@ -43,6 +44,7 @@ public class SelectManager : MonoBehaviourPunCallbacks
             PV.RPC("ChangeIcon", RpcTarget.All, clickImgName, playerNum);
     }
 
+    // 클릭한 챔피언의 아이콘 이미지 이름을 가져옴
     public void findClickImg()
     {
         GameObject clickObj = EventSystem.current.currentSelectedGameObject;
@@ -55,12 +57,15 @@ public class SelectManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.PlayerList[0].ActorNumber);
     }
 
+    // 챔피언을 선택하는 버튼을 클릭 시 작동
     public void onClickConfirm()
     {
         confirmBtn.gameObject.SetActive(false);
         scrollView.SetActive(false);
     }
 
+    // 플레이어가 어떤 챔피언을 선택했는지 아이콘을 다른 클라이언트에서도 업데이트 할 수 있도록
+    // RPC로 함수를 호출 (in Update)
     [PunRPC]
     void ChangeIcon(string name, int playerNum)
     {

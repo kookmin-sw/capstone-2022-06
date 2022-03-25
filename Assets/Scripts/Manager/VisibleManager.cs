@@ -21,6 +21,7 @@ public class VisibleManager
         }
         else
         {
+            visibleObjects[unit] = 1;
             Renderer renderer = unit.GetComponent<Renderer>();
             if (renderer)
             {

@@ -102,13 +102,13 @@ public class FieldOfView : MonoBehaviour
                 Geometry.Edge3 e = EdgeInterpolation(prevVertex, nextVertex);
                 float eps = 0.0001f;
 
-                if (e.PointU != Vector3.zero)
+                if (e.pointU != Vector3.zero)
                 {
-                    capturedVertices.Add(e.PointU);
+                    capturedVertices.Add(e.pointU);
                 }
-                if (e.PointV != Vector3.zero && (e.PointV - e.PointU).sqrMagnitude > eps)
+                if (e.pointV != Vector3.zero && (e.pointV - e.pointU).sqrMagnitude > eps)
                 {
-                    capturedVertices.Add(e.PointV);
+                    capturedVertices.Add(e.pointV);
                 }
             }
 

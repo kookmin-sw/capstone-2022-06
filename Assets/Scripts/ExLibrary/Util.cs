@@ -6,7 +6,7 @@ public class Util
 {
     public static T SearchChild<T>(GameObject go, string name = null, bool pushdown = false) where T : UnityEngine.Object
     {
-        if (!go)
+        if (go is null)
         {
             return null;
         }
@@ -37,5 +37,11 @@ public class Util
         }
 
         return null;
+    }
+
+    public static GameObject SearchChild(GameObject go, string name = null, bool pushdown = false)
+    {
+        Transform ret = SearchChild<Transform>(go, name, pushdown);
+        return (ret is null ? null : ret.gameObject);
     }
 }

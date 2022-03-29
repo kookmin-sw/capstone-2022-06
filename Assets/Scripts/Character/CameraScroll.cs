@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 마우스 휠 사용 시 카메라의 줌인/줌아웃
+ */
+
 public class CameraScroll : MonoBehaviour
 {
     public Camera cam;

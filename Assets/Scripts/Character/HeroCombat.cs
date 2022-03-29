@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 플레이어의 전투 관련 스크립트
+ */
+
 public class HeroCombat : MonoBehaviour
 {
     public enum HeroAttackType { Melee, Ranged };
@@ -12,6 +16,8 @@ public class HeroCombat : MonoBehaviour
     public float rotateSpeedForAttack;
 
     private ClickMovement moveScript;
+    private Stats statsScript;
+    public Animator anim;
 
     public bool basicAtkIdle = false;
     public bool isHeroAlive;
@@ -20,6 +26,8 @@ public class HeroCombat : MonoBehaviour
     void Start()
     {
         moveScript = GetComponent<ClickMovement>();
+        statsScript = GetComponent<Stats>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -39,17 +47,50 @@ public class HeroCombat : MonoBehaviour
             }
             else
             {
-                if(heroAttackType == HeroAttackType.Melee)
+                if(targetedEnemy != null)
                 {
-                    if(performMeleeAttack)
+                    if (heroAttackType == HeroAttackType.Melee)
                     {
-                        Debug.Log("Attack Minion");
-                        
-                        // 미니언 공격 코루틴
+                        if (performMeleeAttack)
+                        {
+                            Debug.Log("Attack Minion");
 
+                            // 공격 코루틴
+                            StartCoroutine(MeleeAttackInterval());
+                        }
                     }
                 }
+                
             }
         }
     }
+
+    IEnumerator MeleeAttackInterval()
+    {
+        performMeleeAttack = false;
+        anim.SetBool("BasicAttack", true);
+        
+        yield return new WaitForSeconds(statsScript.attackTime / ((100 + statsScript.attackTime) * 0.01f));
+
+        if (targetedEnemy == null)
+        {
+            anim.SetBool("BasicAttack", false);
+            performMeleeAttack = true;
+        }
+        
+    }
+
+    public void MeleeAttack()
+    {
+        if(targetedEnemy != null)
+        {
+            if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
+            {
+                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg;
+            }
+        }
+
+        performMeleeAttack = true;
+    }
+
 }

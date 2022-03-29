@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 플레이어를 따라다니는 카메라 스크립트
+ */
+
 public class CameraFollow : MonoBehaviour
 {
     public Transform player;

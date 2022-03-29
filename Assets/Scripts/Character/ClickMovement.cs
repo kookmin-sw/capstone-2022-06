@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/*
+ * 플레이어의 이동 스크립트
+ */
+
 public class ClickMovement : MonoBehaviour
 {
     public NavMeshAgent agent;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// 플레이어의 애니메이션 스크립트
+
 public class PlayerAnimation : MonoBehaviour
 {
     NavMeshAgent agent;

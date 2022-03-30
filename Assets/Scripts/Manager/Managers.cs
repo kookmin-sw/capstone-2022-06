@@ -9,9 +9,11 @@ public class Managers : MonoBehaviour
 
     ResourceManager _resource = new ResourceManager();
     VisibleManager _visible = new VisibleManager();
+    UIManager _ui = new UIManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static VisibleManager Visible { get { return Instance._visible; }}
+    public static UIManager UI {get { return Instance._ui; }}
 
     // Start is called before the first frame update
     void Start()

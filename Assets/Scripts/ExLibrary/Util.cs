@@ -13,7 +13,7 @@ public class Util
 
         if (pushdown)
         {
-            foreach(T e in go.GetComponentsInChildren<T>())
+            foreach (T e in go.GetComponentsInChildren<T>())
             {
                 if (string.IsNullOrEmpty(name) || e.name == name)
                 {
@@ -23,7 +23,7 @@ public class Util
         }
         else
         {
-            foreach(Transform child in go.transform)
+            foreach (Transform child in go.transform)
             {
                 if (string.IsNullOrEmpty(name) || child.name == name)
                 {

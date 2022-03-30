@@ -31,6 +31,8 @@ public class MinionController : MonoBehaviour
     protected void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
+
+        Managers.UI.AttachMapMarker<UI_Marker>(transform, "UI_MobMarker");
     }
 
     // Start is called before the first frame update

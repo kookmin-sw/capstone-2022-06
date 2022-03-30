@@ -19,18 +19,20 @@ public abstract class UI_Base : MonoBehaviour
         string[] names = type.GetEnumNames();
         UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
 
-        if (typeof(T) == typeof(GameObject))
+        for (int i = 0; i < objects.Length; i++)
         {
-            for (int i = 0; i < objects.Length; i++)
+            if (typeof(T) == typeof(GameObject))
             {
                 objects[i] = Util.SearchChild(gameObject, names[i], true);
             }
-        }
-        else
-        {
-            for (int i = 0; i < objects.Length; i++)
+            else
             {
                 objects[i] = Util.SearchChild<T>(gameObject, names[i], true);
+            }
+        
+            if (!objects[i])
+            {
+                Debug.Log($"Failed to bind {names[i]}");
             }
         }
 

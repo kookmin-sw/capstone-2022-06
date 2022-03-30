@@ -25096,6 +25096,8 @@ GameObject:
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194233}
+  - component: {fileID: 963194234}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -25211,6 +25213,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
   zoomSpeed: 35
+--- !u!114 &963194233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de1ec793dba84444867584dd8827868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 460530946}
+  camSpeed: 30
+  screenSizeThickness: 10
+  minY: 10
+  maxY: 30.5
+  screenLimit: {x: 105, y: 110}
+--- !u!114 &963194234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6607f4eb0cca209429f7950fa4885498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camFollowScript: {fileID: 963194231}
+  camRoamScript: {fileID: 963194233}
 --- !u!1001 &964970858
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -52,4 +52,21 @@ public class Util
         Transform ret = SearchChild<Transform>(go, name, pushdown);
         return (ret is null ? null : ret.gameObject);
     }
+
+    /*
+    특정 이름을 가진 카메라를 검색한다.
+    카메라 대수가 적을 경우에 유효하며 카메라가 많아지면 다른 방법을 고안할 것
+    */
+    public static Camera FindCamera(string name)
+    {
+        Camera[] camArray = Camera.allCameras;
+        for (int i = 0; i < camArray.Length; i++)
+        {
+            if (name == camArray[i].name)
+            {
+                return camArray[i];
+            }
+        }
+        return null;
+    }
 }

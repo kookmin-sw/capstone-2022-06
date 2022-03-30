@@ -3,71 +3,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/*
+ * 플레이어의 이동 스크립트
+ */
+
 public class ClickMovement : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
 
-    public float rotateSpeedMovement = 0.1f;
-    float rotateVelocity;
+    public float rotateSpeedMovement = 0.075f;
+    public float rotateVelocity;
 
-    private Camera camera;
-    private Animator animator;
-
-    private bool isMove;
-    private Vector3 destination;
+    private HeroCombat heroCombatScript;
 
     public GameObject clickParticle;
-
     private bool isPlayPart;
 
-    private void Awake()
+    void Start()
     {
-        camera = Camera.main;
-        animator = GetComponentInChildren<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        heroCombatScript = GetComponent<HeroCombat>();
     }
 
     void Update()
     {
+        if(heroCombatScript.targetedEnemy != null)
+        {
+            if(heroCombatScript.targetedEnemy.GetComponent<HeroCombat>() != null)
+            {
+                if (heroCombatScript.targetedEnemy.GetComponent<HeroCombat>().isHeroAlive)
+                {
+                    heroCombatScript.targetedEnemy = null;
+                }
+            }
+        }
+
         // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정
         if(Input.GetMouseButton(1))
         {
             RaycastHit hit;
-            if(Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+
+            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                if (!isPlayPart && hit.transform.CompareTag("Floor"))
-                    StartCoroutine(ClickEffect(hit.point));
-                SetDestination(hit.point);
+                if(hit.collider.tag == "Floor")
+                {
+                    if(!isPlayPart)
+                    {
+                        StartCoroutine(ClickEffect(hit.point));
+                    }
+
+                    // 이동
+                    agent.SetDestination(hit.point);
+                    heroCombatScript.targetedEnemy = null;
+                    agent.stoppingDistance = 0;
+
+                    // 방향
+                    Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
+                    float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
+
+                    transform.eulerAngles = new Vector3(0, rotationY, 0);
+                }
             }
-        }
-
-        LookMoveDirection();
-    }
-
-    private void SetDestination(Vector3 dest)
-    {
-        // 클릭된 목적지로 이동
-        agent.SetDestination(dest);
-        destination = dest;
-        isMove = true;
-        animator.SetBool("isMove", true);
-    }
-
-    private void LookMoveDirection()
-    {
-        // 목적지를 바라보게 캐릭터의 rotation조정
-        if (agent.velocity.magnitude == 0f)
-        {
-            isMove = false;
-            animator.SetBool("isMove", false);
-            return;
-        }
-
-        if (isMove)
-        {
-            var dir = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
-            animator.transform.forward = dir;
         }
     }
 

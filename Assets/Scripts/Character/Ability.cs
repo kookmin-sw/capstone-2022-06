@@ -5,13 +5,25 @@ using UnityEngine.UI;
 
 public class Ability : MonoBehaviour
 {
+    /*
+        스킬 Q : 사용 시 3초간 공격력 상승
+        스킬 W : 사용 시 자신의 생명력 회복
+        스킬 E : 사용 시 지정된 방향으로 검기 발사
+        스킬 R : 사용 시 지정된 위치에 거대한 검을 떨어뜨림
+     */
+
+
     // Component에서 스킬의 쿨타임, 인풋 키 설정
-    
+
     [Header("Skill_Q")]
     public Image skillImage_Q;
-    public float cooldown_Q = 3;
+    public float cooldown_Q = 5;
     bool isCooldown_Q = false;
     public KeyCode skill_Q;
+
+    // Skill_Q 인풋 변수
+    public ParticleSystem fire;
+    public bool isActive = false;
 
     [Header("Skill_W")]
     public Image skillImage_W;
@@ -99,7 +111,7 @@ public class Ability : MonoBehaviour
         // Skill_R 입력
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if(hit.collider.gameObject != this.gameObject)
+            if (hit.collider.gameObject != this.gameObject)
             {
                 posUp = new Vector3(hit.point.x, 10f, hit.point.z);
                 position = hit.point;
@@ -118,17 +130,19 @@ public class Ability : MonoBehaviour
     void Skill_Q()
     {
         // 스킬Q의 쿨타임 UI 이미지
-        if(Input.GetKey(skill_Q) && isCooldown_Q == false)
+        if (Input.GetKey(skill_Q) && isCooldown_Q == false)
         {
+            StartCoroutine("FireAttack");
+
             isCooldown_Q = true;
             skillImage_Q.fillAmount = 1;
         }
 
-        if(isCooldown_Q)
+        if (isCooldown_Q)
         {
             skillImage_Q.fillAmount -= 1 / cooldown_Q * Time.deltaTime;
 
-            if(skillImage_Q.fillAmount <= 0)
+            if (skillImage_Q.fillAmount <= 0)
             {
                 skillImage_Q.fillAmount = 0;
                 isCooldown_Q = false;
@@ -136,11 +150,24 @@ public class Ability : MonoBehaviour
         }
     }
 
+    IEnumerator FireAttack()
+    {
+        // 스킬Q사용 시 3초간 파티클과 공격력 상승
+        isActive = true;
+        fire.Play();
+        // 공격력++
+        yield return new WaitForSeconds(3.0f);
+        isActive = false;
+        fire.Stop();
+    }
+
     void Skill_W()
     {
         // 스킬W의 쿨타임 UI 이미지
         if (Input.GetKey(skill_W) && isCooldown_W == false)
         {
+            // 생명력++
+
             isCooldown_W = true;
             skillImage_W.fillAmount = 1;
         }
@@ -200,7 +227,7 @@ public class Ability : MonoBehaviour
             skillshot.GetComponent<Image>().enabled = false;
         }
 
-        if(targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        if (targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
         {
             isCooldown_R = true;
             skillImage_R.fillAmount = 1;

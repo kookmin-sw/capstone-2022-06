@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PrepareRoundManager : MonoBehaviourPunCallbacks
 {
@@ -17,7 +18,9 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
     PhotonView PV;
     int playerNum = 0;                              // PlayerList 안에서의 본인의 순서
 
-    bool completeSelect;
+    int readyPlayer = 0;
+
+    public Hashtable _playerCustomProperties = new Hashtable();
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +32,13 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
                 break;
             playerNum++;
         }
-       
-        // PV = PhotonNetwork.Instantiate("Prefabs/@PV", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<PhotonView>();
+
         PV = GetComponent<PhotonView>();
 
         confirmBtn.interactable = false;
-        completeSelect = false;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
+        _playerCustomProperties["PlayerReady"] = 0;
     }
 
     // Update is called once per frame
@@ -42,6 +46,30 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
     {
         if (clickImgName != null)
             PV.RPC("ChangeIcon", RpcTarget.All, clickImgName, playerNum);
+
+        Debug.Log($"playerCount : {PhotonNetwork.PlayerList.Length}");
+
+        if (readyPlayer < PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                Debug.Log($"player user id : {player.ActorNumber},  {player.CustomProperties["PlayerReady"]}");
+                object temp;
+                if (player.CustomProperties.TryGetValue("PlayerReady", out temp))
+                {
+                    Debug.Log($"num : {playerNum}, ready : {(int)temp}");
+                    readyPlayer += (int)temp;
+                    player.CustomProperties["PlayerReady"] = 0;
+                }
+                else
+                {
+                    Debug.Log($"num : {playerNum}, Not valid value");
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+            Debug.Log($"readyPlayer : {readyPlayer}");
     }
 
     // 클릭한 챔피언의 아이콘 이미지 이름을 가져옴
@@ -53,8 +81,6 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
 
         if (!confirmBtn.interactable)
             confirmBtn.interactable = true;
-
-        Debug.Log(PhotonNetwork.PlayerList[0].ActorNumber);
     }
 
     // 챔피언을 선택하는 버튼을 클릭 시 작동
@@ -62,6 +88,23 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
     {
         confirmBtn.gameObject.SetActive(false);
         scrollView.SetActive(false);
+
+        if (!PhotonNetwork.IsMasterClient)
+            PV.RPC("UpdateReadyCustomProperties", RpcTarget.All, 1);
+        else
+            PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+
+        if (!PhotonNetwork.IsMasterClient) return;
+        
+        StartCoroutine(WaitAllReady());
+    }
+
+    private IEnumerator WaitAllReady()
+    {
+        yield return new WaitUntil(() => readyPlayer == PhotonNetwork.CurrentRoom.MaxPlayers);
+
+        Debug.Log($"readyPlayer : {readyPlayer}");
+        PhotonNetwork.LoadLevel(2);
     }
 
     // 플레이어가 어떤 챔피언을 선택했는지 아이콘을 다른 클라이언트에서도 업데이트 할 수 있도록
@@ -74,5 +117,9 @@ public class PrepareRoundManager : MonoBehaviourPunCallbacks
         playersPick[playerNum].transform.Find("Portrait").GetComponent<Image>().sprite = iconImg;
     }
 
-
+    [PunRPC]
+    void UpdateReadyCustomProperties(int ready)
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = ready;
+    }
 }

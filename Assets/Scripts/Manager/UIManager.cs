@@ -63,6 +63,8 @@ public class UIManager
         }
 
         GameObject ui = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
+        // ui.layer = LayerMask.NameToLayer("MapUI");
+        ui.layer = 12;
 
         if (ui is null)
         {
@@ -76,7 +78,6 @@ public class UIManager
 
         Canvas canvas = ui.GetOrAddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
-        canvas.worldCamera = Util.FindCamera("MinimapCamera");
         return ui.GetOrAddComponent<T>();
     }
 }

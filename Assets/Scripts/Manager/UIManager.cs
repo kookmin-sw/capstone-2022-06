@@ -34,7 +34,7 @@ public class UIManager
         }
 
         GameObject ui = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
-        ui.layer = 5;
+        ui.layer = LayerMask.NameToLayer("UI");
 
         if (ui is null)
         {
@@ -64,8 +64,7 @@ public class UIManager
         }
 
         GameObject ui = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
-        // ui.layer = LayerMask.NameToLayer("MapUI");
-        ui.layer = 12;
+        ui.layer = LayerMask.NameToLayer("MapUI");
 
         if (ui is null)
         {

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MinionController : MonoBehaviour
 {
-    protected float _speed = 5f;
+    protected float _speed = 8f;
 
     List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
 

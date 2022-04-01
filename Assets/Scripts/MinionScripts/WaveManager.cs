@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class WaveManager : MonoBehaviour
 {
@@ -28,7 +30,7 @@ public class WaveManager : MonoBehaviour
         else
             waveTimer += Time.deltaTime;
     }
-
+    
     IEnumerator WaveSpawn()
     {
         for (int i = 0; i < 6; i++)
@@ -37,12 +39,12 @@ public class WaveManager : MonoBehaviour
             if (i < 3)
             {
                 for (int j = 0; j < 3; j++)
-                    Managers.Resource.Instantiate("FootmanHP", SpawnPos[j]);
+                    Managers.Resource.PunInstantiate("FootmanHP", SpawnPos[j]);
             }
             else
             {
                 for (int j = 0; j < 3; j++)
-                    Managers.Resource.Instantiate("FreeLichHP", SpawnPos[j]);
+                    Managers.Resource.PunInstantiate("FreeLichHP", SpawnPos[j]);
             } 
         }
 

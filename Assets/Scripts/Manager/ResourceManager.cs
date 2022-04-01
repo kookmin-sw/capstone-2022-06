@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class ResourceManager 
 {
@@ -19,6 +21,18 @@ public class ResourceManager
         }
 
         return Object.Instantiate(prefab, parent);
+    }
+
+    public GameObject PunInstantiate(string path, Transform parent = null)
+    {
+        GameObject go = PhotonNetwork.Instantiate(path, parent.transform.position, Quaternion.identity);
+        if (go == null)
+        {
+            Debug.Log("failed to instantiate GameObject");
+            return null;
+        }
+
+        return go;
     }
 
     public void Destroy(GameObject go)

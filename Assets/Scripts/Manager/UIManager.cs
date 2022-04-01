@@ -34,6 +34,7 @@ public class UIManager
         }
 
         GameObject ui = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
+        ui.layer = 5;
 
         if (ui is null)
         {

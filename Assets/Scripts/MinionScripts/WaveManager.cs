@@ -13,22 +13,29 @@ public class WaveManager : MonoBehaviour
 
     bool isSpawning = false;
 
+    PhotonView PV;
+
+    GameObject minion;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        PV = GetComponent<PhotonView>();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waveTimer >= 10.0f && !isSpawning)
+        if (PhotonNetwork.IsMasterClient)
         {
-            isSpawning = true;
-            StartCoroutine("WaveSpawn");
+            if (waveTimer >= 10.0f && !isSpawning)
+            {
+                isSpawning = true;
+                StartCoroutine("WaveSpawn");
+            }
+            else
+                waveTimer += Time.deltaTime;
         }
-        else
-            waveTimer += Time.deltaTime;
     }
     
     IEnumerator WaveSpawn()
@@ -39,16 +46,26 @@ public class WaveManager : MonoBehaviour
             if (i < 3)
             {
                 for (int j = 0; j < 3; j++)
-                    Managers.Resource.PunInstantiate("FootmanHP", SpawnPos[j]);
+                {
+                    PV.RPC("InstanceMinion", RpcTarget.AllBuffered, "FootmanHP", j);
+                }
             }
             else
             {
                 for (int j = 0; j < 3; j++)
-                    Managers.Resource.PunInstantiate("FreeLichHP", SpawnPos[j]);
+                {
+                    PV.RPC("InstanceMinion", RpcTarget.AllBuffered, "FreeLichHP", j);
+                }
             } 
         }
 
         waveTimer = 0f;
         isSpawning = false;
+    }
+
+    [PunRPC]
+    public void InstanceMinion(string name, int index)
+    {
+        minion = Managers.Resource.Instantiate(name, SpawnPos[index]);
     }
 }

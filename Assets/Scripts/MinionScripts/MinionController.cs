@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class MinionController : MonoBehaviour
+public class MinionController : MonoBehaviourPunCallbacks
 {
     protected float _speed = 8f;
 
@@ -16,7 +18,9 @@ public class MinionController : MonoBehaviour
     protected GameObject _lockTarget;                       // GameObject about target 
 
     protected float _attackRange;
-    
+
+    PhotonView PV;
+
     // minion state enum
     public enum State
     {
@@ -31,6 +35,7 @@ public class MinionController : MonoBehaviour
     protected void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
+        PV = GetComponent<PhotonView>();
     }
 
     // Start is called before the first frame update

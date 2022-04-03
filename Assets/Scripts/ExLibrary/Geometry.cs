@@ -8,12 +8,12 @@ public class Geometry
     */
     public struct Edge3
     {
-        public Vector3 PointU, PointV;
+        public Vector3 pointU, pointV;
 
         public Edge3(Vector3 _pointU, Vector3 _pointV)
         {
-            PointU = _pointU;
-            PointV = _pointV;
+            pointU = _pointU;
+            pointV = _pointV;
         }
     }
 
@@ -23,12 +23,12 @@ public class Geometry
     */
     public struct Edge2
     {
-        public Vector2 PointU, PointV;
+        public Vector2 pointU, pointV;
 
         public Edge2(Vector2 _pointU, Vector2 _pointV)
         {
-            PointU = _pointU;
-            PointV = _pointV;
+            pointU = _pointU;
+            pointV = _pointV;
         }
     }
 }

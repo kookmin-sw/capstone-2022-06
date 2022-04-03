@@ -9,9 +9,20 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
-    public GameObject Instantiate(string path, Transform parent = null)
+    public GameObject Instantiate(string path, Transform parent = null, bool isPrivate = false)
     {
-        GameObject prefab = Load<GameObject>($"Prefabs/{path}");
+        string destination;
+
+        if (isPrivate)
+        {
+            destination = $"Private/Prefabs/{path}";
+        }
+        else
+        {
+            destination = $"Prefabs/{path}";
+        }
+
+        GameObject prefab = Load<GameObject>(destination);
         if (prefab == null)
         {
             Debug.Log($"failed to load prefab : {path}");

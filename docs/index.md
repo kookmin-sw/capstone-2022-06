@@ -12,7 +12,9 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 
 ## 소개 영상
 
-Coming soon
+<video width="100%" height="100%" controls="controls">
+  <source src="/중간발표/팀06-소개동영상.mp4" type="video/mp4">
+</video>
 
 ## 팀 소개
 

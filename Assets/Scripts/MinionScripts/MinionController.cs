@@ -36,6 +36,8 @@ public class MinionController : MonoBehaviourPunCallbacks
     {
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
+
+        SetParent();
     }
 
     // Start is called before the first frame update
@@ -46,7 +48,11 @@ public class MinionController : MonoBehaviourPunCallbacks
         InitWayPoints();
         SettingTeam();
 
-        InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("RepeatTarget!");
+            PV.RPC("RepeatUpdateTarget", RpcTarget.AllBuffered);
+        }
     }
 
     // Update is called once per frame
@@ -152,5 +158,25 @@ public class MinionController : MonoBehaviourPunCallbacks
             _nav.isStopped = true;
             _state = State.Attack;
         }
+    }
+
+    protected void SetParent()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, 5.0f);
+
+        foreach (Collider col in cols)
+        {
+            if (col.gameObject.tag == "Parent")
+            {
+                transform.SetParent(col.gameObject.transform);
+                break;
+            }
+        }
+    }
+
+    [PunRPC]
+    public void RepeatUpdateTarget()
+    {
+        InvokeRepeating("UpdateTarget", 0f, 0.25f);
     }
 }

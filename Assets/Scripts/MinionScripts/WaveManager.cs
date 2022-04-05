@@ -47,25 +47,19 @@ public class WaveManager : MonoBehaviour
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    PV.RPC("InstanceMinion", RpcTarget.AllBuffered, "FootmanHP", j);
+                    PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
                 }
             }
             else
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    PV.RPC("InstanceMinion", RpcTarget.AllBuffered, "FreeLichHP", j);
+                    PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
                 }
             } 
         }
 
         waveTimer = 0f;
         isSpawning = false;
-    }
-
-    [PunRPC]
-    public void InstanceMinion(string name, int index)
-    {
-        minion = Managers.Resource.Instantiate(name, SpawnPos[index]);
     }
 }

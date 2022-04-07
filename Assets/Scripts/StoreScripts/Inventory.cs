@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
     //store :item index에 등록된 정보를 inventory의 index에 담기 위한 함수
     public void AddItem(Sprite sprite, string itemprice)
     {
-        if (maxIndex <= 6)
+        if (maxIndex <= 5)
         {
             itemSprite[maxIndex] = sprite;
             itemObj[maxIndex].gameObject.SetActive(true);

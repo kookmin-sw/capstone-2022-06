@@ -62,7 +62,10 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Personal work folder
-[Aa]ssets/PersonalWork/
+[Aa]ssets/PersonalWork*
+
+# Private submodule
+[Aa]ssets/Resources/Private*
 
 # Visual Studio config
 .vsconfig

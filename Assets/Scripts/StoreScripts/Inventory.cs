@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     public int[] itemPrice;
 
     public int maxIndex = 0;
+    public bool isPull = false;
     
     //public int AddIndex = 0;
 
@@ -29,6 +30,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
+            isPull = true;
             return;
         }
     }
@@ -37,6 +39,7 @@ public class Inventory : MonoBehaviour
     {
         if (maxIndex >= 0)
         {
+            isPull = false;
             itemObj[index].gameObject.SetActive(false);
             int price = itemPrice[index];
             Gold.playerGold += price;

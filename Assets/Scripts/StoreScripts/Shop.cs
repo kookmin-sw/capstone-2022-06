@@ -41,8 +41,9 @@ public class Shop : MonoBehaviour
         itemDescription.SetDescription(image, itemprice, title, description);
         itemTree.SetDescription(image, itemprice);
         inventory.AddItem(image, itemprice);
+
         // 가진 돈보다 비싸다면 못사게 함
-        if (price > Gold.playerGold)
+        if (price > Gold.playerGold || inventory.isPull == true)
         {
             return;
         }

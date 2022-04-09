@@ -13,6 +13,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+
         if (!FB.IsInitialized)
         {
             FB.Init(() => {
@@ -28,8 +30,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         searchingPanel.SetActive(false);
         findMatchBtn.SetActive(false);
-
-        DontDestroyOnLoad(gameObject);
 
         // Connect to the photon Server
         PhotonNetwork.ConnectUsingSettings();   
@@ -134,7 +134,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void OnFacebookLoggedIn()
     {
-        // Auth 관련 정보 설정
+        // 포톤 Auth 관련 정보 설정
         string accessToken = AccessToken.CurrentAccessToken.TokenString;
         string facebookId = AccessToken.CurrentAccessToken.UserId;
         PhotonNetwork.AuthValues = new AuthenticationValues();
@@ -149,7 +149,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     /// <summary>
     /// 커스텀 인증을 실패했을 때 호출하는 메서드입니다.
     /// 지금은 페이스북 인증 실패에 관한 오류 로그만 띄웁니다.
-    /// </summray>
+    /// </summary>
     public override void OnCustomAuthenticationFailed(string debugMessage)
     {
         Debug.LogError($"Error authenticating to Photon using Facebook: {debugMessage}");

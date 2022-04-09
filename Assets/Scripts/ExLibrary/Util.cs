@@ -50,7 +50,7 @@ public class Util
     public static GameObject SearchChild(GameObject go, string name = null, bool pushdown = false)
     {
         Transform ret = SearchChild<Transform>(go, name, pushdown);
-        return (ret is null ? null : ret.gameObject);
+        return (!ret ? null : ret.gameObject);
     }
 
     /*

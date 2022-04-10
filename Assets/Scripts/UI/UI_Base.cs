@@ -39,15 +39,36 @@ public abstract class UI_Base : MonoBehaviour
         _uiobjects.Add(typeof(T), objects);
     }
 
+    /// <summary>
+    /// 인자로 받은 인덱스에 해당하는 UI 컴포넌트 혹은 오브젝트를 받습니다.
+    /// 인덱스의 의미는 상속받은 클래스에 정의된 자식 컴포넌트의 이름을 나열한 enum의 순서가 됩니다.
+    /// </summary>
     protected T Get<T>(int idx) where T : UnityEngine.Object
     {
         UnityEngine.Object[] objects;
 
         if (!_uiobjects.TryGetValue(typeof(T), out objects))
         {
+            Debug.Log($"Failed to load {typeof(T).Name}");
             return null;
         }
 
         return objects[idx] as T;
+    }
+
+    /// <summary>
+    /// 버튼 컴포넌트를 가져오는 Get의 래핑 메서드입니다.
+    /// </summary>
+    protected Button GetButton(int idx)
+    {
+        return Get<Button>(idx);
+    }
+
+    /// <summary>
+    /// 텍스트 컴포넌트를 가져오는 Get의 래핑 메서드입니다.
+    /// </summary>
+    protected Text GetText(int idx)
+    {
+        return Get<Text>(idx);
     }
 }

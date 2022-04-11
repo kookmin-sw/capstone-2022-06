@@ -2,39 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_Lobby : UI_Base
+public class UI_Lobby : UI_Scene
 {
+    private GameObject authPanel, matchmakingPanel;
+    
     enum GameObjects
     {
-        MatchMakingPanel,
+        MatchmakingPanel,
         AuthPanel,
-    }
-
-    private GameObject authPanel, matchmakingPanel;
-
-    void Awake()
-    {
-        // Get<GameObject>()
-        Init();
-        authPanel.SetActive(true);
-        matchmakingPanel.SetActive(false);
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 
     public override void Init()
     {
-        Managers.UI.SetCanvas(gameObject, true);
+        base.Init();
         Bind<GameObject>(typeof(GameObjects));
-        matchmakingPanel = Get<GameObject>((int)GameObjects.MatchMakingPanel);
+        matchmakingPanel = Get<GameObject>((int)GameObjects.MatchmakingPanel);
         authPanel = Get<GameObject>((int)GameObjects.AuthPanel);
+        authPanel.SetActive(true);
+        matchmakingPanel.SetActive(false);
     }
 }

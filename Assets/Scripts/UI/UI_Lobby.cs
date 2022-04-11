@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class UI_Lobby : UI_Scene
 {
     private GameObject matchmakingPanel;
+    private Button matchmakingButton;
     
     enum GameObjects
     {
@@ -28,7 +30,40 @@ public class UI_Lobby : UI_Scene
 
     public void StartMatchmaking(PointerEventData data)
     {
-        PhotonNetwork.JoinRandomRoom();
+        PhotonNetwork.JoinRandomOrCreateRoom();
+    }
+
+    public void JoinTestField(PointerEventData data)
+    {
+        RoomOptions devRoomOptions = new RoomOptions();
+        devRoomOptions.MaxPlayers = 1;
+        devRoomOptions.IsVisible = false;
+
+        PhotonNetwork.CreateRoom("DevRoom", devRoomOptions);
+    }
+
+    public void CancelMatchmaking(PointerEventData data)
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    /// <summary>
+    /// 포톤 클라우드에 연결했을 때 호출되는 메서드입니다.
+    /// </summary>
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("Successfully connected to Photon on" + PhotonNetwork.CloudRegion + "Server");
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        PhotonNetwork.LoadLevel("GameScene");
     }
 
     #region deprecated
@@ -100,15 +135,6 @@ public class UI_Lobby : UI_Scene
     public override void OnCustomAuthenticationFailed(string debugMessage)
     {
         Debug.LogError($"Error authenticating to Photon using Facebook: {debugMessage}");
-    }
-
-    /// <summary>
-    /// 포톤 클라우드에 연결했을 때 호출되는 메서드입니다.
-    /// </summary>
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("Successfully connected to Photon on" + PhotonNetwork.CloudRegion + "Server");
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void OnHideUnity(bool isGameShown)

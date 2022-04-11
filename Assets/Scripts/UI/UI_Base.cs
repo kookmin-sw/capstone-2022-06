@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public abstract class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviourPunCallbacks
 {
     Dictionary<Type, UnityEngine.Object[]> _uiobjects = new Dictionary<Type, UnityEngine.Object[]>();
 
@@ -71,26 +72,5 @@ public abstract class UI_Base : MonoBehaviour
     protected Text GetText(int idx)
     {
         return Get<Text>(idx);
-    }
-
-    public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent eventType = Define.UIEvent.Click)
-    {
-        UI_EventHandler evt = go.GetOrAddComponent<UI_EventHandler>();
-
-        switch (eventType)
-        {
-            case Define.UIEvent.Click:
-            {
-                evt.OnClickHandler -= action;
-                evt.OnClickHandler += action;
-                break;
-            }
-            case Define.UIEvent.Drag:
-            {
-                evt.OnDragHandler -= action;
-                evt.OnClickHandler += action;
-                break;
-            }
-        }
     }
 }

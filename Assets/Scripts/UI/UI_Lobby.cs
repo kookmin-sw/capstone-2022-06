@@ -13,6 +13,7 @@ public class UI_Lobby : UI_Scene
     private Button matchmakingButton;
     private Button cancelButton;
     private Button testGameButton;
+    private byte _maxPlayers = 2;
     
     enum GameObjects
     {
@@ -62,6 +63,10 @@ public class UI_Lobby : UI_Scene
         PhotonNetwork.ConnectUsingSettings();   
     }
 
+    /// <summary>
+    /// 매치메이킹 버튼에 추가하는 메치메이킹 Action 델리게이트.
+    /// 포톤 서버 상에서 매치 메이킹을 수행합니다.
+    /// </summary>
     public void StartMatchmaking(PointerEventData data)
     {
         matchmakingButton.gameObject.SetActive(false);
@@ -73,6 +78,9 @@ public class UI_Lobby : UI_Scene
         Debug.Log("Searching for a match");
     }
 
+    /// <summary>
+    /// 개발용으로 즉시 방을 생성하는 Action 델리게이트.
+    /// </summary>
     public void StartTestGame(PointerEventData data)
     {
         RoomOptions devRoomOptions = new RoomOptions();
@@ -81,8 +89,13 @@ public class UI_Lobby : UI_Scene
         int randNum = Random.Range(1, 3000);
 
         PhotonNetwork.CreateRoom($"DevRoom_{randNum}", devRoomOptions);
+        PhotonNetwork.LoadLevel("ChampionSelect");
     }
 
+    /// <summary>
+    /// 매치메이킹을 취소하는 Action 델리게이트.
+    /// 방에 들어온 상태면 LeaveRoom을 호출합니다.
+    /// </summary>
     public void CancelMatchmaking(PointerEventData data)
     {
         if (PhotonNetwork.InRoom)
@@ -124,7 +137,7 @@ public class UI_Lobby : UI_Scene
             {
                 IsVisible = true,
                 IsOpen = true,
-                MaxPlayers = 2 // Not 10?
+                MaxPlayers = _maxPlayers
             };
         PhotonNetwork.CreateRoom("RoomName_" + randomRoomName, roomOptions);
     }
@@ -137,7 +150,7 @@ public class UI_Lobby : UI_Scene
         {
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "/2 Starting Game");
             // Start Game
-            PhotonNetwork.LoadLevel(1);     // 1 is SceneIndex
+            PhotonNetwork.LoadLevel("ChampionSelect");
         }
     }
 

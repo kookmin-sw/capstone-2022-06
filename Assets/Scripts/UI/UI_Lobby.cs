@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -10,10 +11,17 @@ public class UI_Lobby : UI_Scene
 {
     private GameObject matchmakingPanel;
     private Button matchmakingButton;
+    private Button cancelButton;
+    private Button testGameButton;
     
     enum GameObjects
     {
         MatchmakingPanel,
+    }
+
+    enum Texts
+    {
+        SearchingText,
     }
 
     public override void Init()
@@ -21,25 +29,58 @@ public class UI_Lobby : UI_Scene
         base.Init();
 
         Bind<GameObject>(typeof(GameObjects));
+        Bind<Text>(typeof(Texts));
     
         matchmakingPanel = Get<GameObject>((int)GameObjects.MatchmakingPanel);
-        matchmakingPanel.SetActive(true);
+        Get<Text>((int)Texts.SearchingText).gameObject.SetActive(false);
+
+        if (matchmakingPanel is not null)
+        {
+            matchmakingPanel.SetActive(true);
+        }
+
+        matchmakingButton = Util.SearchChild<Button>(matchmakingPanel, "MatchmakingButton", false);
+        testGameButton = Util.SearchChild<Button>(matchmakingPanel, "TestGameButton", false);
+        cancelButton = Util.SearchChild<Button>(matchmakingPanel, "CancelButton", false);
+
+        if (matchmakingButton is not null)
+        {
+            matchmakingButton.gameObject.BindEvent(StartMatchmaking);
+        }
+
+        if (testGameButton is not null)
+        {
+            testGameButton.gameObject.BindEvent(StartTestGame);
+        }
+
+        if (cancelButton is not null)
+        {
+            cancelButton.gameObject.BindEvent(CancelMatchmaking);
+            cancelButton.gameObject.SetActive(false);
+        }
 
         PhotonNetwork.ConnectUsingSettings();   
     }
 
     public void StartMatchmaking(PointerEventData data)
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        matchmakingButton.gameObject.SetActive(false);
+        testGameButton.gameObject.SetActive(false);
+        cancelButton.gameObject.SetActive(true);
+        Get<Text>((int)Texts.SearchingText).gameObject.SetActive(true);
+
+        PhotonNetwork.JoinRandomRoom();
+        Debug.Log("Searching for a match");
     }
 
-    public void JoinTestField(PointerEventData data)
+    public void StartTestGame(PointerEventData data)
     {
         RoomOptions devRoomOptions = new RoomOptions();
         devRoomOptions.MaxPlayers = 1;
         devRoomOptions.IsVisible = false;
+        int randNum = Random.Range(1, 3000);
 
-        PhotonNetwork.CreateRoom("DevRoom", devRoomOptions);
+        PhotonNetwork.CreateRoom($"DevRoom_{randNum}", devRoomOptions);
     }
 
     public void CancelMatchmaking(PointerEventData data)
@@ -48,22 +89,56 @@ public class UI_Lobby : UI_Scene
         {
             PhotonNetwork.LeaveRoom();
         }
+
+        Debug.Log("Matchmaking canceled, back to main menu");
+
+        matchmakingButton.gameObject.SetActive(true);
+        testGameButton.gameObject.SetActive(true);
+        cancelButton.gameObject.SetActive(false);
+        Get<Text>((int)Texts.SearchingText).gameObject.SetActive(false);
     }
 
     /// <summary>
-    /// 포톤 클라우드에 연결했을 때 호출되는 메서드입니다.
+    /// 포톤 클라우드에 연결했을 때 호출되는 콜백입니다.
     /// </summary>
     public override void OnConnectedToMaster()
     {
         Debug.Log("Successfully connected to Photon on" + PhotonNetwork.CloudRegion + "Server");
         PhotonNetwork.AutomaticallySyncScene = true;
+        matchmakingPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// 플레이어가 룸에 들어오면 (전체플레이어 아님) 호출되는 콜백입니다.
+    /// </summary>
     public override void OnJoinedRoom()
     {
-        base.OnJoinedRoom();
+        // Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
+    }
 
-        PhotonNetwork.LoadLevel("GameScene");
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        int randomRoomName = Random.Range(0, 5000);
+        RoomOptions roomOptions =
+            new RoomOptions()
+            {
+                IsVisible = true,
+                IsOpen = true,
+                MaxPlayers = 2 // Not 10?
+            };
+        PhotonNetwork.CreateRoom("RoomName_" + randomRoomName, roomOptions);
+    }
+
+    // When other Player Enter Room,
+    // call this Function and Check if player count equals to maxPlayer of RoomOptions
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "/2 Starting Game");
+            // Start Game
+            PhotonNetwork.LoadLevel(1);     // 1 is SceneIndex
+        }
     }
 
     #region deprecated

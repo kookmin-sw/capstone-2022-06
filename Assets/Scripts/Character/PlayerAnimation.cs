@@ -7,19 +7,23 @@ using UnityEngine.AI;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     public Animator anim;
 
+    public float speed;
     float motionSmoothTime = 0.1f;
 
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        float speed = agent.velocity.magnitude / agent.speed;
+        anim.SetBool("isRun", agent.velocity.magnitude != 0);
+
+        speed = agent.velocity.magnitude / agent.speed;
         anim.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
     }
 }

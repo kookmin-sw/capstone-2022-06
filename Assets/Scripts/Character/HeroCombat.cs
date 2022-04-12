@@ -86,7 +86,7 @@ public class HeroCombat : MonoBehaviour
         {
             if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
             {
-                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg;
+                targetedEnemy.GetComponent<EnemyStats>().health -= statsScript.attackDmg;
             }
         }
 

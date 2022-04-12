@@ -11809,7 +11809,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b766ca9fb00eba74f83ebdaa20f7a87f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   anim: {fileID: 460530954}
+  speed: 0
 --- !u!114 &460530950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11882,8 +11884,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  healthRegen: 0
   health: 0
+  armor: 0
   attackDmg: 10
+  abilityPower: 0
+  mana: 0
+  manaRegen: 0
+  speed: 15
   attackSpeed: 1
   attackTime: 1.4
 --- !u!136 &460530953
@@ -48048,11 +48056,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820546077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c40a82eb8e955408596fbbe48adfbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 6df6419f737ac9b4d91da263014b5d96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  health: 0
+  maxHealth: 100
+  health: 100
   attackDmg: 0
   attackSpeed: 0
   attackTime: 0

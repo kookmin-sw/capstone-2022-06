@@ -41,4 +41,16 @@ public static class Extension
             }
         }
     }
+
+    /// <summary>
+    /// GameObject go에게 action을 제거함.
+    /// 제거 과정 중 UI_EventHandler가 없는 경우 부착함.
+    /// </summary>
+    public static void DisableEvent(this GameObject go, Action<PointerEventData> action)
+    {
+        UI_EventHandler evt = go.GetOrAddComponent<UI_EventHandler>();
+
+        evt.OnClickHandler -= action;
+        evt.OnDragHandler -= action;
+    }
 }

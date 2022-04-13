@@ -1,48 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class WaveManager : MonoBehaviour
 {
-    float waveTimer = 10.0f;
+    float waveTimer = 60.0f;
 
     [SerializeField]
     Transform[] SpawnPos;
 
     bool isSpawning = false;
 
+    PhotonView PV;
+
+    GameObject minion;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        PV = GetComponent<PhotonView>();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waveTimer >= 10.0f && !isSpawning)
+        if (PhotonNetwork.IsMasterClient)
         {
-            isSpawning = true;
-            StartCoroutine("WaveSpawn");
+            if (waveTimer >= 60.0f && !isSpawning)
+            {
+                isSpawning = true;
+                StartCoroutine("WaveSpawn");
+            }
+            else
+                waveTimer += Time.deltaTime;
         }
-        else
-            waveTimer += Time.deltaTime;
     }
-
+    
     IEnumerator WaveSpawn()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            if (i < 3)
+            if (i < 2)
             {
-                for (int j = 0; j < 3; j++)
-                    Managers.Resource.Instantiate("FootmanHP", SpawnPos[j]);
+                for (int j = 0; j < 2; j++)
+                {
+                    PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
+                }
             }
             else
             {
-                for (int j = 0; j < 3; j++)
-                    Managers.Resource.Instantiate("FreeLichHP", SpawnPos[j]);
+                for (int j = 0; j < 2; j++)
+                {
+                    PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
+                }
             } 
         }
 

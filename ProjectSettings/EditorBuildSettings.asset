@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LobbyScene/Lobby.unity
     guid: a61b52420653d2f4d8528734e926bd8b
   - enabled: 1
-    path: Assets/Scenes/LobbyScene/ChampionSeclect.unity
+    path: Assets/Scenes/LobbyScene/ChampionSelect.unity
     guid: 1d4673cae3d510f4b8887509ef36b3d9
   m_configObjects: {}

@@ -8,6 +8,8 @@ public class FieldOfView : MonoBehaviour
     public float viewAngle = 360;
     public float viewRadius = 10;
     public LayerMask allyMask, opposingMask, obstacleMask;
+
+    [Range(0, 2)]
     public float samplingRate;
     public float edgeDstThreshold;
 
@@ -36,23 +38,16 @@ public class FieldOfView : MonoBehaviour
     }
 
     /*
-    프레임마다 적을 찾지 않고 delay 기반의 코루틴을 호출하여 최적화
-    */
-    IEnumerator ScanEnemiesWithDelay(float delay)
-    {
-        while (true)
-        {
-            ScanVisibleEnemies();
-            yield return new WaitForSecondsRealtime(delay);
-        }
-    }
-
-    /*
     viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
     */
     private void ScanVisibleEnemies()
     {
+        foreach (Transform e in visibleEnemies)
+        {
+            Managers.Visible.SubtractVisible(e.gameObject);
+        }
         visibleEnemies.Clear();
+
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
 
         foreach (Collider e in candidates)
@@ -64,9 +59,22 @@ public class FieldOfView : MonoBehaviour
                 float distToEnemy = (target.position - transform.position).magnitude;
                 if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
                 {
+                    Managers.Visible.AddVisible(target.gameObject);
                     visibleEnemies.Add(target);
                 }
             }
+        }
+    }
+
+    /*
+    프레임마다 적을 찾지 않고 delay 기반의 코루틴을 호출하여 최적화
+    */
+    IEnumerator ScanEnemiesWithDelay(float delay)
+    {
+        while (true)
+        {
+            ScanVisibleEnemies();
+            yield return new WaitForSecondsRealtime(delay);
         }
     }
 
@@ -94,13 +102,13 @@ public class FieldOfView : MonoBehaviour
                 Geometry.Edge3 e = EdgeInterpolation(prevVertex, nextVertex);
                 float eps = 0.0001f;
 
-                if (e.PointU != Vector3.zero)
+                if (e.pointU != Vector3.zero)
                 {
-                    capturedVertices.Add(e.PointU);
+                    capturedVertices.Add(e.pointU);
                 }
-                if (e.PointV != Vector3.zero && (e.PointV - e.PointU).sqrMagnitude > eps)
+                if (e.pointV != Vector3.zero && (e.pointV - e.pointU).sqrMagnitude > eps)
                 {
-                    capturedVertices.Add(e.PointV);
+                    capturedVertices.Add(e.pointV);
                 }
             }
 

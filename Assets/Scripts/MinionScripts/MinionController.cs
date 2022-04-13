@@ -52,6 +52,8 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         Stat = GetComponent<MinionStat>();
 
         SetParent();
+
+        Managers.UI.AttachMapMarker<UI_Marker>(transform, "UI_MobMarker");
     }
 
     

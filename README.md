@@ -1,4 +1,4 @@
-# KOS: Kookmin aOS - 실시간 멀티플레이어 AOS 게임
+# KAOS: Kookmin AOS - 실시간 멀티플레이어 AOS 게임
 
 [팀 홈페이지(2022-06)](https://kookmin-sw.github.io/capstone-2022-06/)
 
@@ -12,7 +12,7 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 
 ## 소개 영상
 
-Coming soon
+[![미리보기](https://img.youtube.com/vi/N5zG3Yk2-gw/0.jpg)](https://youtu.be/N5zG3Yk2-gw)
 
 ## 팀 소개
 

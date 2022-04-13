@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class WaveManager : MonoBehaviour
 {
-    float waveTimer = 10.0f;
+    float waveTimer = 60.0f;
 
     [SerializeField]
     Transform[] SpawnPos;
@@ -28,7 +28,7 @@ public class WaveManager : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            if (waveTimer >= 10.0f && !isSpawning)
+            if (waveTimer >= 60.0f && !isSpawning)
             {
                 isSpawning = true;
                 StartCoroutine("WaveSpawn");
@@ -40,19 +40,19 @@ public class WaveManager : MonoBehaviour
     
     IEnumerator WaveSpawn()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            if (i < 3)
+            if (i < 2)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
                 }
             }
             else
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 2; j++)
                 {
                     PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
                 }

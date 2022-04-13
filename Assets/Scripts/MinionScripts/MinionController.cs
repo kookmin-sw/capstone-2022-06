@@ -1,45 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MinionController : MonoBehaviourPunCallbacks
+public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
 {
-    protected float _speed = 8f;
-
-    List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
-
-    NavMeshAgent _nav;
-
-    protected int _destNum = 0;                             // index of _wayPoints List
-    protected bool _isDead = false;
-    protected GameObject _lockTarget;                       // GameObject about target 
-
-    protected float _attackRange;
-
-    PhotonView PV;
-
     // minion state enum
     public enum State
     {
         Idle,
         Walk,
         Targetting,
-        Attack
+        Attack,
+        Die
     }
+
+    // Value Attribute
+    protected float _speed = 8f;
+    protected int _destNum = 0;                             // index of _wayPoints List
+    protected bool _isDead = false;
+
+    protected float _attackRange;
+
+    // Reference Attribute
+    PhotonView PV;
+    
+    protected MinionStat Stat;
+
+    List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
+    NavMeshAgent _nav;
+    Collider[] targetCols;
+
+    [SerializeField] protected GameObject _lockTarget;                       // GameObject about target 
+    [SerializeField] Slider HPSlider;
 
     public State _state;
 
+    // Properties
+    public State ProperState { get { return _state; } set { _state = value; } }
+
+
+    #region MonoBehaviour
     protected void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
+        Stat = GetComponent<MinionStat>();
 
         SetParent();
     }
 
+    
     // Start is called before the first frame update
     protected void Start()
     {
@@ -48,11 +63,13 @@ public class MinionController : MonoBehaviourPunCallbacks
         InitWayPoints();
         SettingTeam();
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("RepeatTarget!");
-            PV.RPC("RepeatUpdateTarget", RpcTarget.AllBuffered);
-        }
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    Debug.Log("RepeatTarget!");
+        //    PV.RPC("RepeatUpdateTarget", RpcTarget.AllBuffered);
+        //}
+
+        InvokeRepeating("UpdateTarget", 0f, 0.25f);
     }
 
     // Update is called once per frame
@@ -74,6 +91,7 @@ public class MinionController : MonoBehaviourPunCallbacks
             case State.Attack:
                 Animator _anim = GetComponent<Animator>();
                 _anim.SetBool("OnAttack", true);
+                _nav.isStopped = true;
 
                 if (_lockTarget == null)
                 {
@@ -84,8 +102,15 @@ public class MinionController : MonoBehaviourPunCallbacks
                     transform.LookAt(_lockTarget.transform);
 
                 break;
+            case State.Die:
+                StartCoroutine("UpdateDie");
+                break;
         }
+
+        if (PhotonNetwork.IsMasterClient)
+            HPSlider.value = Stat.HP / (float)Stat.MaxHP;
     }
+    #endregion
 
     // register movement path positions
     protected void InitWayPoints()
@@ -127,24 +152,26 @@ public class MinionController : MonoBehaviourPunCallbacks
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
 
-        if (cols.Length > 0)
+        targetCols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
+
+        
+        Array.Sort(targetCols, delegate (Collider a, Collider b)
         {
-            for(int i = 0; i < cols.Length; i++)
+            return Vector3.Distance(a.gameObject.transform.position, transform.position)
+            .CompareTo(Vector3.Distance(b.gameObject.transform.position, transform.position));
+        });
+
+        if (targetCols.Length > 0)
+        {
+            for(int i = 0; i < targetCols.Length; i++)
             {
                 if (_lockTarget == null)
                 {
-                    Debug.Log($"Enemy Spotted : {cols[i].gameObject.name} Found");
-                    _lockTarget = cols[i].gameObject;
+                    _lockTarget = targetCols[i].gameObject;
                     _state = State.Targetting;
                 }
             }
-        }
-        else
-        {
-            _lockTarget = null;
-            _state = State.Walk;
         }
     }
     
@@ -157,6 +184,11 @@ public class MinionController : MonoBehaviourPunCallbacks
         {
             _nav.isStopped = true;
             _state = State.Attack;
+        }
+        else
+        {
+            _nav.isStopped = false;
+            _state = State.Targetting;
         }
     }
 
@@ -174,9 +206,28 @@ public class MinionController : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    public void RepeatUpdateTarget()
+    protected IEnumerator UpdateDie()
     {
-        InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        Animator _anim = GetComponent<Animator>();
+        _anim.SetBool("IsDead", true);
+
+        yield return new WaitForSeconds(3.0f);
+
+        Managers.Resource.Destroy(this.gameObject);
     }
+
+    #region RPC
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(HPSlider.value);
+        }
+        else
+        {
+            HPSlider.value = (float)stream.ReceiveNext();
+        }
+    }
+    #endregion
 }

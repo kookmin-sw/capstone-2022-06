@@ -17,7 +17,7 @@ public class MinionHPBar : MonoBehaviour
     void Update()
     {
         Transform parent = transform.parent;
-        transform.position = parent.position + Vector3.up * 4.0f;
+        transform.position = parent.position + Vector3.up * 3.0f;
         transform.rotation = Camera.main.transform.rotation;
     }
 }

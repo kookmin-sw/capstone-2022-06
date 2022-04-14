@@ -10,7 +10,7 @@ public class PreparationScene : BaseScene
 
         sceneType = Define.Scene.Lobby;
 
-        // Managers.UI.ShowSceneUI<?>();
+        Managers.UI.ShowSceneUI<UI_Preparation>();
     }
 
     public override void Clear() {}

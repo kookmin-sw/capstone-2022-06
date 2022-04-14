@@ -89,7 +89,7 @@ public class UI_Lobby : UI_Scene
         int randNum = Random.Range(1, 3000);
 
         PhotonNetwork.CreateRoom($"DevRoom_{randNum}", devRoomOptions);
-        PhotonNetwork.LoadLevel("ChampionSelect");
+        PhotonNetwork.LoadLevel("PreparationScene");
     }
 
     /// <summary>

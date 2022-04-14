@@ -150,7 +150,7 @@ public class UI_Lobby : UI_Scene
         {
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "/2 Starting Game");
             // Start Game
-            PhotonNetwork.LoadLevel("ChampionSelect");
+            PhotonNetwork.LoadLevel("PreparationScene");
         }
     }
 

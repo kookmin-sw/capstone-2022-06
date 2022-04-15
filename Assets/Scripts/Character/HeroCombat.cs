@@ -18,6 +18,7 @@ public class HeroCombat : MonoBehaviour
     private ClickMovement moveScript;
     private Stats statsScript;
     public Animator anim;
+    public Ability ability;
 
     public bool basicAtkIdle = false;
     public bool isHeroAlive;
@@ -28,6 +29,7 @@ public class HeroCombat : MonoBehaviour
         moveScript = GetComponent<ClickMovement>();
         statsScript = GetComponent<Stats>();
         anim = GetComponentInChildren<Animator>();
+        ability = GetComponent<Ability>();
     }
 
     void Update()
@@ -72,7 +74,7 @@ public class HeroCombat : MonoBehaviour
         
         yield return new WaitForSeconds(statsScript.attackTime / ((100 + statsScript.attackTime) * 0.01f));
 
-        if (targetedEnemy == null)
+        if (targetedEnemy == null || ability.isSkill_E == true)
         {
             anim.SetBool("BasicAttack", false);
             performMeleeAttack = true;

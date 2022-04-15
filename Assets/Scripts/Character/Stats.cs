@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    public int level;
     public float maxHealth;
     public float healthRegen;
     public float health;
@@ -18,6 +19,7 @@ public class Stats : MonoBehaviour
 
     HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
+    Ability ability;
 
     // 플레이어의 스탯 스크립트
 
@@ -25,6 +27,7 @@ public class Stats : MonoBehaviour
     {
         heroCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroCombat>();
         playerAnim = GetComponent<PlayerAnimation>();
+        ability = GetComponent<Ability>();
     }
 
     void Update()
@@ -37,5 +40,17 @@ public class Stats : MonoBehaviour
             heroCombatScript.targetedEnemy = null;
             heroCombatScript.performMeleeAttack = false;
         }
+
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        healthRegen = 2 + level * 1.5f;
+
+        health += healthRegen;
     }
 }

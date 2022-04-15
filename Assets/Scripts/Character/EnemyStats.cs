@@ -6,17 +6,19 @@ public class EnemyStats : MonoBehaviour
 {
     public float maxHealth;
     public float health;
-    public float attackDmg;
-    public float attackSpeed;
-    public float attackTime;
 
     HeroCombat heroCombatScript;
+
+    Rigidbody rigid;
+    CapsuleCollider capCollider;
 
     // 에너미의 스탯 스크립트
 
     void Start()
     {
         heroCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroCombat>();
+        rigid = GetComponent<Rigidbody>();
+        capCollider = GetComponent<CapsuleCollider>();
     }
 
     void Update()
@@ -26,6 +28,16 @@ public class EnemyStats : MonoBehaviour
             Destroy(gameObject);
             heroCombatScript.targetedEnemy = null;
             heroCombatScript.performMeleeAttack = false;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "RangedProjectile")
+        {
+            THSSkill_EProj tHSSkill_Eproj = other.GetComponent<THSSkill_EProj>();
+            health -= tHSSkill_Eproj.damage;
+            Destroy(other.gameObject);
         }
     }
 }

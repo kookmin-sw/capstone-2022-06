@@ -13,10 +13,13 @@ public class PlayerAnimation : MonoBehaviour
     public float speed;
     float motionSmoothTime = 0.1f;
 
+    Stats stats;
+
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        stats = GetComponent<Stats>();
     }
 
     void Update()
@@ -25,5 +28,8 @@ public class PlayerAnimation : MonoBehaviour
 
         speed = agent.velocity.magnitude / agent.speed;
         anim.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
+
+        // 공격 속도
+        anim.SetFloat("attackSpeed", stats.attackSpeed);
     }
 }

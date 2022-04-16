@@ -7,6 +7,8 @@ TagManager:
   - Floor
   - Enemy
   - RangedProjectile
+  - THSSkill_E
+  - THSSkill_R
   layers:
   - Default
   - TransparentFX

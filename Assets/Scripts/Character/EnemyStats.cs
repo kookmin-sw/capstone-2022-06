@@ -33,10 +33,19 @@ public class EnemyStats : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "RangedProjectile")
+        if(other.tag == "THSSkill_E")
         {
             THSSkill_EProj tHSSkill_Eproj = other.GetComponent<THSSkill_EProj>();
+            Debug.Log("hit E");
             health -= tHSSkill_Eproj.damage;
+            Destroy(other.gameObject);
+        }
+
+        if (other.tag == "THSSkill_R")
+        {
+            THSSkill_RProj tHSSkill_Rproj = other.GetComponent<THSSkill_RProj>();
+            Debug.Log("hit R");
+            health -= tHSSkill_Rproj.damage;
             Destroy(other.gameObject);
         }
     }

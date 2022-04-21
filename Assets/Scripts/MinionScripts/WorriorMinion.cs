@@ -25,10 +25,9 @@ public class WorriorMinion : MinionController
         {
             MinionStat targetStat = _lockTarget.GetComponent<MinionStat>();
 
-            targetStat.HP -= (Stat.Atk - targetStat.Def);
+            _lockTarget.GetComponent<MinionController>().TakeDamage(Stat.Atk - targetStat.Def);
 
-            if (targetStat.HP <= 0)
-                targetStat.gameObject.GetComponent<MinionController>().ProperState = State.Die;
+            if (targetStat.HP <= 0) _lockTarget = null;
 
             Debug.Log("Hit!");
         }

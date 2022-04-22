@@ -860,6 +860,7 @@ GameObject:
   - component: {fileID: 1858436005395323121}
   - component: {fileID: 732086444765120591}
   - component: {fileID: 3111202284147434475}
+  - component: {fileID: 3588250556593390980}
   m_Layer: 0
   m_Name: FootmanHP
   m_TagString: Minion
@@ -939,6 +940,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fac9acc547a5c45a2e9d571416969f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lockTarget: {fileID: 0}
+  HPSlider: {fileID: 6048292626844819750}
   _state: 0
 --- !u!54 &-323424216349625699
 Rigidbody:
@@ -1047,6 +1050,20 @@ MonoBehaviour:
   _hp: 0
   _atk: 0
   _def: 0
+--- !u!136 &3588250556593390980
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &4388618243523973226
 MonoBehaviour:
   m_ObjectHideFlags: 0

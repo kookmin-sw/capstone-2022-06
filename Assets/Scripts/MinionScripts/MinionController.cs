@@ -43,7 +43,7 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
     // Properties
     public State ProperState { get { return _state; } set { _state = value; } }
 
-
+    
     #region MonoBehaviour
     protected void Awake()
     {
@@ -208,10 +208,20 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        Stat.HP -= damage;
+
+        if (Stat.HP <= 0)
+            _state = State.Die;
+    }
+
     protected IEnumerator UpdateDie()
     {
         Animator _anim = GetComponent<Animator>();
         _anim.SetBool("IsDead", true);
+
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         yield return new WaitForSeconds(3.0f);
 

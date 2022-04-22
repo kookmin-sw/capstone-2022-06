@@ -117,7 +117,7 @@ public class UIManager
 
         if (parent is not null)
         {
-            ui.transform.SetParent(parent);
+            ui.transform.SetParent(parent, false);
         }
 
         return ui.GetOrAddComponent<T>();

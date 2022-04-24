@@ -37,17 +37,18 @@ public class Shop : MonoBehaviour
         title = itemObj[index].name;
         itemprice = itemPrice[index].ToString();
         description = itemDescriptionArr[index];
-
         itemDescription.SetDescription(image, itemprice, title, description);
         itemTree.SetDescription(image, itemprice);
-        inventory.AddItem(image, itemprice);
-
         // 가진 돈보다 비싸다면 못사게 함
         if (price > Gold.playerGold || inventory.isPull == true)
         {
             return;
         }
-        Gold.playerGold -= price; 
-    }
 
+        else
+        {
+            inventory.AddItem(image, itemprice);
+            Gold.playerGold -= price;
+        }
+    }
 }

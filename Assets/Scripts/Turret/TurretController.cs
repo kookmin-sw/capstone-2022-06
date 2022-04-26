@@ -10,7 +10,7 @@ public class TurretController : MonoBehaviour
     [SerializeField] float _attackInterval;
     float _attackTimer;
 
-    GameObject _lockTarget;
+    [SerializeField] GameObject _lockTarget;
     Collider[] targetCandidates;
 
     [SerializeField] Transform bulletSpawnPos;
@@ -24,6 +24,7 @@ public class TurretController : MonoBehaviour
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
         InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        _attackTimer = _attackInterval;
     }
 
     // Update is called once per frame
@@ -31,9 +32,11 @@ public class TurretController : MonoBehaviour
     {
         if (_lockTarget != null)
         {
-            _attackTimer += Time.deltaTime;
             ShootBullet();
+            _attackTimer += Time.deltaTime;
         }
+        else
+            _attackTimer = 0f;
     }
 
     void UpdateTarget()
@@ -70,6 +73,9 @@ public class TurretController : MonoBehaviour
     void ShootBullet()
     {
         if (_attackTimer >= _attackInterval)
+        {
             MakeBullet();
+            _attackTimer = 0f;
+        }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
-using HashTable = ExitGames.Client.Photon.Hashtable;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 [System.Serializable]
 class Icons
@@ -22,7 +22,7 @@ class HeroInfo
 
 public class UI_Preparation : UI_Scene
 {
-    public HashTable _playerCustomProperties = new HashTable();
+    public Hashtable _playerCustomProperties = new Hashtable();
     private PhotonView PV;
 
     private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";

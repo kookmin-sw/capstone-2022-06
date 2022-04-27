@@ -51,12 +51,38 @@ public class UI_Preparation : UI_Scene
         UI_CancelButton
     }
 
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
+        _playerCustomProperties["PlayerReady"] = 0;
+    }
+    
+    void Update()
+    {
+        if (preparedCount != PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            preparedCount = 0;
+
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                object tmp;
+                if (player.CustomProperties.TryGetValue("PlayerReady", out tmp))
+                {
+                    // Debug.Log($"num : {myLocalId}, ready : {(int)tmp}");
+                    ++preparedCount;
+                }
+                else
+                {
+                    // Debug.Log($"num : {playerNum}, Not valid value");
+                }
+            }
+        }
+    }
+
     public override void Init()
     {
         base.Init();
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
-        _playerCustomProperties["PlayerReady"] = 0;
 
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
@@ -68,7 +94,6 @@ public class UI_Preparation : UI_Scene
             "ContentsDiv"
         );
 
-        PV = GetComponent<PhotonView>();
         myLocalId = GetLocalId();
 
         myState = Util.SearchChild(
@@ -102,7 +127,8 @@ public class UI_Preparation : UI_Scene
                 // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
                     GameObject selected = EventSystem.current.currentSelectedGameObject;
-                    selectedPortrait = heroPortrait;
+                    Sprite selectedSprite = selected.GetComponent<Image>().sprite;
+                    selectedPortrait = selectedSprite;
                 });
             }
         }
@@ -116,9 +142,11 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
 
-            if (PhotonNetwork.IsMasterClient is false)
+            if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+                GameObject portrait = Util.SearchChild(myState, "Portrait");
+                portrait.GetComponent<Image>().sprite = selectedPortrait;
             }
             else
             {
@@ -134,6 +162,8 @@ public class UI_Preparation : UI_Scene
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 0;
+                GameObject portrait = Util.SearchChild(myState, "Portrait");
+                portrait.GetComponent<Image>().sprite = initPortrait;
             }
             else
             {
@@ -184,7 +214,7 @@ public class UI_Preparation : UI_Scene
 
         if (ready == 0)
         {
-            GameObject portrait = Util.SearchChild(myState, "Portrait", true);
+            GameObject portrait = Util.SearchChild(myState, "Portrait");
             portrait.GetComponent<Image>().sprite = initPortrait;
         }
     }
@@ -196,7 +226,7 @@ public class UI_Preparation : UI_Scene
     [PunRPC]
     void UpdatePortrait(int playerId)
     {
-        GameObject portrait = Util.SearchChild(myState, "Portrait", true);
+        GameObject portrait = Util.SearchChild(myState, "Portrait");
         portrait.GetComponent<Image>().sprite = selectedPortrait;
     }
 }

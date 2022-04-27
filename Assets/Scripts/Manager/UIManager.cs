@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class UIManager
 {
@@ -85,6 +86,29 @@ public class UIManager
         }
 
         GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
+
+        if (!go)
+        {
+            Debug.Log($"Failed to find UI: {name}");
+            return null;
+        }
+
+        T sceneUI = go.GetOrAddComponent<T>();
+        _sceneUI = sceneUI;
+        go.transform.SetParent(Root.transform);
+        return sceneUI;
+    }
+
+    /// <summary>
+    /// PhotonView가 부착된 오브젝트를 instantiate 할 때는 Resources 부터 전체 경로를 지정해야 합니다.
+    /// </summary>
+    public T ShowSceneNetworkUI<T>(string name = null) where T : UI_Scene
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            name = typeof(T).Name;
+        }
+        GameObject go = PhotonNetwork.InstantiateRoomObject($"Prefabs/UI/Scene/{name}", Vector3.zero, Quaternion.identity);
 
         if (!go)
         {

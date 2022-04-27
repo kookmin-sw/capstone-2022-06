@@ -75,6 +75,8 @@ public class UI_Preparation : UI_Scene
 
                 portrait.GetComponent<Image>().sprite = heroPortrait;
                 portrait.name = $"Portrait{i + 1}";
+
+                // 버튼을 눌렀을 때 selectedIcon의 내용을 갱신하는 OnClick 콜백을 추가합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
                     GameObject selected = EventSystem.current.currentSelectedGameObject;
                     selectedIcon = selected.GetComponent<Sprite>().name;

@@ -22,28 +22,46 @@ class HeroInfo
 
 public class UI_Preparation : UI_Scene
 {
+    public HashTable _playerCustomProperties = new HashTable();
     private PhotonView PV;
+
+    private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";
+    private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
     private GameObject contentsDiv = null;
 
-    private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";
     private int myLocalId = -1;
-    private int preparedCount = 0;
-    private string selectedIcon = null;
+    private Sprite initPortrait = null;
+    private Sprite selectedPortrait = null;
+
+    // 픽창에서 자신이 위치한 칸을 나타냄
+    private GameObject myState = null;
     
-    public Hashtable _playerCustomProperties = new Hashtable();
+    private int preparedCount = 0;
 
     enum GameObjects
     {
         SelectedView,
-        PickUpBoard,
+        PickUpBoard
+    }
+
+    enum Buttons
+    {
+        UI_ConfirmButton,
+        UI_CancelButton
     }
 
     public override void Init()
     {
         base.Init();
 
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
+        _playerCustomProperties["PlayerReady"] = 0;
+
         Bind<GameObject>(typeof(GameObjects));
+        Bind<Button>(typeof(Buttons));
+
+        initPortrait = Managers.Resource.Load<Sprite>(initPortraitPath);
 
         contentsDiv = Util.SearchChild(
             Util.SearchChild(Get<GameObject>((int)GameObjects.PickUpBoard), "Viewport"),
@@ -52,6 +70,11 @@ public class UI_Preparation : UI_Scene
 
         PV = GetComponent<PhotonView>();
         myLocalId = GetLocalId();
+
+        myState = Util.SearchChild(
+            Get<GameObject>((int)GameObjects.SelectedView),
+            $"Player_{myLocalId}"
+        );
 
         // Delete dummy icons
         foreach (Transform child in contentsDiv.transform)
@@ -76,10 +99,10 @@ public class UI_Preparation : UI_Scene
                 portrait.GetComponent<Image>().sprite = heroPortrait;
                 portrait.name = $"Portrait{i + 1}";
 
-                // 버튼을 눌렀을 때 selectedIcon의 내용을 갱신하는 OnClick 콜백을 추가합니다.
+                // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
                     GameObject selected = EventSystem.current.currentSelectedGameObject;
-                    selectedIcon = selected.GetComponent<Sprite>().name;
+                    selectedPortrait = heroPortrait;
                 });
             }
         }
@@ -88,7 +111,35 @@ public class UI_Preparation : UI_Scene
             Debug.Log($"Failed to load json file {jsonInfo.Name}");
         }
 
-        // Managers.UI.AttachSubItem
+        // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
+        GetButton((int)Buttons.UI_ConfirmButton).onClick.AddListener(() => {
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
+
+            if (PhotonNetwork.IsMasterClient is false)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+            }
+            else
+            {
+                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
+            }
+        });
+
+        // CancelButton을 눌렀을 때 CancelButton을 비활성화 하고 ConfirmButton을 활성화 합니다.
+        GetButton((int)Buttons.UI_CancelButton).onClick.AddListener(() => {
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(true);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 0;
+            }
+            else
+            {
+                PV.RPC("UpdateReadyState", RpcTarget.All, 0);
+            }
+        });
     }
 
     /// <summary>
@@ -120,5 +171,32 @@ public class UI_Preparation : UI_Scene
 
         Debug.Log($"All player get ready : {preparedCount}");
         PhotonNetwork.LoadLevel("GameScene");
+    }
+
+    /// <summary>
+    /// RPC로 PlayerReady 프로퍼티를 갱신합니다.
+    /// 마스터 클라이언트가 아닌 경우에만 적용됩니다.
+    /// </summary>
+    [PunRPC]
+    void UpdateReadyState(int ready)
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = ready;
+
+        if (ready == 0)
+        {
+            GameObject portrait = Util.SearchChild(myState, "Portrait", true);
+            portrait.GetComponent<Image>().sprite = initPortrait;
+        }
+    }
+
+    /// <summary>
+    /// 자신의 초상화를 선택한 영웅의 초상화로 바꿉니다.
+    /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
+    /// </summary>
+    [PunRPC]
+    void UpdatePortrait(int playerId)
+    {
+        GameObject portrait = Util.SearchChild(myState, "Portrait", true);
+        portrait.GetComponent<Image>().sprite = selectedPortrait;
     }
 }

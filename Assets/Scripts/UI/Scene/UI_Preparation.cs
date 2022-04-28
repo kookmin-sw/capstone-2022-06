@@ -38,6 +38,11 @@ public class UI_Preparation : UI_Scene
     // 픽창에서 자신이 위치한 칸을 나타냄
     private GameObject myState = null;
     
+    // 지휘관이 될 룸 id
+    private int[] commanderSlot = {1, 6};
+    // private int[] commanderSlot = {5, 10};
+
+    // 준비가 완료된 사람 수
     private int preparedCount = 0;
 
     enum GameObjects
@@ -96,6 +101,13 @@ public class UI_Preparation : UI_Scene
         );
 
         myLocalId = GetLocalId();
+
+        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
+        if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
+        {
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+        }
 
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),

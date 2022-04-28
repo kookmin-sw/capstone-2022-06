@@ -120,8 +120,7 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-            GameObject portrait = Util.SearchChild(myState, "Portrait");
-            portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
+            PV.RPC("SetCommanderPortrait", RpcTarget.All);
         }
 
         // Delete dummy icons
@@ -251,5 +250,16 @@ public class UI_Preparation : UI_Scene
     {
         GameObject portrait = Util.SearchChild(myState, "Portrait");
         portrait.GetComponent<Image>().sprite = selectedPortrait;
+    }
+
+    /// <summary>
+    /// 자신의 초상화를 선택한 지휘관 초상화로 바꿉니다.
+    /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
+    /// </summary>
+    [PunRPC]
+    void SetCommanderPortrait()
+    {
+        GameObject portrait = Util.SearchChild(myState, "Portrait");
+        portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
     }
 }

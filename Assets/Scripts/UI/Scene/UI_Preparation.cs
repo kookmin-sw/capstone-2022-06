@@ -114,11 +114,14 @@ public class UI_Preparation : UI_Scene
         );
 
         // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
+        // 또한 초상화를 지휘관 초상화로 변경합니다.
         if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
         {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
+            GameObject portrait = Util.SearchChild(myState, "Portrait");
+            portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
         }
 
         // Delete dummy icons

@@ -30,8 +30,8 @@ public class UI_Preparation : UI_Scene
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
     // 지휘관이 될 룸 id
-    private int[] commanderSlot = {1, 6};
-    // private int[] commanderSlot = {5, 10};
+    // private int[] commanderSlot = {1, 6};
+    private int[] commanderSlot = {5, 10};
 
     private GameObject contentsDiv = null;
 
@@ -123,6 +123,16 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
             PV.RPC("SetCommanderPortrait", RpcTarget.All);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+            }
+            else
+            {
+                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
+            }
+            
             StartCoroutine("WaitAllReady");
         }
 

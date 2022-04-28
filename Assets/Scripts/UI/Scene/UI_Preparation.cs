@@ -18,6 +18,7 @@ class Icons
 class HeroInfo 
 {
     public string path;
+    public string name;
 }
 
 public class UI_Preparation : UI_Scene

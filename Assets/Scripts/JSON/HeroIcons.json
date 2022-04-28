@@ -1,7 +1,8 @@
 {
     "Contents": [
         {
-            "path" : "Sprites/PlaceHolder"
+            "path" : "Sprites/PlaceHolder",
+            "name" : "temp_hero"
         }
     ]
 }

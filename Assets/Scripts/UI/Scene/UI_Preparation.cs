@@ -45,6 +45,8 @@ public class UI_Preparation : UI_Scene
     // 준비가 완료된 사람 수
     private int preparedCount = 0;
 
+    private IEnumerator readyStatus;
+
     enum GameObjects
     {
         SelectedView,
@@ -121,6 +123,7 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
             PV.RPC("SetCommanderPortrait", RpcTarget.All);
+            StartCoroutine("WaitAllReady");
         }
 
         // Delete dummy icons
@@ -174,6 +177,8 @@ public class UI_Preparation : UI_Scene
             {
                 PV.RPC("UpdateReadyState", RpcTarget.All, 1);
             }
+
+            StartCoroutine("WaitAllReady");
         });
 
         // CancelButton을 눌렀을 때 CancelButton을 비활성화 하고 ConfirmButton을 활성화 합니다.
@@ -191,6 +196,8 @@ public class UI_Preparation : UI_Scene
             {
                 PV.RPC("UpdateReadyState", RpcTarget.All, 0);
             }
+
+            StopCoroutine("WaitAllReady");
         });
     }
 

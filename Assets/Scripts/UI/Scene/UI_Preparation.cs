@@ -108,6 +108,11 @@ public class UI_Preparation : UI_Scene
 
         myLocalId = GetLocalId();
 
+        myState = Util.SearchChild(
+            Get<GameObject>((int)GameObjects.SelectedView),
+            $"Player_{myLocalId}"
+        );
+
         // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
         if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
         {
@@ -115,11 +120,6 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
         }
-
-        myState = Util.SearchChild(
-            Get<GameObject>((int)GameObjects.SelectedView),
-            $"Player_{myLocalId}"
-        );
 
         // Delete dummy icons
         foreach (Transform child in contentsDiv.transform)

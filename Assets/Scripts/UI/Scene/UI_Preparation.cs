@@ -57,6 +57,11 @@ public class UI_Preparation : UI_Scene
         UI_CancelButton
     }
 
+    enum Texts
+    {
+        ComStatement
+    }
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -92,6 +97,7 @@ public class UI_Preparation : UI_Scene
 
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
+        Bind<Text>(typeof(Texts));
 
         initPortrait = Managers.Resource.Load<Sprite>(initPortraitPath);
 
@@ -107,6 +113,7 @@ public class UI_Preparation : UI_Scene
         {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
         }
 
         myState = Util.SearchChild(

@@ -29,6 +29,10 @@ public class UI_Preparation : UI_Scene
     private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
+    // 지휘관이 될 룸 id
+    private int[] commanderSlot = {1, 6};
+    // private int[] commanderSlot = {5, 10};
+
     private GameObject contentsDiv = null;
 
     private int myLocalId = -1;
@@ -37,10 +41,6 @@ public class UI_Preparation : UI_Scene
 
     // 픽창에서 자신이 위치한 칸을 나타냄
     private GameObject myState = null;
-    
-    // 지휘관이 될 룸 id
-    private int[] commanderSlot = {1, 6};
-    // private int[] commanderSlot = {5, 10};
 
     // 준비가 완료된 사람 수
     private int preparedCount = 0;

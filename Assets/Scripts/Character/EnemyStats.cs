@@ -13,7 +13,7 @@ public class EnemyStats : MonoBehaviour
     Rigidbody rigid;
     CapsuleCollider capCollider;
 
-    // ¿¡³Ê¹ÌÀÇ ½ºÅÈ ½ºÅ©¸³Æ®
+    // Â¿Â¡Â³ÃŠÂ¹ÃŒÃ€Ã‡ Â½ÂºÃ…Ãˆ Â½ÂºÃ…Â©Â¸Â³Ã†Â®
 
     void Start()
     {

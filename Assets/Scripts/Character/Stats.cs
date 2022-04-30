@@ -5,6 +5,7 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     public int level;
+    public int exp;
     public float maxHealth;
     public float healthRegen;
     public float health;
@@ -32,7 +33,10 @@ public class Stats : MonoBehaviour
 
     void Update()
     {
-        playerAnim.agent.speed = speed;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
 
         if (health <= 0)
         {
@@ -41,10 +45,7 @@ public class Stats : MonoBehaviour
             heroCombatScript.performMeleeAttack = false;
         }
 
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
+        playerAnim.agent.speed = speed;
     }
 
     void FixedUpdate()

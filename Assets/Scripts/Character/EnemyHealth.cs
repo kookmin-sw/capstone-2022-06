@@ -15,7 +15,8 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
-        statsScript = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyStats>();
+        //statsScript = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyStats>();
+        statsScript = gameObject.GetComponentInParent<EnemyStats>();
 
         enemySlider3D.maxValue = statsScript.maxHealth;
         statsScript.health = statsScript.maxHealth;

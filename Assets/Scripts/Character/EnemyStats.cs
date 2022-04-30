@@ -6,6 +6,7 @@ public class EnemyStats : MonoBehaviour
 {
     public float maxHealth;
     public float health;
+    public float armor;
 
     HeroCombat heroCombatScript;
 
@@ -37,7 +38,7 @@ public class EnemyStats : MonoBehaviour
         {
             THSSkill_EProj tHSSkill_Eproj = other.GetComponent<THSSkill_EProj>();
             Debug.Log("hit E");
-            health -= tHSSkill_Eproj.damage;
+            health -= tHSSkill_Eproj.damage * (100 / (100 + armor));
             Destroy(other.gameObject);
         }
 
@@ -45,7 +46,7 @@ public class EnemyStats : MonoBehaviour
         {
             THSSkill_RProj tHSSkill_Rproj = other.GetComponent<THSSkill_RProj>();
             Debug.Log("hit R");
-            health -= tHSSkill_Rproj.damage;
+            health -= tHSSkill_Rproj.damage * (100 / (100 + armor));
             Destroy(other.gameObject);
         }
     }

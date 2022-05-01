@@ -89,7 +89,6 @@ public class UI_Lobby : UI_Scene
         int randNum = Random.Range(1, 3000);
 
         PhotonNetwork.CreateRoom($"DevRoom_{randNum}", devRoomOptions);
-        PhotonNetwork.LoadLevel("ChampionSelect");
     }
 
     /// <summary>
@@ -126,6 +125,7 @@ public class UI_Lobby : UI_Scene
     /// </summary>
     public override void OnJoinedRoom()
     {
+        PhotonNetwork.LoadLevel("PreparationScene");
         // Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
@@ -150,7 +150,7 @@ public class UI_Lobby : UI_Scene
         {
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount + "/2 Starting Game");
             // Start Game
-            PhotonNetwork.LoadLevel("ChampionSelect");
+            PhotonNetwork.LoadLevel("PreparationScene");
         }
     }
 

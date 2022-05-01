@@ -69,6 +69,7 @@ public class UI_Preparation : UI_Scene
     {
         PV = GetComponent<PhotonView>();
         PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
+        PV.RPC("UpdateCommanderState", RpcTarget.All, 0);
     }
     
     void Update()
@@ -123,18 +124,10 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-            PV.RPC("SetCommanderPortrait", RpcTarget.All);
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
-                PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = 1;
-            }
-            else
-            {
-                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-                PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
-            }
+            PV.RPC("SetCommanderPortrait", RpcTarget.All);
+            PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
+            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
             
             StartCoroutine("WaitAllReady");
         }
@@ -182,17 +175,7 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
-                GameObject portrait = Util.SearchChild(myState, "Portrait");
-                portrait.GetComponent<Image>().sprite = selectedPortrait;
-            }
-            else
-            {
-                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-            }
-
+            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
             StartCoroutine("WaitAllReady");
         });
 
@@ -201,17 +184,7 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(true);
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 0;
-                GameObject portrait = Util.SearchChild(myState, "Portrait");
-                portrait.GetComponent<Image>().sprite = initPortrait;
-            }
-            else
-            {
-                PV.RPC("UpdateReadyState", RpcTarget.All, 0);
-            }
-
+            PV.RPC("UpdateReadyState", RpcTarget.All, 0);
             StopCoroutine("WaitAllReady");
         });
     }

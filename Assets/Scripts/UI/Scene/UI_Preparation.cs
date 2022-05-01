@@ -17,8 +17,9 @@ class Icons
 [System.Serializable]
 class HeroInfo 
 {
-    public string path;
-    public string name;
+    public string spritePath;
+    public string heroName;
+    public string prefabPath;
 }
 
 public class UI_Preparation : UI_Scene
@@ -153,11 +154,13 @@ public class UI_Preparation : UI_Scene
             for (int i = 0; i < loadedIcons.Contents.Count; i++)
             {
                 HeroInfo info = loadedIcons.Contents[i];
-                Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.path);
+                Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
                 UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
 
                 portrait.GetComponent<Image>().sprite = heroPortrait;
                 portrait.name = $"Portrait{i + 1}";
+                portrait.GetComponent<PortraitButtonData>().HeroName = info.heroName;
+                portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
 
                 // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {

@@ -69,7 +69,6 @@ public class UI_Preparation : UI_Scene
     {
         PV = GetComponent<PhotonView>();
         PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
-        _playerCustomProperties["PlayerReady"] = 0;
     }
     
     void Update()
@@ -118,6 +117,7 @@ public class UI_Preparation : UI_Scene
 
         // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
         // 또한 초상화를 지휘관 초상화로 변경합니다.
+        // LocalPlayer의 프로퍼티를 수정합니다.
         if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
         {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
@@ -128,10 +128,12 @@ public class UI_Preparation : UI_Scene
             if (PhotonNetwork.IsMasterClient)
             {
                 PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+                PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = 1;
             }
             else
             {
                 PV.RPC("UpdateReadyState", RpcTarget.All, 1);
+                PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
             }
             
             StartCoroutine("WaitAllReady");
@@ -259,6 +261,15 @@ public class UI_Preparation : UI_Scene
             GameObject portrait = Util.SearchChild(myState, "Portrait");
             portrait.GetComponent<Image>().sprite = initPortrait;
         }
+    }
+
+    /// <summary>
+    /// 지휘관 상태의 변경을 모든 플레이어에게 송신하는 RPC입니다.
+    /// </summary>
+    [PunRPC]
+    void UpdateCommanderState(int value)
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = value;
     }
 
     /// <summary>

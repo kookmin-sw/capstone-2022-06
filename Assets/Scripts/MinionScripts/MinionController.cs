@@ -28,8 +28,9 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
 
     // Reference Attribute
     PhotonView PV;
-    
-    protected MinionStat Stat;
+
+    // protected MinionStat Stat;
+    protected MinionStat stat;
 
     List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
     NavMeshAgent _nav;
@@ -42,14 +43,15 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
 
     // Properties
     public State ProperState { get { return _state; } set { _state = value; } }
-
+    public MinionStat ProperStat { get { return stat; } }
 
     #region MonoBehaviour
     protected void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
-        Stat = GetComponent<MinionStat>();
+        stat = GetComponent<MinionStat>();
+        stat.Initialize("Bighammer");
 
         SetParent();
 
@@ -64,12 +66,6 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
 
         InitWayPoints();
         SettingTeam();
-
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    Debug.Log("RepeatTarget!");
-        //    PV.RPC("RepeatUpdateTarget", RpcTarget.AllBuffered);
-        //}
 
         InvokeRepeating("UpdateTarget", 0f, 0.25f);
     }
@@ -110,7 +106,7 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if (PhotonNetwork.IsMasterClient)
-            HPSlider.value = Stat.HP / (float)Stat.MaxHP;
+            HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
     #endregion
 
@@ -208,10 +204,20 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        stat.Status.hp -= damage;
+
+        if (stat.Status.hp <= 0)
+            _state = State.Die;
+    }
+
     protected IEnumerator UpdateDie()
     {
         Animator _anim = GetComponent<Animator>();
         _anim.SetBool("IsDead", true);
+
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         yield return new WaitForSeconds(3.0f);
 

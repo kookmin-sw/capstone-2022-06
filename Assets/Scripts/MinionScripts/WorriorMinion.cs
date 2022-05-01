@@ -23,12 +23,11 @@ public class WorriorMinion : MinionController
     {
         if (_lockTarget.gameObject.tag == "Minion")
         {
-            MinionStat targetStat = _lockTarget.GetComponent<MinionStat>();
+            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
 
-            targetStat.HP -= (Stat.Atk - targetStat.Def);
+            _lockTarget.GetComponent<MinionController>().TakeDamage(stat.Status.atk - targetStat.Status.defense);
 
-            if (targetStat.HP <= 0)
-                targetStat.gameObject.GetComponent<MinionController>().ProperState = State.Die;
+            if (targetStat.Status.hp <= 0) _lockTarget = null;
 
             Debug.Log("Hit!");
         }

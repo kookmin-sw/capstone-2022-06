@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 1858436005395323121}
   - component: {fileID: 732086444765120591}
   - component: {fileID: 3588250556593390980}
-  - component: {fileID: 3727493566518835197}
+  - component: {fileID: 4505941638112400445}
   m_Layer: 0
   m_Name: FootmanHP
   m_TagString: Minion
@@ -1051,7 +1051,7 @@ CapsuleCollider:
   m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &3727493566518835197
+--- !u!114 &4505941638112400445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e202a21b811a74f98d2f59af03ef40, type: 3}
+  m_Script: {fileID: 11500000, guid: e71ccfe5bd47ad84eb58aa03d845afff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stat:

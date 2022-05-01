@@ -828,8 +828,8 @@ GameObject:
   - component: {fileID: 7723890728591382594}
   - component: {fileID: 1452975310584090801}
   - component: {fileID: 1953307599537147135}
-  - component: {fileID: -7825681282533379080}
   - component: {fileID: 8132820013483660463}
+  - component: {fileID: 8577992467546380714}
   m_Layer: 0
   m_Name: FreeLichHP
   m_TagString: Minion
@@ -1007,22 +1007,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &-7825681282533379080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e202a21b811a74f98d2f59af03ef40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHP: 0
-  _hp: 0
-  _atk: 0
-  _def: 0
 --- !u!136 &8132820013483660463
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1037,6 +1021,33 @@ CapsuleCollider:
   m_Height: 2.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &8577992467546380714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71ccfe5bd47ad84eb58aa03d845afff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    moveSpeed: 0
 --- !u!114 &4550667465296390788
 MonoBehaviour:
   m_ObjectHideFlags: 0

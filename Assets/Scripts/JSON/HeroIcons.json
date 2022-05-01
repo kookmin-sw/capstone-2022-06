@@ -1,8 +1,9 @@
 {
     "Contents": [
         {
-            "path" : "Sprites/PlaceHolder",
-            "name" : "temp_hero"
+            "spritePath" : "Sprites/PlaceHolder",
+            "heroName" : "temp_hero",
+            "prefabPath" : "?"
         }
     ]
 }

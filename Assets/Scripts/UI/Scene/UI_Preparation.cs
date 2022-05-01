@@ -152,6 +152,8 @@ public class UI_Preparation : UI_Scene
                 Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
                 UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
 
+                // #Critical
+                // 버튼에 달린 PortraitButtonData 컴포넌트에 챔피언 이름과 프리팹 경로를 할당합니다.
                 portrait.GetComponent<Image>().sprite = heroPortrait;
                 portrait.name = $"Portrait{i + 1}";
                 portrait.GetComponent<PortraitButtonData>().HeroName = info.heroName;

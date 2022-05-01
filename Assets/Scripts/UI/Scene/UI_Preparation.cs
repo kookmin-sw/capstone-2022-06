@@ -272,11 +272,11 @@ public class UI_Preparation : UI_Scene
     }
 
     /// <summary>
-    /// 자신의 localId(게임에서 할당된 id)를 커스텀 프로퍼티에 저장합니다.
+    /// 자신의 matchId(게임에서 할당된 id)를 커스텀 프로퍼티에 저장합니다.
     /// </summary>
     [PunRPC]
     void StoreLocalId(int value)
     {
-        PhotonNetwork.LocalPlayer.CustomProperties["localId"] = value;
+        PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = value;
     }
 }

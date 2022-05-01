@@ -3,7 +3,7 @@
         {
             "spritePath" : "Sprites/PlaceHolder",
             "heroName" : "temp_hero",
-            "prefabPath" : "?"
+            "prefabPath" : "Private/Prefabs/Character/CharacterBaseForExternalAnimations/SwordAndShield"
         }
     ]
 }

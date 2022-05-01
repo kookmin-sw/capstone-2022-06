@@ -109,7 +109,9 @@ public class UI_Preparation : UI_Scene
             "ContentsDiv"
         );
 
+        // 혹시 모를 consistency 유지를 위해 rpc 프로퍼티에도 매치 id를 저장
         myLocalId = GetLocalId();
+        PV.RPC("StoreLocalId", RpcTarget.All, myLocalId);
 
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),
@@ -267,5 +269,14 @@ public class UI_Preparation : UI_Scene
     {
         GameObject portrait = Util.SearchChild(myState, "Portrait");
         portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
+    }
+
+    /// <summary>
+    /// 자신의 localId(게임에서 할당된 id)를 커스텀 프로퍼티에 저장합니다.
+    /// </summary>
+    [PunRPC]
+    void StoreLocalId(int value)
+    {
+        PhotonNetwork.LocalPlayer.CustomProperties["localId"] = value;
     }
 }

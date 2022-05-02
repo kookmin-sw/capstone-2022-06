@@ -102,6 +102,8 @@ public class UI_Preparation : UI_Scene
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
 
+        GetButton((int)Buttons.UI_ConfirmButton).interactable = false;
+
         initPortrait = Managers.Resource.Load<Sprite>(initPortraitPath);
 
         contentsDiv = Util.SearchChild(
@@ -162,10 +164,12 @@ public class UI_Preparation : UI_Scene
                 portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
 
                 // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
+                // 추가로 ConfirmButton을 누를 수 있도록 합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
                     GameObject selected = EventSystem.current.currentSelectedGameObject;
                     Sprite selectedSprite = selected.GetComponent<Image>().sprite;
                     selectedPortrait = selectedSprite;
+                    GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
                 });
             }
         }

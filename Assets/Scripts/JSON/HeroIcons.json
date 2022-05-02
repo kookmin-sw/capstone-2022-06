@@ -4,6 +4,11 @@
             "spritePath" : "Sprites/PlaceHolder",
             "heroName" : "temp_hero",
             "prefabPath" : "Private/Prefabs/Champions/Mangawl(Dummy)"
+        },
+        {
+            "spritePath" : "Sprites/PlaceHolder",
+            "heroName" : "temp_hero2",
+            "prefabPath" : "Private/Prefabs/Champions/Mangawl(Dummy)"
         }
     ]
 }

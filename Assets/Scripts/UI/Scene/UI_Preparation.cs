@@ -136,11 +136,8 @@ public class UI_Preparation : UI_Scene
             StartCoroutine("WaitAllReady");
         }
 
-        // Delete dummy icons
-        foreach (Transform child in contentsDiv.transform)
-        {
-            Managers.Resource.Destroy(child.gameObject);
-        }
+
+        PV.RPC("ClearDummyPortraits", RpcTarget.All);
 
         FileInfo jsonInfo = new FileInfo(iconJsonPath);
 
@@ -282,5 +279,17 @@ public class UI_Preparation : UI_Scene
     void StoreLocalId(int value)
     {
         PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = value;
+    }
+
+    /// <summary>
+    /// 선택창에 있던 초상화를 제거합니다.
+    /// </summary>
+    [PunRPC]
+    void ClearDummyPortraits()
+    {
+        foreach (Transform child in contentsDiv.transform)
+        {
+            Managers.Resource.Destroy(child.gameObject);
+        }
     }
 }

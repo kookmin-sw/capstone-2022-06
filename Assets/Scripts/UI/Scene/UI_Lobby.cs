@@ -23,6 +23,7 @@ public class UI_Lobby : UI_Scene
     enum Texts
     {
         SearchingText,
+        ConnectingText
     }
 
     public override void Init()
@@ -34,6 +35,7 @@ public class UI_Lobby : UI_Scene
     
         matchmakingPanel = Get<GameObject>((int)GameObjects.MatchmakingPanel);
         Get<Text>((int)Texts.SearchingText).gameObject.SetActive(false);
+        GetText((int)Texts.ConnectingText).gameObject.SetActive(true);
 
         if (matchmakingPanel is not null)
         {
@@ -123,6 +125,7 @@ public class UI_Lobby : UI_Scene
     {
         Debug.Log("Successfully connected to Photon on " + PhotonNetwork.CloudRegion + " Server");
         PhotonNetwork.AutomaticallySyncScene = true;
+        GetText((int)Texts.ConnectingText).gameObject.SetActive(false);
         matchmakingPanel.SetActive(true);
         matchmakingButton.gameObject.SetActive(true);
         testGameButton.gameObject.SetActive(true);
@@ -176,6 +179,7 @@ public class UI_Lobby : UI_Scene
         matchmakingButton.gameObject.SetActive(false);
         testGameButton.gameObject.SetActive(false);
         cancelButton.gameObject.SetActive(false);
+        GetText((int)Texts.ConnectingText).gameObject.SetActive(true);
     }
 
     #region deprecated

@@ -105,6 +105,9 @@ public class UI_Lobby : UI_Scene
             PhotonNetwork.LeaveRoom();
         }
 
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.ConnectUsingSettings();
+
         Debug.Log("Matchmaking canceled");
 
         matchmakingButton.gameObject.SetActive(true);
@@ -139,7 +142,7 @@ public class UI_Lobby : UI_Scene
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Failed to join, lets make new room");
+        Debug.Log("There is no random room, try to make a new room");
         int randomRoomName = Random.Range(0, 5000);
         RoomOptions roomOptions =
             new RoomOptions()
@@ -164,7 +167,11 @@ public class UI_Lobby : UI_Scene
         }
     }
 
-    public override void OnLeftRoom()
+    /// <summary>
+    /// 서버와 연결이 끊겼을 때 호출되는 콜백입니다.
+    /// 마스터에 다시 연결해야 하므로 그 전까지 모든 버튼을 비활성화 합니다.
+    /// </summary>
+    public override void OnDisconnected(DisconnectCause cause)
     {
         matchmakingButton.gameObject.SetActive(false);
         testGameButton.gameObject.SetActive(false);

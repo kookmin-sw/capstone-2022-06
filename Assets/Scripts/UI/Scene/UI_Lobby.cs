@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Photon;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -24,6 +23,11 @@ public class UI_Lobby : UI_Scene
     {
         SearchingText,
         ConnectingText
+    }
+
+    void Awake()
+    {
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void Init()
@@ -64,8 +68,6 @@ public class UI_Lobby : UI_Scene
 
         matchmakingButton.gameObject.SetActive(false);
         testGameButton.gameObject.SetActive(false);
-
-        PhotonNetwork.ConnectUsingSettings();   
     }
 
     /// <summary>

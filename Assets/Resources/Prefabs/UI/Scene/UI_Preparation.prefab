@@ -850,7 +850,6 @@ GameObject:
   - component: {fileID: 3100853226571782914}
   - component: {fileID: 3100853226571782915}
   - component: {fileID: 3100853226571782912}
-  - component: {fileID: 8542131175145165512}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -973,28 +972,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8542131175145165512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853226571782974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853226573405252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,7 +984,6 @@ GameObject:
   - component: {fileID: 3100853226573405256}
   - component: {fileID: 3100853226573405257}
   - component: {fileID: 3100853226573405254}
-  - component: {fileID: 848445349982189055}
   m_Layer: 5
   m_Name: HeroPortrait0
   m_TagString: Untagged
@@ -1129,28 +1105,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &848445349982189055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853226573405252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853226686715501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1244,6 +1198,7 @@ GameObject:
   - component: {fileID: 3100853226708759062}
   - component: {fileID: 3100853226708759063}
   - component: {fileID: 3501733587263029946}
+  - component: {fileID: 840459575}
   m_Layer: 5
   m_Name: UI_Preparation
   m_TagString: Untagged
@@ -1360,6 +1315,18 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &840459575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3100853226708759060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2540c92349e3de4fa17f2ca5cb82198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3100853226715960534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,7 +1803,6 @@ GameObject:
   - component: {fileID: 3100853227188575129}
   - component: {fileID: 3100853227188575126}
   - component: {fileID: 3100853227188575127}
-  - component: {fileID: 6992713334873807251}
   m_Layer: 5
   m_Name: Button (9)
   m_TagString: Untagged
@@ -1959,28 +1925,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6992713334873807251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227188575125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853227202979224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,7 +2139,6 @@ GameObject:
   - component: {fileID: 3100853227278851519}
   - component: {fileID: 3100853227278851516}
   - component: {fileID: 3100853227278851517}
-  - component: {fileID: 7393927848750355256}
   m_Layer: 5
   m_Name: Button (6)
   m_TagString: Untagged
@@ -2318,28 +2261,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7393927848750355256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227278851515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853227287322294
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,7 +2351,6 @@ GameObject:
   - component: {fileID: 3100853227290204358}
   - component: {fileID: 3100853227290204359}
   - component: {fileID: 3100853227290204356}
-  - component: {fileID: 1674344128312924355}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -2553,28 +2473,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1674344128312924355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227290204354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853227296474469
 GameObject:
   m_ObjectHideFlags: 0
@@ -2852,7 +2750,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00009416115}
+  m_AnchoredPosition: {x: 0, y: -0.000120225515}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3100853227392266368
@@ -2891,7 +2789,6 @@ GameObject:
   - component: {fileID: 3100853227454463071}
   - component: {fileID: 3100853227454463068}
   - component: {fileID: 3100853227454463069}
-  - component: {fileID: 5506601436644779376}
   m_Layer: 5
   m_Name: Button (5)
   m_TagString: Untagged
@@ -3014,28 +2911,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5506601436644779376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227454463067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853227459548357
 GameObject:
   m_ObjectHideFlags: 0
@@ -3666,7 +3541,6 @@ GameObject:
   - component: {fileID: 3100853227608594978}
   - component: {fileID: 3100853227608594979}
   - component: {fileID: 3100853227608594976}
-  - component: {fileID: 3709017488983590420}
   m_Layer: 5
   m_Name: Button (8)
   m_TagString: Untagged
@@ -3789,28 +3663,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3709017488983590420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227608594910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853227656023490
 GameObject:
   m_ObjectHideFlags: 0
@@ -4572,7 +4424,6 @@ GameObject:
   - component: {fileID: 3100853227941437084}
   - component: {fileID: 3100853227941437085}
   - component: {fileID: 3100853227941437082}
-  - component: {fileID: 3241992940599404007}
   m_Layer: 5
   m_Name: Button (7)
   m_TagString: Untagged
@@ -4695,28 +4546,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3241992940599404007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853227941437080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853228001540136
 GameObject:
   m_ObjectHideFlags: 0
@@ -4805,7 +4634,6 @@ GameObject:
   - component: {fileID: 3100853228045843466}
   - component: {fileID: 3100853228045843467}
   - component: {fileID: 3100853228045843464}
-  - component: {fileID: 6821755943100436904}
   m_Layer: 5
   m_Name: Button (10)
   m_TagString: Untagged
@@ -4928,28 +4756,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6821755943100436904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853228045843462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853228075017578
 GameObject:
   m_ObjectHideFlags: 0
@@ -5053,7 +4859,6 @@ GameObject:
   - component: {fileID: 3100853228101201815}
   - component: {fileID: 3100853228101201812}
   - component: {fileID: 3100853228101201813}
-  - component: {fileID: 1728119540287403369}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -5176,28 +4981,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1728119540287403369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853228101201811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &3100853228125134681
 GameObject:
   m_ObjectHideFlags: 0
@@ -5444,7 +5227,6 @@ GameObject:
   - component: {fileID: 3100853228167396658}
   - component: {fileID: 3100853228167396659}
   - component: {fileID: 3100853228167396656}
-  - component: {fileID: 8085998267496010468}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -5567,28 +5349,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8085998267496010468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3100853228167396654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &5861261215796306036
 GameObject:
   m_ObjectHideFlags: 0

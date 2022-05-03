@@ -223,6 +223,10 @@ public class UI_Preparation : UI_Scene
         PhotonNetwork.LoadLevel("GameScene");
     }
 
+    /// <summary>
+    /// 룸 프로퍼티의 readyCount를 1만큼 변경하는 메서드
+    /// 지연시간을 고려하여 코루틴으로 작성
+    /// </summary>
     private IEnumerator UpdateReadyCount(int diff)
     {
         yield return new WaitUntil(() => {

@@ -13,7 +13,7 @@ public class GameScene : BaseScene
         isCommander = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isCommander"];
         myId = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
 
-        // PritMyProp();
+        // PrintMyProp();
     }
 
     public override void Clear() {}

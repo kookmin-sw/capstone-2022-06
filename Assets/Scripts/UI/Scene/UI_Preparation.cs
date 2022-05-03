@@ -27,7 +27,7 @@ public class UI_Preparation : UI_Scene
     public Hashtable _playerCustomProperties = new Hashtable();
     private PhotonView PV;
 
-    private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";
+    private string iconJsonPath = "Data/HeroIcons";
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
     // 지휘관이 될 룸 id
@@ -68,10 +68,11 @@ public class UI_Preparation : UI_Scene
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        _playerCustomProperties["isCommander"] = 0;
+        _playerCustomProperties["PlayerReady"] = 0;
         PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
-        PV.RPC("UpdateCommanderState", RpcTarget.All, 0);
     }
-    
+
     void Update()
     {
         if (preparedCount != PhotonNetwork.CurrentRoom.MaxPlayers)
@@ -111,9 +112,25 @@ public class UI_Preparation : UI_Scene
             "ContentsDiv"
         );
 
+        if (PV.IsMine)
+        {
+            foreach (Transform child in contentsDiv.transform)
+            {
+                PhotonNetwork.Destroy(child.gameObject);
+            }            
+        }
+
         // 혹시 모를 consistency 유지를 위해 rpc 프로퍼티에도 매치 id를 저장
         myLocalId = GetLocalId();
-        PV.RPC("StoreLocalId", RpcTarget.All, myLocalId);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = myLocalId;
+        }
+        else
+        {
+            PV.RPC("StoreLocalId", RpcTarget.All, myLocalId);
+        }
+        
 
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),
@@ -129,24 +146,28 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
 
-            PV.RPC("SetCommanderPortrait", RpcTarget.All);
-            PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
-            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
+            if (PV.IsMine)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = 1;
+                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
+                GameObject portrait = Util.SearchChild(myState, "Portrait");
+                portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
+            }
+            else
+            {
+                PV.RPC("SetCommanderPortrait", RpcTarget.All);
+                PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
+                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
+            }    
             
             StartCoroutine("WaitAllReady");
         }
 
+        TextAsset jsonText = Managers.Resource.Load<TextAsset>(iconJsonPath);
 
-        PV.RPC("ClearDummyPortraits", RpcTarget.All);
-
-        FileInfo jsonInfo = new FileInfo(iconJsonPath);
-
-        // 찾는 json 파일이 존재하는 경우 파싱해서 초상화를 불러옵니다.
-        if (jsonInfo.Exists)
+        if (jsonText)
         {
-            string jsonString = File.ReadAllText(jsonInfo.FullName);
-            Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonString);
-
+            Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonText.ToString());
             for (int i = 0; i < loadedIcons.Contents.Count; i++)
             {
                 HeroInfo info = loadedIcons.Contents[i];
@@ -161,19 +182,59 @@ public class UI_Preparation : UI_Scene
                 portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
 
                 // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
+                // 임시로 자기 위치의 portrait도 변경할 수 있도록 합니다. (지휘관의 경우도 일단 누르면 바뀌도록 방치)
                 // 추가로 ConfirmButton을 누를 수 있도록 합니다.
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
                     GameObject selected = EventSystem.current.currentSelectedGameObject;
                     Sprite selectedSprite = selected.GetComponent<Image>().sprite;
                     selectedPortrait = selectedSprite;
                     GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
+                    PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId);
                 });
             }
         }
         else
         {
-            Debug.Log($"Failed to load json file {jsonInfo.Name}");
+            Debug.LogError($"Failed to load json file {iconJsonPath}");
         }
+
+        // FileInfo jsonInfo = new FileInfo(iconJsonPath);
+
+        // // 찾는 json 파일이 존재하는 경우 파싱해서 초상화를 불러옵니다.
+        // if (jsonInfo.Exists)
+        // {
+        //     string jsonString = File.ReadAllText(jsonInfo.FullName);
+        //     Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonString);
+
+        //     for (int i = 0; i < loadedIcons.Contents.Count; i++)
+        //     {
+        //         HeroInfo info = loadedIcons.Contents[i];
+        //         Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
+        //         UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
+
+        //         // #Critical
+        //         // 버튼에 달린 PortraitButtonData 컴포넌트에 챔피언 이름과 프리팹 경로를 할당합니다.
+        //         portrait.GetComponent<Image>().sprite = heroPortrait;
+        //         portrait.name = $"Portrait{i + 1}";
+        //         portrait.GetComponent<PortraitButtonData>().HeroName = info.heroName;
+        //         portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
+
+        //         // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
+        //         // 임시로 자기 위치의 portrait도 변경할 수 있도록 합니다. (지휘관의 경우도 일단 누르면 바뀌도록 방치)
+        //         // 추가로 ConfirmButton을 누를 수 있도록 합니다.
+        //         portrait.GetComponent<Button>().onClick.AddListener(() => {
+        //             GameObject selected = EventSystem.current.currentSelectedGameObject;
+        //             Sprite selectedSprite = selected.GetComponent<Image>().sprite;
+        //             selectedPortrait = selectedSprite;
+        //             GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
+        //             PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId);
+        //         });
+        //     }
+        // }
+        // else
+        // {
+        //     Debug.LogError($"Failed to load json file {jsonInfo.Name}");
+        // }
 
         // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
         GetButton((int)Buttons.UI_ConfirmButton).onClick.AddListener(() => {

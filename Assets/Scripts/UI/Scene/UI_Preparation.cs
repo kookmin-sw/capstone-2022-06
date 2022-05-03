@@ -188,6 +188,7 @@ public class UI_Preparation : UI_Scene
             Hashtable myHash = new Hashtable() {
                 {"isExists", true},
                 {"isCommander", true},
+                {"actorId", myActorId}
             };
             UpdateProperty(myHash);
 

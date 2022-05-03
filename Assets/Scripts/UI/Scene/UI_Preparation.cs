@@ -174,6 +174,15 @@ public class UI_Preparation : UI_Scene
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
             PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId, "Private/Textures/Icons/HeadKing");
 
+            foreach (Transform child in contentsDiv.transform)
+            {
+                Button btn = child.gameObject.GetComponent<Button>();
+                if (btn)
+                {
+                    btn.interactable = false;
+                }
+            }
+
             StartCoroutine(UpdateReadyCount(1));
 
             Hashtable myHash = new Hashtable() {

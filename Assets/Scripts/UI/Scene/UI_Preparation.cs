@@ -71,7 +71,7 @@ public class UI_Preparation : UI_Scene
         }
 
         // 플레이어 프로터피 초기화(선택한 챔피언 정보를 담기 위한)
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable());
+        UpdateProperty(new Hashtable());
     }
 
     void Update()

@@ -198,44 +198,6 @@ public class UI_Preparation : UI_Scene
             Debug.LogError($"Failed to load json file {iconJsonPath}");
         }
 
-        // FileInfo jsonInfo = new FileInfo(iconJsonPath);
-
-        // // 찾는 json 파일이 존재하는 경우 파싱해서 초상화를 불러옵니다.
-        // if (jsonInfo.Exists)
-        // {
-        //     string jsonString = File.ReadAllText(jsonInfo.FullName);
-        //     Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonString);
-
-        //     for (int i = 0; i < loadedIcons.Contents.Count; i++)
-        //     {
-        //         HeroInfo info = loadedIcons.Contents[i];
-        //         Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
-        //         UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
-
-        //         // #Critical
-        //         // 버튼에 달린 PortraitButtonData 컴포넌트에 챔피언 이름과 프리팹 경로를 할당합니다.
-        //         portrait.GetComponent<Image>().sprite = heroPortrait;
-        //         portrait.name = $"Portrait{i + 1}";
-        //         portrait.GetComponent<PortraitButtonData>().HeroName = info.heroName;
-        //         portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
-
-        //         // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
-        //         // 임시로 자기 위치의 portrait도 변경할 수 있도록 합니다. (지휘관의 경우도 일단 누르면 바뀌도록 방치)
-        //         // 추가로 ConfirmButton을 누를 수 있도록 합니다.
-        //         portrait.GetComponent<Button>().onClick.AddListener(() => {
-        //             GameObject selected = EventSystem.current.currentSelectedGameObject;
-        //             Sprite selectedSprite = selected.GetComponent<Image>().sprite;
-        //             selectedPortrait = selectedSprite;
-        //             GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
-        //             PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId);
-        //         });
-        //     }
-        // }
-        // else
-        // {
-        //     Debug.LogError($"Failed to load json file {jsonInfo.Name}");
-        // }
-
         // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
         GetButton((int)Buttons.UI_ConfirmButton).onClick.AddListener(() => {
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);

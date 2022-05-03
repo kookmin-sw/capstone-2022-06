@@ -1,4 +1,3 @@
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +37,6 @@ public class UI_Preparation : UI_Scene
 
     private int myLocalId = -1;
     private Sprite initPortrait = null;
-    private Sprite selectedPortrait = null;
 
     // 픽창에서 자신이 위치한 슬롯을 나타냄
     private GameObject myState = null;
@@ -63,12 +61,17 @@ public class UI_Preparation : UI_Scene
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+
+        // 룸 프로퍼티 (ready count 보관)
         if (PV.IsMine)
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() {
                 {"readyCount", 0}
             });
         }
+
+        // 플레이어 프로터피 초기화(선택한 챔피언 정보를 담기 위한)
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable());
     }
 
     void Update()
@@ -200,7 +203,7 @@ public class UI_Preparation : UI_Scene
 
     /// <summary>
     /// 모든 플레이어가 준비가 될 때까지 기다리는 코루틴입니다.
-    /// 중간 탈주를 방지하기 위해 PlayerCount로 검사합니다.
+    /// 중간 탈주로 인원이 비어 시작하지 못하는 경우를 방지하기 위해 PlayerCount로 검사합니다.
     /// </summary>
     private IEnumerator WaitAllReady()
     {

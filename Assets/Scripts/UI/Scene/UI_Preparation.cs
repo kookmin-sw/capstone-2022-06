@@ -34,7 +34,7 @@ public class UI_Preparation : UI_Scene
 
     private GameObject contentsDiv = null;
 
-    private int myLocalId = -1;
+    private int myActorId = -1;
     private Sprite initPortrait = null;
 
     // 픽창에서 자신이 위치한 슬롯을 나타냄
@@ -71,6 +71,8 @@ public class UI_Preparation : UI_Scene
 
         // 플레이어 프로터피 초기화(선택한 챔피언 정보를 담기 위한)
         UpdateProperty(new Hashtable());
+
+        myActorId = GetActorId();
     }
 
     void Update()
@@ -97,8 +99,6 @@ public class UI_Preparation : UI_Scene
     public override void Init()
     {
         base.Init();
-
-        myLocalId = GetLocalId();
 
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
@@ -131,7 +131,7 @@ public class UI_Preparation : UI_Scene
 
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),
-            $"Player_{myLocalId}"
+            $"Player_{myActorId}"
         );
 
         // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
@@ -156,7 +156,7 @@ public class UI_Preparation : UI_Scene
             StartCoroutine(UpdateReadyCount(-1));
             UpdateProperty(new Hashtable());
 
-            PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myLocalId, initPortraitPath);
+            PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myActorId, initPortraitPath);
 
             if (PV.IsMine)
             {
@@ -167,12 +167,12 @@ public class UI_Preparation : UI_Scene
         // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
         // 또한 초상화를 지휘관 초상화로 변경합니다.
         // 챔피언을 선택할 수 없게 모든 버튼을 inactive로 바꿉니다.
-        if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
+        if (myActorId == commanderSlot[0] || myActorId == commanderSlot[1])
         {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-            PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId, "Private/Textures/Icons/HeadKing");
+            PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, "Private/Textures/Icons/HeadKing");
 
             foreach (Transform child in contentsDiv.transform)
             {
@@ -202,7 +202,7 @@ public class UI_Preparation : UI_Scene
     /// 자신이 만들어진 room에서 몇번째로 들어왔는지 찾습니다.
     /// 자신의 아이디를 찾지 못하면 -1을 반환합니다.
     /// </summray>
-    private int GetLocalId()
+    private int GetActorId()
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
@@ -318,12 +318,27 @@ public class UI_Preparation : UI_Scene
             _data.spritePath = info.spritePath;
 
             // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
-            // 임시로 자기 위치의 portrait도 변경할 수 있도록 합니다. (지휘관의 경우도 일단 누르면 바뀌도록 방치)
+            // 자기 픽 슬롯의 portrait도 변경할 수 있도록 합니다.
             // 추가로 ConfirmButton을 누를 수 있도록 합니다.
+            // 플레이어 프로퍼티를 갱신합니다.
             portrait.GetComponent<Button>().onClick.AddListener(() => {
                 GameObject selected = EventSystem.current.currentSelectedGameObject;
                 GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
-                PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId, selected.GetComponent<PortraitButtonData>().spritePath);
+                PortraitButtonData selectedData = selected.GetComponent<PortraitButtonData>();
+                string _spritePath = selectedData.spritePath;
+                string _prefabPath = selectedData.prefabPath;
+                string _champName = selectedData.heroName;
+
+                Hashtable myHash = new Hashtable() {
+                    {"isExists", true},
+                    {"isCommander", false},
+                    {"prefabPath", _prefabPath},
+                    {"championName", _champName},
+                    {"actorId", myActorId}
+                };
+                UpdateProperty(myHash);
+
+                PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, _spritePath);
             });
         }
     }

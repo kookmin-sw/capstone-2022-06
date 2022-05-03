@@ -241,6 +241,14 @@ public class UI_Preparation : UI_Scene
     }
 
     /// <summary>
+    /// 로컬 플레이어의 프로퍼티를 갱신하기 위한 편의 메서드
+    /// </summary>
+    private void UpdateProperty(Hashtable customProp)
+    {
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProp);
+    }
+
+    /// <summary>
     /// 자신의 초상화를 선택한 영웅의 초상화로 바꿉니다.
     /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
     /// </summary>

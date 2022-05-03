@@ -27,7 +27,6 @@ public class UI_Preparation : UI_Scene
 
     private string iconJsonPath = "Data/HeroIcons";
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
-    private string selectedPortraitPath;
 
     // 지휘관이 될 룸 id
     // private int[] commanderSlot = {1, 6};
@@ -155,6 +154,7 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).interactable = false;
 
             StartCoroutine(UpdateReadyCount(-1));
+            UpdateProperty(new Hashtable());
 
             PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myLocalId, initPortraitPath);
 
@@ -166,7 +166,7 @@ public class UI_Preparation : UI_Scene
 
         // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
         // 또한 초상화를 지휘관 초상화로 변경합니다.
-        // isCommander를 true로 바꿉니다.
+        // 챔피언을 선택할 수 없게 모든 버튼을 inactive로 바꿉니다.
         if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
         {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
@@ -175,6 +175,12 @@ public class UI_Preparation : UI_Scene
             PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId, "Private/Textures/Icons/HeadKing");
 
             StartCoroutine(UpdateReadyCount(1));
+
+            Hashtable myHash = new Hashtable() {
+                {"isExists", true},
+                {"isCommander", true},
+            };
+            UpdateProperty(myHash);
 
             if (PV.IsMine)
             {

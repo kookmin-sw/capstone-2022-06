@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -92,7 +94,7 @@ public class UIManager
             Debug.Log($"Failed to find UI: {name}");
             return null;
         }
-
+        
         T sceneUI = go.GetOrAddComponent<T>();
         _sceneUI = sceneUI;
         go.transform.SetParent(Root.transform);
@@ -108,6 +110,7 @@ public class UIManager
         {
             name = typeof(T).Name;
         }
+
         GameObject go = PhotonNetwork.InstantiateRoomObject($"Prefabs/UI/Scene/{name}", Vector3.zero, Quaternion.identity);
 
         if (!go)

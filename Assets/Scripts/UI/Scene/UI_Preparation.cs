@@ -1,4 +1,3 @@
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,10 +23,9 @@ class HeroInfo
 
 public class UI_Preparation : UI_Scene
 {
-    public Hashtable _playerCustomProperties = new Hashtable();
     private PhotonView PV;
 
-    private string iconJsonPath = "Assets/Scripts/JSON/HeroIcons.json";
+    private string iconJsonPath = "Data/HeroIcons";
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
     // 지휘관이 될 룸 id
@@ -36,17 +34,11 @@ public class UI_Preparation : UI_Scene
 
     private GameObject contentsDiv = null;
 
-    private int myLocalId = -1;
+    private int myActorId = -1;
     private Sprite initPortrait = null;
-    private Sprite selectedPortrait = null;
 
-    // 픽창에서 자신이 위치한 칸을 나타냄
+    // 픽창에서 자신이 위치한 슬롯을 나타냄
     private GameObject myState = null;
-
-    // 준비가 완료된 사람 수
-    private int preparedCount = 0;
-
-    private IEnumerator readyStatus;
 
     enum GameObjects
     {
@@ -68,30 +60,40 @@ public class UI_Preparation : UI_Scene
     void Awake()
     {
         PV = GetComponent<PhotonView>();
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
-        PV.RPC("UpdateCommanderState", RpcTarget.All, 0);
+
+        // 룸 프로퍼티 (ready count 보관)
+        if (PV.IsMine)
+        {
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() {
+                {"readyCount", 0}
+            });
+        }
+
+        // 플레이어 프로터피 초기화(선택한 챔피언 정보를 담기 위한)
+        UpdateProperty(new Hashtable());
+
+        myActorId = GetActorId();
     }
-    
+
     void Update()
     {
-        if (preparedCount != PhotonNetwork.CurrentRoom.MaxPlayers)
-        {
-            preparedCount = 0;
-
-            foreach (Player player in PhotonNetwork.PlayerList)
-            {
-                object tmp;
-                if (player.CustomProperties.TryGetValue("PlayerReady", out tmp))
-                {
-                    // Debug.Log($"num : {myLocalId}, ready : {(int)tmp}");
-                    ++preparedCount;
-                }
-                else
-                {
-                    // Debug.Log($"num : {playerNum}, Not valid value");
-                }
-            }
-        }
+        // int cnt = 0;
+        // int num = 1;
+        // foreach (Player player in PhotonNetwork.PlayerList)
+        // {
+        //     object tmp;
+        //     if (player.CustomProperties.TryGetValue(_ready, out tmp))
+        //     {
+        //         Debug.Log($"num : {num}, ready : {(int)tmp}");
+        //         cnt += (int)tmp;
+        //     }
+        //     else
+        //     {
+        //         Debug.Log($"num : {num}, Not valid value");
+        //     }
+        //     num++;
+        // }
+        // Debug.Log(cnt);
     }
 
     public override void Init()
@@ -111,146 +113,159 @@ public class UI_Preparation : UI_Scene
             "ContentsDiv"
         );
 
-        // 혹시 모를 consistency 유지를 위해 rpc 프로퍼티에도 매치 id를 저장
-        myLocalId = GetLocalId();
-        PV.RPC("StoreLocalId", RpcTarget.All, myLocalId);
+        if (PV.IsMine)
+        {
+            PV.RPC("ClearDummyPortraits", RpcTarget.AllBuffered);
+
+            TextAsset jsonText = Managers.Resource.Load<TextAsset>(iconJsonPath);
+
+            if (jsonText)
+            {
+                PV.RPC("initializePortraits", RpcTarget.AllBuffered, jsonText.ToString());
+            }
+            else
+            {
+                Debug.LogError($"Failed to load json file {iconJsonPath}");
+            }  
+        }
 
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),
-            $"Player_{myLocalId}"
+            $"Player_{myActorId}"
         );
-
-        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
-        // 또한 초상화를 지휘관 초상화로 변경합니다.
-        // LocalPlayer의 프로퍼티를 수정합니다.
-        if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
-        {
-            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
-            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
-            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-
-            PV.RPC("SetCommanderPortrait", RpcTarget.All);
-            PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
-            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-            
-            StartCoroutine("WaitAllReady");
-        }
-
-        // Delete dummy icons
-        foreach (Transform child in contentsDiv.transform)
-        {
-            Managers.Resource.Destroy(child.gameObject);
-        }
-
-        FileInfo jsonInfo = new FileInfo(iconJsonPath);
-
-        // 찾는 json 파일이 존재하는 경우 파싱해서 초상화를 불러옵니다.
-        if (jsonInfo.Exists)
-        {
-            string jsonString = File.ReadAllText(jsonInfo.FullName);
-            Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonString);
-
-            for (int i = 0; i < loadedIcons.Contents.Count; i++)
-            {
-                HeroInfo info = loadedIcons.Contents[i];
-                Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
-                UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
-
-                // #Critical
-                // 버튼에 달린 PortraitButtonData 컴포넌트에 챔피언 이름과 프리팹 경로를 할당합니다.
-                portrait.GetComponent<Image>().sprite = heroPortrait;
-                portrait.name = $"Portrait{i + 1}";
-                portrait.GetComponent<PortraitButtonData>().HeroName = info.heroName;
-                portrait.GetComponent<PortraitButtonData>().PrefabPath = info.prefabPath;
-
-                // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
-                // 추가로 ConfirmButton을 누를 수 있도록 합니다.
-                portrait.GetComponent<Button>().onClick.AddListener(() => {
-                    GameObject selected = EventSystem.current.currentSelectedGameObject;
-                    Sprite selectedSprite = selected.GetComponent<Image>().sprite;
-                    selectedPortrait = selectedSprite;
-                    GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
-                });
-            }
-        }
-        else
-        {
-            Debug.Log($"Failed to load json file {jsonInfo.Name}");
-        }
 
         // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
         GetButton((int)Buttons.UI_ConfirmButton).onClick.AddListener(() => {
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
 
-            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-            StartCoroutine("WaitAllReady");
+            StartCoroutine(UpdateReadyCount(1));
+
+            if (PV.IsMine)
+            {
+                StartCoroutine("WaitAllReady");
+            }
         });
 
         // CancelButton을 눌렀을 때 CancelButton을 비활성화 하고 ConfirmButton을 활성화 합니다.
         GetButton((int)Buttons.UI_CancelButton).onClick.AddListener(() => {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(true);
+            GetButton((int)Buttons.UI_ConfirmButton).interactable = false;
 
-            PV.RPC("UpdateReadyState", RpcTarget.All, 0);
-            StopCoroutine("WaitAllReady");
+            StartCoroutine(UpdateReadyCount(-1));
+            UpdateProperty(new Hashtable());
+
+            PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myActorId, initPortraitPath);
+
+            if (PV.IsMine)
+            {
+                StopCoroutine("WaitAllReady");
+            }
         });
+
+        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
+        // 또한 초상화를 지휘관 초상화로 변경합니다.
+        // 챔피언을 선택할 수 없게 모든 버튼을 inactive로 바꿉니다.
+        if (myActorId == commanderSlot[0] || myActorId == commanderSlot[1])
+        {
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
+            PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, "Private/Textures/Icons/HeadKing");
+
+            foreach (Transform child in contentsDiv.transform)
+            {
+                Button btn = child.gameObject.GetComponent<Button>();
+                if (btn)
+                {
+                    btn.interactable = false;
+                }
+            }
+
+            StartCoroutine(UpdateReadyCount(1));
+
+            Hashtable myHash = new Hashtable() {
+                {"isExists", true},
+                {"isCommander", true},
+                {"actorId", myActorId}
+            };
+            UpdateProperty(myHash);
+
+            if (PV.IsMine)
+            {
+                StartCoroutine("WaitAllReady");
+            }
+        }
     }
 
     /// <summary>
     /// 자신이 만들어진 room에서 몇번째로 들어왔는지 찾습니다.
     /// 자신의 아이디를 찾지 못하면 -1을 반환합니다.
     /// </summray>
-    private int GetLocalId()
+    private int GetActorId()
     {
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             Player p = PhotonNetwork.PlayerList[i];
             if (p.UserId == PhotonNetwork.LocalPlayer.UserId)
             {
+                // Debug.LogError($"My local id is {i + 1}");
                 return i + 1;
             }
         }
-
         return -1;
     }
 
     /// <summary>
-    /// 모든 플레이어가 영웅을 선택할지 기다리는 코루틴입니다.
+    /// 모든 플레이어가 준비가 될 때까지 기다리는 코루틴입니다.
+    /// 중간 탈주로 인원이 비어 시작하지 못하는 경우를 방지하기 위해 PlayerCount로 검사합니다.
     /// </summary>
     private IEnumerator WaitAllReady()
     {
         yield return new WaitUntil(() => {
-            return preparedCount == PhotonNetwork.CurrentRoom.PlayerCount;
+            object ret;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out ret))
+            {
+                return (int)ret == PhotonNetwork.CurrentRoom.PlayerCount;
+            }
+            else
+            {
+                return false;
+            }
         });
 
-        Debug.Log($"All player get ready : {preparedCount}");
+        Debug.Log($"All player get ready : {PhotonNetwork.CurrentRoom.MaxPlayers}");
         PhotonNetwork.LoadLevel("GameScene");
     }
 
     /// <summary>
-    /// RPC로 PlayerReady 프로퍼티를 갱신합니다.
-    /// 마스터 클라이언트가 아닌 경우에만 적용됩니다.
+    /// 룸 프로퍼티의 readyCount를 1만큼 변경하는 메서드
+    /// 지연시간을 고려하여 코루틴으로 작성
     /// </summary>
-    [PunRPC]
-    void UpdateReadyState(int ready)
+    private IEnumerator UpdateReadyCount(int diff)
     {
-        PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = ready;
+        yield return new WaitUntil(() => {
+            object tmp;
+            return PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out tmp);
+        });
 
-        if (ready == 0)
+        object tmp;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out tmp))
         {
-            GameObject portrait = Util.SearchChild(myState, "Portrait");
-            portrait.GetComponent<Image>().sprite = initPortrait;
+            Debug.Log($"Room player count changed by {diff}");
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() {
+                {"readyCount", (int)tmp + diff}
+            });
         }
     }
 
     /// <summary>
-    /// 지휘관 상태의 변경을 모든 플레이어에게 송신하는 RPC입니다.
+    /// 로컬 플레이어의 프로퍼티를 갱신하기 위한 편의 메서드
     /// </summary>
-    [PunRPC]
-    void UpdateCommanderState(int value)
+    private void UpdateProperty(Hashtable customProp)
     {
-        PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = value;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProp);
     }
 
     /// <summary>
@@ -258,29 +273,74 @@ public class UI_Preparation : UI_Scene
     /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
     /// </summary>
     [PunRPC]
-    void UpdatePortrait(int playerId)
+    void UpdatePortrait(int playerId, string spritePath)
     {
-        GameObject portrait = Util.SearchChild(myState, "Portrait");
-        portrait.GetComponent<Image>().sprite = selectedPortrait;
+        GameObject slot = Util.SearchChild(
+            Get<GameObject>((int)GameObjects.SelectedView),
+            $"Player_{playerId}",
+            true
+        );
+        GameObject portrait = Util.SearchChild(slot, "Portrait");
+        portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(spritePath);
     }
 
     /// <summary>
-    /// 자신의 초상화를 선택한 지휘관 초상화로 바꿉니다.
-    /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
+    /// 선택창에 있던 초상화를 제거합니다.
     /// </summary>
     [PunRPC]
-    void SetCommanderPortrait()
+    void ClearDummyPortraits()
     {
-        GameObject portrait = Util.SearchChild(myState, "Portrait");
-        portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
+        foreach (Transform child in contentsDiv.transform)
+        {
+            Managers.Resource.Destroy(child.gameObject);
+        }
     }
 
     /// <summary>
-    /// 자신의 matchId(게임에서 할당된 id)를 커스텀 프로퍼티에 저장합니다.
+    /// 마스터 클라이언트가 파싱한 json으로 챔피언 데이터를 로드하여 다른 클라이언트와 동기화 합니다.
     /// </summary>
     [PunRPC]
-    void StoreLocalId(int value)
+    void initializePortraits(string jsonParsed)
     {
-        PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = value;
+        Icons loadedIcons = JsonUtility.FromJson<Icons>(jsonParsed);
+        for (int i = 0; i < loadedIcons.Contents.Count; i++)
+        {
+            HeroInfo info = loadedIcons.Contents[i];
+            Sprite heroPortrait = Managers.Resource.Load<Sprite>(info.spritePath);
+            UI_PortraitButton portrait = Managers.UI.AttachSubItem<UI_PortraitButton>(contentsDiv.transform);
+
+            // #Critical
+            // 버튼에 달린 PortraitButtonData 컴포넌트에 챔피언 이름과 프리팹 경로, 그리고 스프라이트 경로를 할당합니다.
+            portrait.GetComponent<Image>().sprite = heroPortrait;
+            portrait.name = $"Portrait{i + 1}";
+            PortraitButtonData _data = portrait.GetComponent<PortraitButtonData>();
+            _data.heroName = info.heroName;
+            _data.prefabPath = info.prefabPath;
+            _data.spritePath = info.spritePath;
+
+            // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
+            // 자기 픽 슬롯의 portrait도 변경할 수 있도록 합니다.
+            // 추가로 ConfirmButton을 누를 수 있도록 합니다.
+            // 플레이어 프로퍼티를 갱신합니다.
+            portrait.GetComponent<Button>().onClick.AddListener(() => {
+                GameObject selected = EventSystem.current.currentSelectedGameObject;
+                GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
+                PortraitButtonData selectedData = selected.GetComponent<PortraitButtonData>();
+                string _spritePath = selectedData.spritePath;
+                string _prefabPath = selectedData.prefabPath;
+                string _champName = selectedData.heroName;
+
+                Hashtable myHash = new Hashtable() {
+                    {"isExists", true},
+                    {"isCommander", false},
+                    {"prefabPath", _prefabPath},
+                    {"championName", _champName},
+                    {"actorId", myActorId}
+                };
+                UpdateProperty(myHash);
+
+                PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, _spritePath);
+            });
+        }
     }
 }

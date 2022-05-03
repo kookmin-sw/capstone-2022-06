@@ -5,15 +5,15 @@ using Photon.Pun;
 
 public class GameScene : BaseScene
 {
-    int isCommander;
+    bool isCommander;
     int myId;
 
     void Start()
     {
-        isCommander = (int)PhotonNetwork.LocalPlayer.CustomProperties["isCommander"];
-        myId = (int)PhotonNetwork.LocalPlayer.CustomProperties["matchId"];
+        isCommander = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isCommander"];
+        myId = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
 
-        // PritMyProp();
+        // PrintMyProp();
     }
 
     public override void Clear() {}

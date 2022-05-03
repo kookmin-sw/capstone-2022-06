@@ -7,9 +7,7 @@ public class PreparationScene : BaseScene
     protected override void Init()
     {
         base.Init();
-
         sceneType = Define.Scene.Lobby;
-        Managers.UI.ShowSceneNetworkUI<UI_Preparation>();
     }
 
     public override void Clear() {}

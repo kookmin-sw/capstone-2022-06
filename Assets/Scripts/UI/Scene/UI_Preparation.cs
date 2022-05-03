@@ -24,16 +24,16 @@ class HeroInfo
 
 public class UI_Preparation : UI_Scene
 {
-    public Hashtable _playerCustomProperties = new Hashtable();
     private PhotonView PV;
 
     private string iconJsonPath = "Data/HeroIcons";
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
     private string selectedPortraitPath;
+    private int commanderStatus = 0;
 
     // 지휘관이 될 룸 id
-    // private int[] commanderSlot = {1, 6};
-    private int[] commanderSlot = {5, 10};
+    private int[] commanderSlot = {1, 6};
+    // private int[] commanderSlot = {5, 10};
 
     private GameObject contentsDiv = null;
 
@@ -43,11 +43,6 @@ public class UI_Preparation : UI_Scene
 
     // 픽창에서 자신이 위치한 슬롯을 나타냄
     private GameObject myState = null;
-
-    // 준비가 완료된 사람 수
-    private int preparedCount = 0;
-
-    private IEnumerator readyStatus;
 
     enum GameObjects
     {
@@ -69,36 +64,40 @@ public class UI_Preparation : UI_Scene
     void Awake()
     {
         PV = GetComponent<PhotonView>();
-        _playerCustomProperties["isCommander"] = 0;
-        _playerCustomProperties["PlayerReady"] = 0;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(_playerCustomProperties);
+        if (PV.IsMine)
+        {
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() {
+                {"readyCount", 0}
+            });
+        }
     }
 
     void Update()
     {
-        if (preparedCount != PhotonNetwork.CurrentRoom.MaxPlayers)
-        {
-            preparedCount = 0;
-
-            foreach (Player player in PhotonNetwork.PlayerList)
-            {
-                object tmp;
-                if (player.CustomProperties.TryGetValue("PlayerReady", out tmp))
-                {
-                    // Debug.Log($"num : {myLocalId}, ready : {(int)tmp}");
-                    ++preparedCount;
-                }
-                else
-                {
-                    // Debug.Log($"num : {playerNum}, Not valid value");
-                }
-            }
-        }
+        // int cnt = 0;
+        // int num = 1;
+        // foreach (Player player in PhotonNetwork.PlayerList)
+        // {
+        //     object tmp;
+        //     if (player.CustomProperties.TryGetValue(_ready, out tmp))
+        //     {
+        //         Debug.Log($"num : {num}, ready : {(int)tmp}");
+        //         cnt += (int)tmp;
+        //     }
+        //     else
+        //     {
+        //         Debug.Log($"num : {num}, Not valid value");
+        //     }
+        //     num++;
+        // }
+        // Debug.Log(cnt);
     }
 
     public override void Init()
     {
         base.Init();
+
+        myLocalId = GetLocalId();
 
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
@@ -129,66 +128,57 @@ public class UI_Preparation : UI_Scene
             }  
         }
 
-        // 혹시 모를 consistency 유지를 위해 rpc 프로퍼티에도 매치 id를 저장
-        myLocalId = GetLocalId();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = myLocalId;
-        }
-        else
-        {
-            PV.RPC("StoreLocalId", RpcTarget.All, myLocalId);
-        }
-        
-
         myState = Util.SearchChild(
             Get<GameObject>((int)GameObjects.SelectedView),
             $"Player_{myLocalId}"
         );
-
-        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
-        // 또한 초상화를 지휘관 초상화로 변경합니다.
-        // LocalPlayer의 프로퍼티를 수정합니다.
-        if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
-        {
-            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
-            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
-            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-
-            if (PV.IsMine)
-            {
-                PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = 1;
-                PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = 1;
-                GameObject portrait = Util.SearchChild(myState, "Portrait");
-                portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
-            }
-            else
-            {
-                PV.RPC("SetCommanderPortrait", RpcTarget.All);
-                PV.RPC("UpdateCommanderState", RpcTarget.All, 1);
-                PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-            }    
-            
-            StartCoroutine("WaitAllReady");
-        }
 
         // ConfirmButton을 눌렀을 때 ConfirmButton을 비활성화 하고 CancelButton을 활성화 합니다.
         GetButton((int)Buttons.UI_ConfirmButton).onClick.AddListener(() => {
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
 
-            PV.RPC("UpdateReadyState", RpcTarget.All, 1);
-            StartCoroutine("WaitAllReady");
+            StartCoroutine(UpdateReadyCount(1));
+
+            if (PV.IsMine)
+            {
+                StartCoroutine("WaitAllReady");
+            }
         });
 
         // CancelButton을 눌렀을 때 CancelButton을 비활성화 하고 ConfirmButton을 활성화 합니다.
         GetButton((int)Buttons.UI_CancelButton).onClick.AddListener(() => {
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(true);
+            GetButton((int)Buttons.UI_ConfirmButton).interactable = false;
 
-            PV.RPC("UpdateReadyState", RpcTarget.All, 0);
-            StopCoroutine("WaitAllReady");
+            StartCoroutine(UpdateReadyCount(-1));
+
+            PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myLocalId, initPortraitPath);
+
+            if (PV.IsMine)
+            {
+                StopCoroutine("WaitAllReady");
+            }
         });
+
+        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
+        // 또한 초상화를 지휘관 초상화로 변경합니다.
+        // isCommander를 true로 바꿉니다.
+        if (myLocalId == commanderSlot[0] || myLocalId == commanderSlot[1])
+        {
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
+            PV.RPC("UpdatePortrait", RpcTarget.All, myLocalId, "Private/Textures/Icons/HeadKing");
+
+            StartCoroutine(UpdateReadyCount(1));
+
+            if (PV.IsMine)
+            {
+                StartCoroutine("WaitAllReady");
+            }
+        }
     }
 
     /// <summary>
@@ -202,49 +192,50 @@ public class UI_Preparation : UI_Scene
             Player p = PhotonNetwork.PlayerList[i];
             if (p.UserId == PhotonNetwork.LocalPlayer.UserId)
             {
+                // Debug.LogError($"My local id is {i + 1}");
                 return i + 1;
             }
         }
-
         return -1;
     }
 
     /// <summary>
-    /// 모든 플레이어가 영웅을 선택할지 기다리는 코루틴입니다.
+    /// 모든 플레이어가 준비가 될 때까지 기다리는 코루틴입니다.
+    /// 중간 탈주를 방지하기 위해 PlayerCount로 검사합니다.
     /// </summary>
     private IEnumerator WaitAllReady()
     {
         yield return new WaitUntil(() => {
-            return preparedCount == PhotonNetwork.CurrentRoom.PlayerCount;
+            object ret;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out ret))
+            {
+                return (int)ret == PhotonNetwork.CurrentRoom.PlayerCount;
+            }
+            else
+            {
+                return false;
+            }
         });
 
-        Debug.Log($"All player get ready : {preparedCount}");
+        Debug.Log($"All player get ready : {PhotonNetwork.CurrentRoom.MaxPlayers}");
         PhotonNetwork.LoadLevel("GameScene");
     }
 
-    /// <summary>
-    /// RPC로 PlayerReady 프로퍼티를 갱신합니다.
-    /// 마스터 클라이언트가 아닌 경우에만 적용됩니다.
-    /// </summary>
-    [PunRPC]
-    void UpdateReadyState(int ready)
+    private IEnumerator UpdateReadyCount(int diff)
     {
-        PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] = ready;
+        yield return new WaitUntil(() => {
+            object tmp;
+            return PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out tmp);
+        });
 
-        if (ready == 0)
+        object tmp;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out tmp))
         {
-            GameObject portrait = Util.SearchChild(myState, "Portrait");
-            portrait.GetComponent<Image>().sprite = initPortrait;
+            Debug.Log($"Room player count changed by {diff}");
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable() {
+                {"readyCount", (int)tmp + diff}
+            });
         }
-    }
-
-    /// <summary>
-    /// 지휘관 상태의 변경을 모든 플레이어에게 송신하는 RPC입니다.
-    /// </summary>
-    [PunRPC]
-    void UpdateCommanderState(int value)
-    {
-        PhotonNetwork.LocalPlayer.CustomProperties["isCommander"] = value;
     }
 
     /// <summary>
@@ -261,26 +252,6 @@ public class UI_Preparation : UI_Scene
         );
         GameObject portrait = Util.SearchChild(slot, "Portrait");
         portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>(spritePath);
-    }
-
-    /// <summary>
-    /// 자신의 초상화를 선택한 지휘관 초상화로 바꿉니다.
-    /// RPC로 다른 플레이어에게도 초상화가 바뀌었음을 명시합니다.
-    /// </summary>
-    [PunRPC]
-    void SetCommanderPortrait()
-    {
-        GameObject portrait = Util.SearchChild(myState, "Portrait");
-        portrait.GetComponent<Image>().sprite = Managers.Resource.Load<Sprite>("Private/Textures/Icons/HeadKing");
-    }
-
-    /// <summary>
-    /// 자신의 matchId(게임에서 할당된 id)를 커스텀 프로퍼티에 저장합니다.
-    /// </summary>
-    [PunRPC]
-    void StoreLocalId(int value)
-    {
-        PhotonNetwork.LocalPlayer.CustomProperties["matchId"] = value;
     }
 
     /// <summary>

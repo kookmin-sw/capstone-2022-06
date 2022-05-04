@@ -1,0 +1,22 @@
+{
+  "stats": [
+    {
+      "name": "Turret",
+      "level": 1,
+      "exp": 0,
+      "hp": 5000,
+      "mp": 0,
+      "maxHp": 5000,
+      "maxMp": 0,
+      "atk": 152,
+      "ap": 0,
+      "healthRegen": 0,
+      "manaRegen": 0,
+      "defense": 15,
+      "atkSpeed": 0.83,
+      "GivingGold": 150,
+      "GivingExp": 0,
+      "moveSpeed": 0
+    }
+  ]
+}

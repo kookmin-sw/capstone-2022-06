@@ -51,7 +51,7 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
         stat = GetComponent<MinionStat>();
-        stat.Initialize("Bighammer");
+        stat.Initialize("WorriorMinion");
 
         SetParent();
 

@@ -14,6 +14,8 @@
       "manaRegen": 8,
       "defense": 25,
       "atkSpeed": 0.7,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 330
     },
     {
@@ -30,6 +32,8 @@
       "manaRegen": 5,
       "defense": 30,
       "atkSpeed": 0.65,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 340
     },
     {
@@ -46,6 +50,8 @@
       "manaRegen": 9,
       "defense": 40,
       "atkSpeed": 0.6,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 340
     },
     {
@@ -62,6 +68,8 @@
       "manaRegen": 10,
       "defense": 25,
       "atkSpeed": 0.65,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 335
     },
     {
@@ -78,6 +86,8 @@
       "manaRegen": 8,
       "defense": 20,
       "atkSpeed": 0.6,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 330
     },
     {
@@ -94,6 +104,8 @@
       "manaRegen": 5,
       "defense": 30,
       "atkSpeed": 0.7,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 345
     },
     {
@@ -110,6 +122,8 @@
       "manaRegen": 8,
       "defense": 35,
       "atkSpeed": 0.65,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 350
     },
     {
@@ -126,6 +140,8 @@
       "manaRegen": 8,
       "defense": 25,
       "atkSpeed": 0.65,
+      "GivingGold": 300,
+      "GivingExp": 0,
       "moveSpeed": 330
     }
   ]

@@ -236,7 +236,7 @@ public class UI_Preparation : UI_Scene
         });
 
         Debug.Log($"All player get ready : {PhotonNetwork.CurrentRoom.MaxPlayers}");
-        PhotonNetwork.LoadLevel("GameScene");
+        PhotonNetwork.LoadLevel(2);
     }
 
     /// <summary>

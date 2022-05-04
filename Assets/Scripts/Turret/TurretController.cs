@@ -13,11 +13,16 @@ public class TurretController : MonoBehaviour
     [SerializeField] GameObject _lockTarget;
     Collider[] targetCandidates;
 
+    TurretStat stat;
+
     [SerializeField] Transform bulletSpawnPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        stat = GetComponent<TurretStat>();
+        stat.Initialize("Turret");
+
         if (this.gameObject.layer == LayerMask.NameToLayer("RedTeam"))
             targetLayer = 1 << LayerMask.NameToLayer("BlueTeam");
         else

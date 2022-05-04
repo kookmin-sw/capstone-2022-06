@@ -7502,6 +7502,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &296209813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296209809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &302519755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9620,6 +9649,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &396097777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396097773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &401981754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13160,6 +13218,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &534331723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534331719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1 &539753621
 GameObject:
   m_ObjectHideFlags: 0
@@ -14123,6 +14210,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &572736993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572736989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1 &576910993
 GameObject:
   m_ObjectHideFlags: 0
@@ -16262,6 +16378,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &638050139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638050135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &639861957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16396,6 +16541,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &639861963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639861959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1 &641805961
 GameObject:
   m_ObjectHideFlags: 0
@@ -19239,6 +19413,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &782399115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782399111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &784315105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22134,6 +22337,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &898630845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898630841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &900253682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36193,6 +36425,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1440536108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440536104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &1443053599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37248,6 +37509,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1480360079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480360075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &1480898198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45822,6 +46112,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1815438763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815438759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!4 &1823561881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 463590, guid: e9afe91546f721f4c9d392f065439d72, type: 3}
@@ -48732,6 +49051,35 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1895402074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895402070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b0ced8be942933409d88981ddc8f772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
 --- !u!1001 &1896632069
 PrefabInstance:
   m_ObjectHideFlags: 0

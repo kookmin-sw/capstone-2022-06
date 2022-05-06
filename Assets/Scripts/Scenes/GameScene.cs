@@ -19,12 +19,6 @@ public class GameScene : BaseScene
 
     public override void Clear() {}
 
-    private void PrintMyProp()
-    {
-        Debug.Log($"Status of commander {isCommander}");
-        Debug.Log($"Status of local id {myId}");
-    }
-
     protected override void Init()
     {
         base.Init();
@@ -37,5 +31,11 @@ public class GameScene : BaseScene
             roomHash.Add("startTimestamp", Time.time);
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomHash);
         }
+    }
+
+    private void PrintMyProp()
+    {
+        Debug.Log($"Status of commander {isCommander}");
+        Debug.Log($"Status of local id {myId}");
     }
 }

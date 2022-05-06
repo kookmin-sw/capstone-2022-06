@@ -42,6 +42,8 @@ public class TurretController : MonoBehaviour
         }
         else
             _attackTimer = 0f;
+
+        ChangeTargetNull();
     }
 
     void UpdateTarget()
@@ -81,6 +83,15 @@ public class TurretController : MonoBehaviour
         {
             MakeBullet();
             _attackTimer = 0f;
+        }
+    }
+
+    void ChangeTargetNull()
+    {
+        if (_lockTarget != null)
+        {
+            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
+            if (targetStat.Status.hp <= 0) _lockTarget = null;
         }
     }
 }

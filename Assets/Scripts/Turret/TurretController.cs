@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class TurretController : MonoBehaviour
+public class TurretController : Controller
 {
     int targetLayer;
     [SerializeField] float _detectRange;
@@ -11,13 +14,19 @@ public class TurretController : MonoBehaviour
     float _attackTimer;
 
     [SerializeField] GameObject _lockTarget;
+    [SerializeField] Slider HPSlider;
     Collider[] targetCandidates;
+
+    TurretStat stat;
 
     [SerializeField] Transform bulletSpawnPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        stat = GetComponent<TurretStat>();
+        stat.Initialize("Turret");
+
         if (this.gameObject.layer == LayerMask.NameToLayer("RedTeam"))
             targetLayer = 1 << LayerMask.NameToLayer("BlueTeam");
         else
@@ -37,6 +46,11 @@ public class TurretController : MonoBehaviour
         }
         else
             _attackTimer = 0f;
+
+        ChangeTargetNull();
+
+        if (PhotonNetwork.IsMasterClient)
+            HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
 
     void UpdateTarget()
@@ -78,4 +92,35 @@ public class TurretController : MonoBehaviour
             _attackTimer = 0f;
         }
     }
+
+    void ChangeTargetNull()
+    {
+        if (_lockTarget != null)
+        {
+            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
+            if (targetStat.Status.hp <= 0) _lockTarget = null;
+        }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        stat.Status.hp -= damage;
+
+        //if (stat.Status.hp <= 0)
+        //    _state = State.Die;
+    }
+
+    #region PhotonSerialize
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(HPSlider.value);
+        }
+        else
+        {
+            HPSlider.value = (float)stream.ReceiveNext();
+        }
+    }
+    #endregion
 }

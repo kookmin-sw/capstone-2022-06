@@ -12,7 +12,7 @@ public class LichBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _atk = transform.parent.GetComponent<MinionStat>().Status.atk;
+        _atk = transform.parent.GetComponent<ObjectStat>().Status.atk;
     }
 
     // Update is called once per frame
@@ -30,15 +30,11 @@ public class LichBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Minion")
+        if (other == _target.GetComponent<CapsuleCollider>())
         {
-            if (other == _target.GetComponent<CapsuleCollider>())
-            {
-                Debug.Log("Bullet hits minion!!");
-                _target.GetComponent<MinionController>().TakeDamage(_atk - _target.GetComponent<MinionStat>().Status.defense);
-                Managers.Resource.Destroy(gameObject);
-            }
-
+            Debug.Log("Bullet hits minion!!");
+            _target.GetComponent<Controller>().TakeDamage(_atk);
+            Managers.Resource.Destroy(gameObject);
         }
     }
 }

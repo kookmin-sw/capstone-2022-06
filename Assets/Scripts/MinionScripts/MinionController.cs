@@ -7,7 +7,8 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
+
+public class MinionController : Controller, IPunObservable
 {
     // minion state enum
     public enum State
@@ -204,7 +205,7 @@ public class MinionController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         stat.Status.hp -= damage;
 

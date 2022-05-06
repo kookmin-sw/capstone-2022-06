@@ -37,7 +37,7 @@ public class LichMinion : MinionController
     {
         if (_lockTarget != null)
         {
-            MinionStat targetStat = _lockTarget.GetComponent<MinionStat>();
+            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
             if (targetStat.Status.hp <= 0) _lockTarget = null;
         }
     }

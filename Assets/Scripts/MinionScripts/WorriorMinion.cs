@@ -21,15 +21,12 @@ public class WorriorMinion : MinionController
     // Animation Event Call
     public void OnHit()
     {
-        if (_lockTarget.gameObject.tag == "Minion")
-        {
-            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
+        ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
 
-            _lockTarget.GetComponent<MinionController>().TakeDamage(stat.Status.atk - targetStat.Status.defense);
+        _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk);
 
-            if (targetStat.Status.hp <= 0) _lockTarget = null;
+        if (targetStat.Status.hp <= 0) _lockTarget = null;
 
-            Debug.Log("Hit!");
-        }
+        Debug.Log("Hit!");
     }
 }

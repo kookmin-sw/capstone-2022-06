@@ -17,12 +17,13 @@ public class GameScene : BaseScene
         // PrintMyProp();
     }
 
-    public override void Clear() {}
-
     protected override void Init()
     {
         base.Init();
 
+        sceneType = Define.Scene.Game;
+        Managers.UI.ShowSceneUI<UI_GameScene>();
+        
         // 게임 시작 시간을 커스텀 프로퍼티로 저장합니다.
         // 마스터만 저장하도록 강제합니다.
         if (PhotonNetwork.IsMasterClient)
@@ -32,6 +33,8 @@ public class GameScene : BaseScene
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomHash);
         }
     }
+
+    public override void Clear() {}
 
     private void PrintMyProp()
     {

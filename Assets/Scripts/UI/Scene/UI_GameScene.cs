@@ -17,7 +17,9 @@ public class UI_GameScene : UI_Scene
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("startTimestamp", out stamp))
         {
             float elapseTime = Time.time - (float)stamp;
-            GetText((int)Texts.TimeText).text = elapseTime.ToString();
+            int minutes = (int)elapseTime / 60;
+            int seconds = (int)elapseTime % 60;
+            GetText((int)Texts.TimeText).text = $"{minutes}:{seconds}";
         }
     }
 

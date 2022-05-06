@@ -13,6 +13,11 @@ public class UI_GameScene : UI_Scene
 
     void Update()
     {
+        
+    }
+
+    void LateUpdate()
+    {
         object stamp;
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("startTimestamp", out stamp))
         {

@@ -30,14 +30,11 @@ public class LichBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Minion")
+        if (other == _target.GetComponent<CapsuleCollider>())
         {
-            if (other == _target.GetComponent<CapsuleCollider>())
-            {
-                Debug.Log("Bullet hits minion!!");
-                _target.GetComponent<MinionController>().TakeDamage(_atk - _target.GetComponent<ObjectStat>().Status.defense);
-                Managers.Resource.Destroy(gameObject);
-            }
+            Debug.Log("Bullet hits minion!!");
+            _target.GetComponent<Controller>().TakeDamage(_atk);
+            Managers.Resource.Destroy(gameObject);
         }
     }
 }

@@ -16,7 +16,8 @@
       "atkSpeed": 0.83,
       "GivingGold": 150,
       "GivingExp": 0,
-      "moveSpeed": 0
+      "moveSpeed": 0,
+      "priority": 4
     }
   ]
 }

@@ -16,7 +16,8 @@
       "atkSpeed": 0.7,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 330
+      "moveSpeed": 330,
+      "priority": 6
     },
     {
       "name": "Mangoawl",
@@ -34,7 +35,8 @@
       "atkSpeed": 0.65,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 340
+      "moveSpeed": 340,
+      "priority": 6
     },
     {
       "name": "Mobusta",
@@ -52,7 +54,8 @@
       "atkSpeed": 0.6,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 340
+      "moveSpeed": 340,
+      "priority": 6
     },
     {
       "name": "Mummush",
@@ -70,7 +73,8 @@
       "atkSpeed": 0.65,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 335
+      "moveSpeed": 335,
+      "priority": 6
     },
     {
       "name": "Pilly",
@@ -88,7 +92,8 @@
       "atkSpeed": 0.6,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 330
+      "moveSpeed": 330,
+      "priority": 6
     },
     {
       "name": "Purplepeace",
@@ -106,7 +111,8 @@
       "atkSpeed": 0.7,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 345
+      "moveSpeed": 345,
+      "priority": 6
     },
     {
       "name": "Ridar",
@@ -124,7 +130,8 @@
       "atkSpeed": 0.65,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 350
+      "moveSpeed": 350,
+      "priority": 6
     },
     {
       "name": "Talia",
@@ -142,7 +149,8 @@
       "atkSpeed": 0.65,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 330
+      "moveSpeed": 330,
+      "priority": 6
     }
   ]
 }

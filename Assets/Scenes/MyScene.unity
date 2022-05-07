@@ -7726,7 +7726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1380376558}
   bulletSpawnPos: {fileID: 1865273343}
@@ -7772,6 +7772,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &302519755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9874,7 +9875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1321024099}
   bulletSpawnPos: {fileID: 1438016248}
@@ -9920,6 +9921,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &401981754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13444,7 +13446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 933480935}
   bulletSpawnPos: {fileID: 690195737}
@@ -13490,6 +13492,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1 &539753621
 GameObject:
   m_ObjectHideFlags: 0
@@ -14557,7 +14560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1086147238}
   bulletSpawnPos: {fileID: 920465316}
@@ -14603,6 +14606,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1 &576910993
 GameObject:
   m_ObjectHideFlags: 0
@@ -16726,7 +16730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1400819156}
   bulletSpawnPos: {fileID: 279095780}
@@ -16772,6 +16776,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &639861957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16890,7 +16895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 2031860939}
   bulletSpawnPos: {fileID: 292668941}
@@ -16936,6 +16941,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1 &641805961
 GameObject:
   m_ObjectHideFlags: 0
@@ -20003,7 +20009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 70049493}
   bulletSpawnPos: {fileID: 1903124139}
@@ -20049,6 +20055,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &784315105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23048,7 +23055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 552984440}
   bulletSpawnPos: {fileID: 1857136430}
@@ -23094,6 +23101,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &900253682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37737,7 +37745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 88116976}
   bulletSpawnPos: {fileID: 1809446570}
@@ -37783,6 +37791,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &1443053599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38822,7 +38831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 680752620}
   bulletSpawnPos: {fileID: 1333977813}
@@ -38868,6 +38877,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &1480898198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47426,7 +47436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 822311324}
   bulletSpawnPos: {fileID: 1091503842}
@@ -47472,6 +47482,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!4 &1823561881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 463590, guid: e9afe91546f721f4c9d392f065439d72, type: 3}
@@ -50366,7 +50377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _detectRange: 10
-  _attackInterval: 1
+  _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 746953561}
   bulletSpawnPos: {fileID: 1588063624}
@@ -50412,6 +50423,7 @@ MonoBehaviour:
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
+    priority: 0
 --- !u!1001 &1896632069
 PrefabInstance:
   m_ObjectHideFlags: 0

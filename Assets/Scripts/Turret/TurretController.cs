@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class TurretController : Controller
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
-        InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        InvokeRepeating("UpdateTarget", 0f, 0.1f);
         _attackTimer = _attackInterval;
     }
 
@@ -57,23 +58,15 @@ public class TurretController : Controller
     {
         targetCandidates = Physics.OverlapSphere(transform.position, _detectRange, targetLayer);
 
-        // 추후에 오브젝트들의 우선순위를 기반으로 정렬하기 위해 수정이 필요
-        Array.Sort(targetCandidates, delegate (Collider a, Collider b)
-        {
-            return Vector3.Distance(a.gameObject.transform.position, transform.position)
-            .CompareTo(Vector3.Distance(b.gameObject.transform.position, transform.position));
-        });
+        IEnumerable<Collider> query = from target in targetCandidates
+                                        orderby target.GetComponent<ObjectStat>().Status.priority,
+                                                Vector3.Distance(target.gameObject.transform.position, transform.position)
+                                        select target;
+        
+        if (query.Count() > 0)
+            _lockTarget = query.ElementAt<Collider>(0).gameObject;
 
-        if (targetCandidates.Length > 0)
-        {
-            for (int i = 0; i < targetCandidates.Length; i++)
-            {
-                if (_lockTarget == null)
-                {
-                    _lockTarget = targetCandidates[i].gameObject;
-                }
-            }
-        }
+        Array.Clear(targetCandidates, 0, targetCandidates.Length);
     }
 
     void MakeBullet()

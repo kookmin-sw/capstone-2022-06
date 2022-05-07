@@ -64,16 +64,7 @@ public class TurretController : Controller
                                         select target;
         
         if (query.Count() > 0)
-        {
-            int idx = 0;
-            foreach (Collider col in query)
-            {
-                Debug.Log($"query factor {idx} : {col.name}");
-                ++idx;
-            }
-
             _lockTarget = query.ElementAt<Collider>(0).gameObject;
-        }
 
         Array.Clear(targetCandidates, 0, targetCandidates.Length);
     }

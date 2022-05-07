@@ -16,7 +16,8 @@
       "atkSpeed": 1.2,
       "GivingGold": 22,
       "GivingExp": 60,
-      "moveSpeed": 325
+      "moveSpeed": 325,
+      "priority": 6
     },
     {
       "name": "LichMinion",
@@ -34,7 +35,8 @@
       "atkSpeed": 0.7,
       "GivingGold": 16,
       "GivingExp": 30,
-      "moveSpeed": 325
+      "moveSpeed": 325,
+      "priority": 6
     }
   ]
 }

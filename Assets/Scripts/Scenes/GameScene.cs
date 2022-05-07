@@ -28,9 +28,9 @@ public class GameScene : BaseScene
         // 마스터만 저장하도록 강제합니다.
         if (PhotonNetwork.IsMasterClient)
         {
-            photonHash roomHash = PhotonNetwork.CurrentRoom.CustomProperties;
-            roomHash.Add("startTimestamp", Time.time);
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomHash);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new photonHash() {
+                {"startTimestamp", Time.time}
+            });
         }
     }
 

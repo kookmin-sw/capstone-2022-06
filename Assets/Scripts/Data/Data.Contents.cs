@@ -23,6 +23,7 @@ public class Stat
     [SerializeField] public int GivingGold;
     [SerializeField] public float GivingExp;
     [SerializeField] public float moveSpeed;
+    [SerializeField] public int priority;
 
     public void Init(Stat loadStat)
     {
@@ -42,6 +43,7 @@ public class Stat
         this.GivingGold = loadStat.GivingGold;
         this.GivingExp = loadStat.GivingExp;
         this.moveSpeed = loadStat.moveSpeed;
+        this.priority = loadStat.priority;
     }
 }
 

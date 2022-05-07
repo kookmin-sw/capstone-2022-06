@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,8 +52,6 @@ public class MinionController : Controller, IPunObservable
     {
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
-        stat = GetComponent<MinionStat>();
-        stat.Initialize("WorriorMinion");
 
         SetParent();
 
@@ -68,7 +67,7 @@ public class MinionController : Controller, IPunObservable
         InitWayPoints();
         SettingTeam();
 
-        InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        InvokeRepeating("UpdateTarget", 0f, 0.1f);
     }
 
     // Update is called once per frame
@@ -154,24 +153,18 @@ public class MinionController : Controller, IPunObservable
 
         targetCols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
 
-        
-        Array.Sort(targetCols, delegate (Collider a, Collider b)
-        {
-            return Vector3.Distance(a.gameObject.transform.position, transform.position)
-            .CompareTo(Vector3.Distance(b.gameObject.transform.position, transform.position));
-        });
+        IEnumerable<Collider> query = from target in targetCols
+                                      orderby target.GetComponent<ObjectStat>().Status.priority,
+                                              Vector3.Distance(target.gameObject.transform.position, transform.position)
+                                      select target;
 
-        if (targetCols.Length > 0)
+        if (query.Count() > 0)
         {
-            for(int i = 0; i < targetCols.Length; i++)
-            {
-                if (_lockTarget == null)
-                {
-                    _lockTarget = targetCols[i].gameObject;
-                    _state = State.Targetting;
-                }
-            }
+            _lockTarget = query.ElementAt<Collider>(0).gameObject;
+            _state = State.Targetting;
         }
+
+        Array.Clear(targetCols, 0, targetCols.Length);
     }
     
     // set destinaion to target until disance to target lower than attackRange

@@ -6,6 +6,14 @@ public class LichMinion : MinionController
 {
     [SerializeField] Transform BulletSpawnPos;
 
+    private void Awake()
+    {
+        base.Awake();
+
+        stat = GetComponent<MinionStat>();
+        stat.Initialize("LichMinion");
+    }
+
     // Start is called before the first frame update
     void Start()
     {

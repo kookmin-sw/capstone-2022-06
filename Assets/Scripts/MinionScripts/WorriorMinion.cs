@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class WorriorMinion : MinionController
 {
+    private void Awake()
+    {
+        base.Awake();
+
+        stat = GetComponent<MinionStat>();
+        stat.Initialize("WorriorMinion");
+    }
+
     // Start is called before the first frame update
     void Start()
     {

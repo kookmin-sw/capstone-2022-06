@@ -236,6 +236,7 @@ public class UI_Preparation : UI_Scene
         });
 
         Debug.Log($"All player get ready : {PhotonNetwork.CurrentRoom.MaxPlayers}");
+        PhotonNetwork.Destroy(gameObject);
         PhotonNetwork.LoadLevel(2);
     }
 

@@ -29,7 +29,7 @@ public class GameScene : BaseScene
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.SetCustomProperties(new photonHash() {
-                {"startTimestamp", Time.time}
+                {"startTimestamp", PhotonNetwork.Time}
             });
         }
     }

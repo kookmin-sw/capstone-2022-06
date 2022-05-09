@@ -9,11 +9,13 @@ public class GameScene : BaseScene
     Vector3 spawnPoint = Vector3.zero;
     bool isCommander;
     int myId;
+    string myPrefabPath;
 
     void Start()
     {
         isCommander = (bool)GetPropVal("isCommander");
         myId = (int)GetPropVal("actorId");
+        myPrefabPath = (string)GetPropVal("prefabPath");
         // PrintMyProp();
 
         // 지휘관이 아니면 챔피언을 스폰
@@ -30,6 +32,8 @@ public class GameScene : BaseScene
                 spawnPoint.x = Random.Range(98, 111);
                 spawnPoint.z = Random.Range(98, 111);
             }
+
+            PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         }
         
     }
@@ -57,6 +61,7 @@ public class GameScene : BaseScene
     {
         Debug.Log($"Status of commander {isCommander}");
         Debug.Log($"Status of local id {myId}");
+        Debug.Log(myPrefabPath);
     }
 
     /// <summary>

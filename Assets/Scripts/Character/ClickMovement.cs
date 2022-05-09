@@ -51,18 +51,7 @@ public class ClickMovement : MonoBehaviour
             {
                 Vector3 dest = hit.point;
                 dest.y = 0;
-                if (!isPlayPart)
-                {
-                    StartCoroutine(ClickEffect(dest));
-                }
-                // 이동
-                agent.SetDestination(dest);
-                heroCombatScript.targetedEnemy = null;
-                agent.stoppingDistance = 0;
-                // 방향
-                Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);
-                float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
-                transform.eulerAngles = new Vector3(0, rotationY, 0);
+                PV.RPC("moveToDestination", RpcTarget.All, dest);
             }
         }
     }
@@ -75,5 +64,23 @@ public class ClickMovement : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(effect);
         isPlayPart = false;
+    }
+
+    [PunRPC]
+    void moveToDestination(Vector3 dest)
+    {
+        if (!isPlayPart)
+        {
+            StartCoroutine(ClickEffect(dest));
+        }
+
+        // 이동
+        agent.SetDestination(dest);
+        heroCombatScript.targetedEnemy = null;
+        agent.stoppingDistance = 0;
+        // 방향
+        Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);
+        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
+        transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 }

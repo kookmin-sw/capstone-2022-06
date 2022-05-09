@@ -11,8 +11,8 @@ public class GameScene : BaseScene
 
     void Start()
     {
-        isCommander = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isCommander"];
-        myId = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
+        isCommander = (bool)GetPropVal("isCommander");
+        myId = (int)GetPropVal("actorId");
 
         // PrintMyProp();
     }

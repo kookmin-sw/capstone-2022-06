@@ -41,4 +41,19 @@ public class GameScene : BaseScene
         Debug.Log($"Status of commander {isCommander}");
         Debug.Log($"Status of local id {myId}");
     }
+
+    /// <summary>
+    /// 코드를 줄이기 위해 CustomProperties에서 값을 가져오는 코드를 메서드로 감쌉니다.
+    /// </summary>
+    object GetPropVal(object key)
+    {
+        object ret;
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out ret))
+        {
+            return ret;
+        }
+
+        return null;
+    }
 }

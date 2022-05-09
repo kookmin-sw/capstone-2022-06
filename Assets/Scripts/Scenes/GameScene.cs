@@ -32,9 +32,12 @@ public class GameScene : BaseScene
         }
 
         // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
+        // 카메라를 따라가게 하는 컴포넌트인 CameraFollow를 부착합니다.
         if (!isCommander)
         {
-            PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+            GameObject myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+            CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+            tracker.player = myChamp.transform;
         }
     }
 

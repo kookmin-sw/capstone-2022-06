@@ -6,15 +6,36 @@ using photonHash = ExitGames.Client.Photon.Hashtable;
 
 public class GameScene : BaseScene
 {
+    Vector3 spawnPoint = Vector3.zero;
     bool isCommander;
     int myId;
+    string myPrefabPath;
 
     void Start()
     {
-        isCommander = (bool)PhotonNetwork.LocalPlayer.CustomProperties["isCommander"];
-        myId = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
-
+        isCommander = (bool)GetPropVal("isCommander");
+        myId = (int)GetPropVal("actorId");
+        myPrefabPath = (string)GetPropVal("prefabPath");
         // PrintMyProp();
+
+        // 초기 스폰 좌표 지정. 지휘관일 경우 초기 view 위치를 지정할 예정
+        // Blue Team
+        if (myId <= 5)
+        {
+            spawnPoint.x = Random.Range(-111, -98);
+            spawnPoint.z = Random.Range(-111, -98);
+        }
+        else // Red Team
+        {
+            spawnPoint.x = Random.Range(98, 111);
+            spawnPoint.z = Random.Range(98, 111);
+        }
+
+        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
+        if (!isCommander)
+        {
+            PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+        }
     }
 
     protected override void Init()
@@ -40,5 +61,21 @@ public class GameScene : BaseScene
     {
         Debug.Log($"Status of commander {isCommander}");
         Debug.Log($"Status of local id {myId}");
+        Debug.Log(myPrefabPath);
+    }
+
+    /// <summary>
+    /// 코드를 줄이기 위해 CustomProperties에서 값을 가져오는 코드를 메서드로 감쌉니다.
+    /// </summary>
+    object GetPropVal(object key)
+    {
+        object ret;
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out ret))
+        {
+            return ret;
+        }
+
+        return null;
     }
 }

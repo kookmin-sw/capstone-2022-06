@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÇÃ·¹ÀÌ¾î À§ÀÇ Ã¼·Â¹Ù°¡ Ç×»ó È­¸é¿¡ °íÁ¤µÇ°Ô º¸ÀÌ´Â ½ºÅ©¸³Æ®
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Â¹Ù°ï¿½ ï¿½×»ï¿½ È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®
 
 public class PlayerHealthSlider : MonoBehaviour
 {
     void LateUpdate()
     {
         transform.LookAt(Camera.main.transform);
-        transform.Rotate(0, 180, 0);
+        transform.rotation = Camera.main.transform.rotation;
     }
 }

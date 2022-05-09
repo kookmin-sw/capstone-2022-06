@@ -18,24 +18,24 @@ public class GameScene : BaseScene
         myPrefabPath = (string)GetPropVal("prefabPath");
         // PrintMyProp();
 
-        // 지휘관이 아니면 챔피언을 스폰
+        // 초기 스폰 좌표 지정. 지휘관일 경우 초기 view 위치를 지정할 예정
+        // Blue Team
+        if (myId <= 5)
+        {
+            spawnPoint.x = Random.Range(-111, -98);
+            spawnPoint.z = Random.Range(-111, -98);
+        }
+        else // Red Team
+        {
+            spawnPoint.x = Random.Range(98, 111);
+            spawnPoint.z = Random.Range(98, 111);
+        }
+
+        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
         if (!isCommander)
         {
-            // Blue Team
-            if (myId <= 5)
-            {
-                spawnPoint.x = Random.Range(-111, -98);
-                spawnPoint.z = Random.Range(-111, -98);
-            }
-            else // Red Team
-            {
-                spawnPoint.x = Random.Range(98, 111);
-                spawnPoint.z = Random.Range(98, 111);
-            }
-
             PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         }
-        
     }
 
     protected override void Init()

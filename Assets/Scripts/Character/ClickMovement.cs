@@ -66,6 +66,9 @@ public class ClickMovement : MonoBehaviour
         isPlayPart = false;
     }
 
+    /// <summary>
+    /// 주어진 dest로 챔피언을 이동시키는 RPC 메서드입니다.
+    /// </summary>
     [PunRPC]
     void moveToDestination(Vector3 dest)
     {

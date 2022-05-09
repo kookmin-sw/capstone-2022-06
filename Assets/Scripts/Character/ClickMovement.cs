@@ -20,10 +20,13 @@ public class ClickMovement : MonoBehaviour
     public GameObject clickParticle;
     private bool isPlayPart;
 
+    PhotonView PV;
+
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         heroCombatScript = GetComponent<HeroCombat>();
+        PV = GetComponent<PhotonView>();
     }
 
     void Update()
@@ -39,10 +42,8 @@ public class ClickMovement : MonoBehaviour
             }
         }
 
-        PhotonView pv = gameObject.GetComponent<PhotonView>();
-
         // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정
-        if (Input.GetMouseButton(1) && pv != null && pv.IsMine)
+        if (Input.GetMouseButton(1) && PV != null && PV.IsMine)
         {
             RaycastHit hit;
 

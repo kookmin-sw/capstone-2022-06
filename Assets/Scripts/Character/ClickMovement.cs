@@ -40,13 +40,9 @@ public class ClickMovement : MonoBehaviour
         }
 
         PhotonView pv = gameObject.GetComponent<PhotonView>();
-        if (pv is null || !pv.IsMine)
-        {
-            return;
-        }
 
         // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && pv != null && pv.IsMine)
         {
             RaycastHit hit;
 

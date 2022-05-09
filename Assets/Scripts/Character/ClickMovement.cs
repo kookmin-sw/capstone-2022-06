@@ -31,7 +31,7 @@ public class ClickMovement : MonoBehaviour
 
     void Update()
     {
-        if(heroCombatScript.targetedEnemy != null)
+        if (heroCombatScript.targetedEnemy != null)
         {
             if(heroCombatScript.targetedEnemy.GetComponent<HeroCombat>() != null)
             {

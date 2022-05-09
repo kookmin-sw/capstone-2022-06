@@ -6,6 +6,7 @@ using photonHash = ExitGames.Client.Photon.Hashtable;
 
 public class GameScene : BaseScene
 {
+    Vector3 spawnPoint = Vector3.zero;
     bool isCommander;
     int myId;
 
@@ -13,8 +14,24 @@ public class GameScene : BaseScene
     {
         isCommander = (bool)GetPropVal("isCommander");
         myId = (int)GetPropVal("actorId");
-
         // PrintMyProp();
+
+        // 지휘관이 아니면 챔피언을 스폰
+        if (!isCommander)
+        {
+            // Blue Team
+            if (myId <= 5)
+            {
+                spawnPoint.x = Random.Range(-111, -98);
+                spawnPoint.z = Random.Range(-111, -98);
+            }
+            else // Red Team
+            {
+                spawnPoint.x = Random.Range(98, 111);
+                spawnPoint.z = Random.Range(98, 111);
+            }
+        }
+        
     }
 
     protected override void Init()

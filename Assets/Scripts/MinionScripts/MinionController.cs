@@ -151,7 +151,7 @@ public class MinionController : Controller, IPunObservable
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
 
-        targetCols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
+        targetCols = Physics.OverlapSphere(transform.position, 5.0f, targetLayer);
 
         IEnumerable<Collider> query = from target in targetCols
                                       orderby target.GetComponent<ObjectStat>().Status.priority,

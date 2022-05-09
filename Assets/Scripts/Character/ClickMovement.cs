@@ -49,24 +49,20 @@ public class ClickMovement : MonoBehaviour
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                if(hit.collider.tag == "Floor")
+                Vector3 dest = hit.point;
+                dest.y = 0;
+                if (!isPlayPart)
                 {
-                    if(!isPlayPart)
-                    {
-                        StartCoroutine(ClickEffect(hit.point));
-                    }
-
-                    // 이동
-                    agent.SetDestination(hit.point);
-                    heroCombatScript.targetedEnemy = null;
-                    agent.stoppingDistance = 0;
-
-                    // 방향
-                    Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
-                    float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
-
-                    transform.eulerAngles = new Vector3(0, rotationY, 0);
+                    StartCoroutine(ClickEffect(dest));
                 }
+                // 이동
+                agent.SetDestination(dest);
+                heroCombatScript.targetedEnemy = null;
+                agent.stoppingDistance = 0;
+                // 방향
+                Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);
+                float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
+                transform.eulerAngles = new Vector3(0, rotationY, 0);
             }
         }
     }

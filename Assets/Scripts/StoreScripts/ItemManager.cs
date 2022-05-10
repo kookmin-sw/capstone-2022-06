@@ -52,7 +52,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "potion", "comsumables", "stackable"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -328,7 +328,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "health"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯 
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -346,7 +346,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "attack speed"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -364,7 +364,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "attack damage"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯 
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -382,7 +382,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "attack damage"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -400,7 +400,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "cooldown reduction", "move speed"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -418,7 +418,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "mana"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯 
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -436,7 +436,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "mana regeneration"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -454,7 +454,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "ability power"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯 
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -472,7 +472,7 @@ public class ItemManager : MonoBehaviour
                 {
                   "basic", "ability power"
                 },
-                new Dictionary<string, int>(){ //아이템 스탯 (이후 게임 구현하실 때 활용하시면 됩니다!)
+                new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
@@ -486,10 +486,171 @@ public class ItemManager : MonoBehaviour
     List<Item> AdvancedItems()
     {
         return new List<Item>()
-        {
+        {   new Item(
+                "푸른빛 환영",        //아이템 이름
+                "공격력 +40, 이동 속도 +5%", //아이템 설명
+                1400,                 //아이템 가격
+                LoadSprite("08_Blink"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "attack damage", "move speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "빛의 마법봉", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "악마의 마법서",        //아이템 이름
+                "주문력 +25, 쿨타임 감소 +10%", //아이템 설명
+                900,                 //아이템 가격
+                LoadSprite("Enchanter18"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "cooldown reduction"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "마법증폭의 고서", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "얼음의 꽃",        //아이템 이름
+                "주문력 +40, 마나 +300, 쿨타임 감소 +5%", //아이템 설명
+                1300,                 //아이템 가격
+                LoadSprite("06_blue_flower"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "mana", "cooldown reduction"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "빛의 마법봉", "사파이어 수정"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "흡수의 망토",        //아이템 이름
+                "주문력 +20, 체력 +250", //아이템 설명
+                1300,                 //아이템 가격
+                LoadSprite("01_cloth_chest"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "health"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "마법증폭의 고서", "단단한 암석"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "신록의 갑옷",        //아이템 이름
+                "주문력 +20, 방어력 +25", //아이템 설명
+                1000,                 //아이템 가격
+                LoadSprite("01_plate_chest_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "defense"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "마법증폭의 고서", "천 갑옷"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "역병의 꽃",        //아이템 이름
+                "주문력 +25, 공격 속도 +20%", //아이템 설명
+                1250,                 //아이템 가격
+                LoadSprite("05_red_flower"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "attack speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "마법증폭의 고서", "신속의 검"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "절정의 활",        //아이템 이름
+                "주문력 +30, 공격 속도 +15%", //아이템 설명
+                1300,                 //아이템 가격
+                LoadSprite("01_Bow"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "ability power", "attack speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "모닝스타", "신속의 검"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "열정의 검",        //아이템 이름
+                "공격 속도 +18%, 이동 속도 +7%", //아이템 설명
+                1050,                 //아이템 가격
+                LoadSprite("09_Longsword"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "move speed", "attack speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "손도끼", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "필드의 전투",        //아이템 이름
+                "공격력 +25, 쿨타임 감소 +10%", //아이템 설명
+                1250,                 //아이템 가격
+                LoadSprite("player_portrait_avatar_example"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "attack damage", "cooldown reduction"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "모닝스타", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
             new Item(
                 "주문포식의 지도",        //아이템 이름
-                "공격력 +25,방어력 +35", //아이템 설명
+                "공격력 +25, 방어력 +35", //아이템 설명
                 1300,                 //아이템 가격
                 LoadSprite("10_Basic_Leather"), //이미지 이름
                 new List<string>() //아이템 태그
@@ -502,24 +663,6 @@ public class ItemManager : MonoBehaviour
                 new List<string>() //하위 아이템 이름
                 {
                     "모닝스타", "천 갑옷"
-                },
-                new List<Item>()
-            ),
-            new Item(
-                "거인의 투구",        //아이템 이름
-                "체력 +350", //아이템 설명
-                900,                 //아이템 가격
-                LoadSprite("03_Leather_helm_E"), //이미지 이름
-                new List<string>() //아이템 태그
-                {
-                  "advanced", "health"
-                },
-                new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
-                },
-                new List<string>() //하위 아이템 이름
-                {
-                    "단단한 암석", "단단한 암석"
                 },
                 new List<Item>()
             ),
@@ -542,20 +685,146 @@ public class ItemManager : MonoBehaviour
                 new List<Item>()
             ),
             new Item(
-                "악마의 마법서",        //아이템 이름
-                "주문력 +25, 쿨타임 감소 +10%", //아이템 설명
+                "거인의 투구",        //아이템 이름
+                "체력 +350", //아이템 설명
                 900,                 //아이템 가격
-                LoadSprite("Enchanter18"), //이미지 이름
+                LoadSprite("03_Leather_helm_E"), //이미지 이름
                 new List<string>() //아이템 태그
                 {
-                  "advanced", "ability power", "cooldown reduction"
+                  "advanced", "health"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
                     //{"str", 1},
                 },
                 new List<string>() //하위 아이템 이름
                 {
-                    "마법증폭의 고서", "찬란한 목걸이"
+                    "단단한 암석", "단단한 암석"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "망령의 장갑",        //아이템 이름
+                "체력 +250, 방어력 +25", //아이템 설명
+                1250,                 //아이템 가격
+                LoadSprite("04_plate_gloves_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "health", "defense"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "단단한 암석", "천 갑옷"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "열정의 방패",        //아이템 이름
+                "체력 +200, 쿨타임 감소 +10%", //아이템 설명
+                800,                 //아이템 가격
+                LoadSprite("05_Shield"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "health", "cooldown reduction"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "단단한 암석", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "비상의 철갑",        //아이템 이름
+                "체력 +150, 이동 속도 +5%", //아이템 설명
+                800,                 //아이템 가격
+                LoadSprite("01_plate_chest"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "health", "move speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "단단한 암석", "찬란한 목걸이"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "얼음투구",        //아이템 이름
+                "방어력 +20, 마나 +250, 쿨타임 감소 +10%", //아이템 설명
+                900,                 //아이템 가격
+                LoadSprite("Helmet_3"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "defense", "mana", "cooldown reduction"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "천 갑옷", "사파이어 수정"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "덤불 견갑",        //아이템 이름
+                "방어력 +50", //아이템 설명
+                1000,                 //아이템 가격
+                LoadSprite("02_plate_shoulder_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "defense"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "천 갑옷", "천 갑옷"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "군단의 로브",        //아이템 이름
+                "체력 +150, 방어력 +30, 기본 체력 재생 +100%", //아이템 설명
+                1400,                 //아이템 가격
+                LoadSprite("03_Cloth_helm_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "defense", "health", "health regeneration"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "천 갑옷", "회복의 글로브"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "금지된 반지",        //아이템 이름
+                "기본 체력 재생 +100%, 기본 마나 재생 +50%", //아이템 설명
+                800,                 //아이템 가격
+                LoadSprite("Ring_2"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "advanced", "health regeneration", "mana regeneration"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "회복의 글로브", "요정의 지도"
                 },
                 new List<Item>()
             )
@@ -598,6 +867,168 @@ public class ItemManager : MonoBehaviour
                 new List<string>() //하위 아이템 이름
                 {
                     "탐식의 손도끼", "악마의 마법서"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "푸른 수리검",        //아이템 이름
+                "공격력 +50, 체력 +400, 기본 체력 재생 +150%", //아이템 설명
+                2800,                 //아이템 가격
+                LoadSprite("Shurikens"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "health regeneration", "health", "attack damage"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "탐식의 손도끼", "신록의 갑옷"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "마나소드",        //아이템 이름
+                "공격력 +35, 마나 +500, 쿨타임 감소 +15%", //아이템 설명
+                2900,                 //아이템 가격
+                LoadSprite("Sword_1"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "cooldown reduction", "mana", "attack damage"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "주문포식의 지도", "얼음의 꽃"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "추적자의 단검",        //아이템 이름
+                "공격력 +40, 공격 속도 +40%, 방어력 +30", //아이템 설명
+                3100,                 //아이템 가격
+                LoadSprite("Sword_2"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "attack speed", "defense", "attack damage"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "탐식의 손도끼", "절정의 활"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "굶주린 폴암",        //아이템 이름
+                "공격력 +70, 쿨타임 감소 +10%", //아이템 설명
+                3300,                 //아이템 가격
+                LoadSprite("Ax_1"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "cooldown reduction", "attack damage"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "필드의 전투", "절정의 활"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "내셔의 곡궁",        //아이템 이름
+                "주문력 +100, 공격 속도 +50%", //아이템 설명
+                3000,                 //아이템 가격
+                LoadSprite("Bow"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "ability power", "attack speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "역병의 꽃", "푸른빛 환영"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "법사의 팬던트",        //아이템 이름
+                "주문력 +75, 체력 +400, 기본 마나 재생 +100%", //아이템 설명
+                2600,                 //아이템 가격
+                LoadSprite("Amulet_1"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "ability power", "health", "mana regeneration"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "얼음의 꽃", "금지된 반지"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "망자의 방패",        //아이템 이름
+                "체력 +300, 방어력 +45, 이동 속도 +5%", //아이템 설명
+                2900,                 //아이템 가격
+                LoadSprite("shield"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "defense", "health", "move speed"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "거인의 투구", "비상의 철갑"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "강철의 갑옷",        //아이템 이름
+                "체력 +800, 체력 재생 +200%, 방어력 +30", //아이템 설명
+                3500,                 //아이템 가격
+                LoadSprite("Armor_2"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "health regeneration", "health", "defense"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "거인의 투구", "군단의 로브"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "대천사의 반지",        //아이템 이름
+                "주문력 +60, 체력 +200, 마나 +500", //아이템 설명
+                2600,                 //아이템 가격
+                LoadSprite("Ring_1"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "final", "ability power", "health", "mana"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "빛의 마법봉", "흡수의 망토"
                 },
                 new List<Item>()
             )
@@ -648,6 +1079,78 @@ public class ItemManager : MonoBehaviour
                 "이동 속도 + 45, 스킬 쿨타임 감소 +10%", //아이템 설명
                 950,                 //아이템 가격
                 LoadSprite("05_leather_boots_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "shoes", "move speed", "advanced shoes"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "신발"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "광전사의 신발",        //아이템 이름
+                "이동 속도 +45, 공격 속도 +30%", //아이템 설명
+                1100,                 //아이템 가격
+                LoadSprite("05_plate_boots_E"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "shoes", "move speed", "advanced shoes"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "신발"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "마법사의 신발",        //아이템 이름
+                "이동 속도 +45, 주문력 +15", //아이템 설명
+                1100,                 //아이템 가격
+                LoadSprite("05_cloth_boots"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "shoes", "move speed", "advanced shoes"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "신발"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "용맹함의 신발",        //아이템 이름
+                "이동 속도 +45, 공력력 +15", //아이템 설명
+                1100,                 //아이템 가격
+                LoadSprite("boots"), //이미지 이름
+                new List<string>() //아이템 태그
+                {
+                  "shoes", "move speed", "advanced shoes"
+                },
+                new Dictionary<string, int>(){ //아이템 스탯
+                    //{"str", 1},
+                },
+                new List<string>() //하위 아이템 이름
+                {
+                    "신발"
+                },
+                new List<Item>()
+            ),
+            new Item(
+                "강철의 신발",        //아이템 이름
+                "이동 속도 +45, 방어력 +20", //아이템 설명
+                900,                 //아이템 가격
+                LoadSprite("05_plate_boots"), //이미지 이름
                 new List<string>() //아이템 태그
                 {
                   "shoes", "move speed", "advanced shoes"

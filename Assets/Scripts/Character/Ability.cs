@@ -6,12 +6,19 @@ using UnityEngine.UI;
 public class Ability : MonoBehaviour
 {
     /*
+        패시브 : 레벨에 비례한 추가 체력재생이 적용된다.
         스킬 Q : 사용 시 3초간 공격력 상승
         스킬 W : 사용 시 자신의 생명력 회복
         스킬 E : 사용 시 지정된 방향으로 검기 발사
         스킬 R : 사용 시 지정된 위치에 거대한 검을 떨어뜨림
      */
 
+    Stats stats;
+    PlayerAnimation playerAnim;
+    ClickMovement moveScript;
+    HeroCombat heroCombat;
+
+    public bool isPassive = false;
 
     // Component에서 스킬의 쿨타임, 인풋 키 설정
 
@@ -36,6 +43,10 @@ public class Ability : MonoBehaviour
     public float cooldown_E = 5;
     bool isCooldown_E = false;
     public KeyCode skill_E;
+    bool canSkillshot_E = true;
+    public GameObject projPrefab_E;
+    public Transform projSpawnPoint_E;
+    public bool isSkill_E = false;
 
     // Skill_E 인풋 변수
     Vector3 position;
@@ -48,6 +59,10 @@ public class Ability : MonoBehaviour
     public float cooldown_R = 80;
     bool isCooldown_R = false;
     public KeyCode skill_R;
+    bool canSkillshot_R = true;
+    public GameObject projPrefab_R;
+    public Transform projSpawnPoint_R;
+    public bool isSkill_R = false;
 
     // Skill_R 인풋 변수
     public Image targetCircle;
@@ -82,6 +97,11 @@ public class Ability : MonoBehaviour
         skillshot.GetComponent<Image>().enabled = false;
         targetCircle.GetComponent<Image>().enabled = false;
         indicatorRangeCircle.GetComponent<Image>().enabled = false;
+
+        stats = GetComponent<Stats>();
+        playerAnim = GetComponent<PlayerAnimation>();
+        moveScript = GetComponent<ClickMovement>();
+        heroCombat = GetComponent<HeroCombat>();
     }
 
     void Update()
@@ -105,7 +125,7 @@ public class Ability : MonoBehaviour
 
         // Skill_E 캔버스 입력
         Quaternion transRot = Quaternion.LookRotation(position - player.transform.position);
-        transRot.eulerAngles = new Vector3(0, transRot.eulerAngles.y, 0);
+        transRot.eulerAngles = new Vector3(0, transRot.eulerAngles.y, transRot.eulerAngles.z);
         skill_ECanvas.transform.rotation = Quaternion.Lerp(transRot, skill_ECanvas.transform.rotation, 0f);
 
         // Skill_R 입력
@@ -124,6 +144,7 @@ public class Ability : MonoBehaviour
         distance = Mathf.Min(distance, maxSkill_RDistance);
 
         var newHitPos = transform.position + (hitPosDir * distance);
+        newHitPos.y = 0;
         skill_RCanvas.transform.position = (newHitPos);
     }
 
@@ -154,10 +175,13 @@ public class Ability : MonoBehaviour
     {
         // 스킬Q사용 시 3초간 파티클과 공격력 상승
         isActive = true;
+        float originAttackDmg = stats.attackDmg;
+        stats.attackDmg += stats.attackDmg * 0.5f;
         fire.Play();
-        // 공격력++
+        
         yield return new WaitForSeconds(3.0f);
         isActive = false;
+        stats.attackDmg = originAttackDmg;
         fire.Stop();
     }
 
@@ -167,6 +191,7 @@ public class Ability : MonoBehaviour
         if (Input.GetKey(skill_W) && isCooldown_W == false)
         {
             // 생명력++
+            stats.health += 50 + (stats.abilityPower * 0.5f);
 
             isCooldown_W = true;
             skillImage_W.fillAmount = 1;
@@ -198,8 +223,26 @@ public class Ability : MonoBehaviour
 
         if (skillshot.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
         {
-            isCooldown_E = true;
-            skillImage_E.fillAmount = 1;
+            isSkill_E = true;
+            heroCombat.targetedEnemy = null;
+
+            // Rotate
+            Quaternion rotationToLookAt = Quaternion.LookRotation(position - transform.position);
+            float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref moveScript.rotateVelocity, 0);
+
+            transform.eulerAngles = new Vector3(0, rotationY, 0);
+
+            moveScript.agent.SetDestination(transform.position);
+            moveScript.agent.stoppingDistance = 0;
+
+            if(canSkillshot_E)
+            {
+                isCooldown_E = true;
+                skillImage_E.fillAmount = 1;
+
+                // 애니메이션
+                StartCoroutine(corSkill_E());
+            }
         }
 
         if (isCooldown_E)
@@ -213,6 +256,24 @@ public class Ability : MonoBehaviour
                 isCooldown_E = false;
             }
         }
+    }
+
+    IEnumerator corSkill_E()
+    {
+        canSkillshot_E = false;
+        playerAnim.anim.SetBool("skill_E", true);
+
+        yield return new WaitForSeconds(0.55f);
+
+        playerAnim.anim.SetBool("skill_E", false);
+        isSkill_E = false;
+        canSkillshot_E = true;
+    }
+
+    // 스킬 E 애니메이션 이벤트
+    public void SpawnSkill_E()
+    {
+        Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
     void Skill_R()
@@ -229,8 +290,29 @@ public class Ability : MonoBehaviour
 
         if (targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
         {
+            isSkill_R = true;
+            heroCombat.targetedEnemy = null;
+
             isCooldown_R = true;
             skillImage_R.fillAmount = 1;
+
+            // Rotate
+            Quaternion rotationToLookAt = Quaternion.LookRotation(position - transform.position);
+            float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref moveScript.rotateVelocity, 0);
+
+            transform.eulerAngles = new Vector3(0, rotationY, 0);
+
+            moveScript.agent.SetDestination(transform.position);
+            moveScript.agent.stoppingDistance = 0;
+
+            if (canSkillshot_R)
+            {
+                isCooldown_R = true;
+                skillImage_R.fillAmount = 1;
+
+                // 애니메이션
+                StartCoroutine(corSkill_R());
+            }
         }
 
         if (isCooldown_R)
@@ -246,6 +328,24 @@ public class Ability : MonoBehaviour
                 isCooldown_R = false;
             }
         }
+    }
+
+    IEnumerator corSkill_R()
+    {
+        canSkillshot_R = false;
+        playerAnim.anim.SetBool("skill_R", true);
+
+        yield return new WaitForSeconds(1.0f);
+
+        playerAnim.anim.SetBool("skill_R", false);
+        isSkill_R = false;
+        canSkillshot_R = true;
+    }
+
+    // 스킬 E 애니메이션 이벤트
+    public void SpawnSkill_R()
+    {
+        Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
     }
 
     void Ability_D()

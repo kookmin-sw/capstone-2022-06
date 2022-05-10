@@ -29,6 +29,10 @@ public class InputTargeting : MonoBehaviour
                     {
                         selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
                     }
+                    else if (hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)
+                    {
+                        selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
+                    }
                 }
                 else if(hit.collider.gameObject.GetComponent<Targetable>() == null)
                 {
@@ -36,5 +40,27 @@ public class InputTargeting : MonoBehaviour
                 }
             }
         }
+
+        /*
+        // Ã¨ÇÇ¾ð Å¸°ÙÆÃ
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            {
+                // Å¸°ÙÆÃÀÌ °¡´ÉÇÑ °æ¿ì
+                if (hit.collider.GetComponent<Targetable>() != null)
+                {
+                    if (hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)
+                    {
+                        selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
+                    }
+                }
+                else if (hit.collider.gameObject.GetComponent<Targetable>() == null)
+                {
+                    selectedHero.GetComponent<HeroCombat>().targetedEnemy = null;
+                }
+            }
+        }
+        */
     }
 }

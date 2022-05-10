@@ -18,6 +18,7 @@ public class HeroCombat : MonoBehaviour
     private ClickMovement moveScript;
     private Stats statsScript;
     public Animator anim;
+    public Ability ability;
 
     public bool basicAtkIdle = false;
     public bool isHeroAlive;
@@ -28,6 +29,7 @@ public class HeroCombat : MonoBehaviour
         moveScript = GetComponent<ClickMovement>();
         statsScript = GetComponent<Stats>();
         anim = GetComponentInChildren<Animator>();
+        ability = GetComponent<Ability>();
     }
 
     void Update()
@@ -53,8 +55,6 @@ public class HeroCombat : MonoBehaviour
                     {
                         if (performMeleeAttack)
                         {
-                            Debug.Log("Attack Minion");
-
                             // 공격 코루틴
                             StartCoroutine(MeleeAttackInterval());
                         }
@@ -72,7 +72,7 @@ public class HeroCombat : MonoBehaviour
         
         yield return new WaitForSeconds(statsScript.attackTime / ((100 + statsScript.attackTime) * 0.01f));
 
-        if (targetedEnemy == null)
+        if (targetedEnemy == null || ability.isSkill_E == true)
         {
             anim.SetBool("BasicAttack", false);
             performMeleeAttack = true;
@@ -86,7 +86,14 @@ public class HeroCombat : MonoBehaviour
         {
             if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
             {
-                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg;
+                Debug.Log("attack Minion");
+                targetedEnemy.GetComponent<EnemyStats>().health -= statsScript.attackDmg * (100 / (100 + targetedEnemy.GetComponent<EnemyStats>().armor));
+            }
+
+            if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)
+            {
+                Debug.Log("attack Champion");
+                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg * (100 / (100 + targetedEnemy.GetComponent<Stats>().armor));
             }
         }
 

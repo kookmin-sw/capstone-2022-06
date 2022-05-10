@@ -10,21 +10,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject findMatchBtn;
     [SerializeField] GameObject searchingPanel;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
-        searchingPanel.SetActive(false);
-        findMatchBtn.SetActive(false);
-
-        DontDestroyOnLoad(gameObject);
+        // searchingPanel.SetActive(false);
+        // findMatchBtn.SetActive(false);
 
         // Connect to the photon Server
         PhotonNetwork.ConnectUsingSettings();   
     }
 
     // callback by ConnectUsingSettings called in Start 
+    /// <summary>
+    /// 포톤 클라우드에 연결했을 때 호출되는 메서드입니다.
+    /// </summary>
     public override void OnConnectedToMaster()
     {
-        Debug.Log("We are Connected to Photon! on" + PhotonNetwork.CloudRegion + "Server");
+        Debug.Log("Successfully connected to Photon on" + PhotonNetwork.CloudRegion + " Server");
         PhotonNetwork.AutomaticallySyncScene = true;
         findMatchBtn.SetActive(true);
     }

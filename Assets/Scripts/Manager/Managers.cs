@@ -10,10 +10,12 @@ public class Managers : MonoBehaviour
     ResourceManager _resource = new ResourceManager();
     VisibleManager _visible = new VisibleManager();
     UIManager _ui = new UIManager();
+    DataManager _data = new DataManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
     public static VisibleManager Visible { get { return Instance._visible; }}
     public static UIManager UI {get { return Instance._ui; }}
+    public static DataManager Data { get { return Instance._data; } }
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +42,13 @@ public class Managers : MonoBehaviour
 
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
+
+            s_instance._data.Init();
         }
+    }
+
+    public static void Clear()
+    {
+        UI.Clear();
     }
 }

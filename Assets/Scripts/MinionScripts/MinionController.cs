@@ -1,40 +1,64 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class MinionController : MonoBehaviour
+
+public class MinionController : Controller, IPunObservable
 {
-    protected float _speed = 5f;
-
-    List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
-
-    NavMeshAgent _nav;
-
-    protected int _destNum = 0;                             // index of _wayPoints List
-    protected bool _isDead = false;
-    protected GameObject _lockTarget;                       // GameObject about target 
-
-    protected float _attackRange;
-    
     // minion state enum
     public enum State
     {
         Idle,
         Walk,
         Targetting,
-        Attack
+        Attack,
+        Die
     }
+
+    // Value Attribute
+    protected float _speed = 8f;
+    protected int _destNum = 0;                             // index of _wayPoints List
+    protected bool _isDead = false;
+
+    protected float _attackRange;
+
+    // Reference Attribute
+    PhotonView PV;
+
+    // protected MinionStat Stat;
+    protected MinionStat stat;
+
+    List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
+    NavMeshAgent _nav;
+    Collider[] targetCols;
+
+    [SerializeField] protected GameObject _lockTarget;                       // GameObject about target 
+    [SerializeField] Slider HPSlider;
 
     public State _state;
 
+    // Properties
+    public State ProperState { get { return _state; } set { _state = value; } }
+    public MinionStat ProperStat { get { return stat; } }
+
+    #region MonoBehaviour
     protected void Awake()
     {
         _nav = GetComponent<NavMeshAgent>();
+        PV = GetComponent<PhotonView>();
+
+        SetParent();
 
         Managers.UI.AttachMapMarker<UI_Marker>(transform, "UI_MobMarker");
     }
 
+    
     // Start is called before the first frame update
     protected void Start()
     {
@@ -43,7 +67,7 @@ public class MinionController : MonoBehaviour
         InitWayPoints();
         SettingTeam();
 
-        InvokeRepeating("UpdateTarget", 0f, 0.25f);
+        InvokeRepeating("UpdateTarget", 0f, 0.1f);
     }
 
     // Update is called once per frame
@@ -65,6 +89,7 @@ public class MinionController : MonoBehaviour
             case State.Attack:
                 Animator _anim = GetComponent<Animator>();
                 _anim.SetBool("OnAttack", true);
+                _nav.isStopped = true;
 
                 if (_lockTarget == null)
                 {
@@ -75,8 +100,15 @@ public class MinionController : MonoBehaviour
                     transform.LookAt(_lockTarget.transform);
 
                 break;
+            case State.Die:
+                StartCoroutine("UpdateDie");
+                break;
         }
+
+        if (PhotonNetwork.IsMasterClient)
+            HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
+    #endregion
 
     // register movement path positions
     protected void InitWayPoints()
@@ -118,25 +150,21 @@ public class MinionController : MonoBehaviour
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
-        Collider[] cols = Physics.OverlapSphere(transform.position, 10.0f, targetLayer);
 
-        if (cols.Length > 0)
+        targetCols = Physics.OverlapSphere(transform.position, 5.0f, targetLayer);
+
+        IEnumerable<Collider> query = from target in targetCols
+                                      orderby target.GetComponent<ObjectStat>().Status.priority,
+                                              Vector3.Distance(target.gameObject.transform.position, transform.position)
+                                      select target;
+
+        if (query.Count() > 0)
         {
-            for(int i = 0; i < cols.Length; i++)
-            {
-                if (_lockTarget == null)
-                {
-                    Debug.Log($"Enemy Spotted : {cols[i].gameObject.name} Found");
-                    _lockTarget = cols[i].gameObject;
-                    _state = State.Targetting;
-                }
-            }
+            _lockTarget = query.ElementAt<Collider>(0).gameObject;
+            _state = State.Targetting;
         }
-        else
-        {
-            _lockTarget = null;
-            _state = State.Walk;
-        }
+
+        Array.Clear(targetCols, 0, targetCols.Length);
     }
     
     // set destinaion to target until disance to target lower than attackRange
@@ -149,5 +177,59 @@ public class MinionController : MonoBehaviour
             _nav.isStopped = true;
             _state = State.Attack;
         }
+        else
+        {
+            _nav.isStopped = false;
+            _state = State.Targetting;
+        }
     }
+
+    protected void SetParent()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, 5.0f);
+
+        foreach (Collider col in cols)
+        {
+            if (col.gameObject.tag == "Parent")
+            {
+                transform.SetParent(col.gameObject.transform);
+                break;
+            }
+        }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        stat.Status.hp -= damage;
+
+        if (stat.Status.hp <= 0)
+            _state = State.Die;
+    }
+
+    protected IEnumerator UpdateDie()
+    {
+        Animator _anim = GetComponent<Animator>();
+        _anim.SetBool("IsDead", true);
+
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
+
+        yield return new WaitForSeconds(3.0f);
+
+        Managers.Resource.Destroy(this.gameObject);
+    }
+
+    #region RPC
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(HPSlider.value);
+        }
+        else
+        {
+            HPSlider.value = (float)stream.ReceiveNext();
+        }
+    }
+    #endregion
 }

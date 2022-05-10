@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class WorriorMinion : MinionController
 {
+    private void Awake()
+    {
+        base.Awake();
+
+        stat = GetComponent<MinionStat>();
+        stat.Initialize("WorriorMinion");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,4 +27,14 @@ public class WorriorMinion : MinionController
     }
 
     // Animation Event Call
+    public void OnHit()
+    {
+        ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
+
+        _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk);
+
+        if (targetStat.Status.hp <= 0) _lockTarget = null;
+
+        Debug.Log("Hit!");
+    }
 }

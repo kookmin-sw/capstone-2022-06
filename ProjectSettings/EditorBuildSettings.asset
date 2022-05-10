@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LobbyScene/Lobby.unity
+    path: Assets/Scenes/Lobby/LobbyScene.unity
     guid: a61b52420653d2f4d8528734e926bd8b
   - enabled: 1
-    path: Assets/Scenes/LobbyScene/ChampionSeclect.unity
+    path: Assets/Scenes/Lobby/PreparationScene.unity
     guid: 1d4673cae3d510f4b8887509ef36b3d9
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: ca2ea44d67829054c8d8df568ddff0d8
   m_configObjects: {}

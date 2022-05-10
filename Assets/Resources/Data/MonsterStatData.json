@@ -1,0 +1,23 @@
+{
+  "stats": [
+    {
+      "name": "CrabMonster",
+      "level": 1,
+      "exp": 0,
+      "hp": 440,
+      "mp": 0,
+      "maxHp": 440,
+      "maxMp": 0,
+      "atk": 12,
+      "ap": 0,
+      "healthRegen": 0,
+      "manaRegen": 0,
+      "defense": 0,
+      "atkSpeed": 1.2,
+      "GivingGold": 22,
+      "GivingExp": 60,
+      "moveSpeed": 325,
+      "priority": 6
+    }
+  ]
+}

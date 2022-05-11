@@ -85,7 +85,7 @@ Projector:
   m_Material: {fileID: 2100000, guid: db2f9a0e5fc32ff47998fc60662df890, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 4128
+    m_Bits: 5120
 --- !u!114 &3415256326413206031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +166,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 27c12235a9fce1840bd338369b177749, type: 2}
   m_TargetDisplay: 0

@@ -39,6 +39,9 @@ public class GameScene : BaseScene
         {
             GameObject myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
             tracker.player = myChamp.transform;
+            GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
+            FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
+            fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
         }
         else
         {

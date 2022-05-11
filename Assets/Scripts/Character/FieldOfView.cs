@@ -37,9 +37,9 @@ public class FieldOfView : MonoBehaviour
         DrawFieldOfView();
     }
 
-    /*
-    viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
-    */
+    /// <summary>
+    /// viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
+    /// </summary>
     private void ScanVisibleEnemies()
     {
         foreach (Transform e in visibleEnemies)
@@ -54,10 +54,11 @@ public class FieldOfView : MonoBehaviour
         {
             Transform target = e.transform;
             Vector3 dirToEnemy = (target.position - transform.position).normalized;
+
             if (Vector3.Angle(transform.position, target.position) < viewAngle / 2)
             {
                 float distToEnemy = (target.position - transform.position).magnitude;
-                if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
+                if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, opposingMask))
                 {
                     Managers.Visible.AddVisible(target.gameObject);
                     visibleEnemies.Add(target);

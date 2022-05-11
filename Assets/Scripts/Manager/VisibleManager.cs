@@ -22,8 +22,8 @@ public class VisibleManager
         else
         {
             visibleObjects[unit] = 1;
-            Util.OnRenderer(unit);
         }
+        Util.OnRenderer(unit);
     }
 
     /*

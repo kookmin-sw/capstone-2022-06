@@ -18,6 +18,8 @@ public class Stats : MonoBehaviour
     public float attackSpeed;
     public float attackTime;
 
+    public int skillPoint;
+
     HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
     Ability ability;
@@ -33,6 +35,11 @@ public class Stats : MonoBehaviour
 
     void Update()
     {
+        if(level < 10)
+        {
+            LevelUp();
+        }
+
         if (health > maxHealth)
         {
             health = maxHealth;
@@ -53,5 +60,15 @@ public class Stats : MonoBehaviour
         healthRegen = 2 + level * 1.5f;
 
         health += healthRegen;
+    }
+
+    void LevelUp()
+    {
+        if(exp >= 100)
+        {
+            exp = 0;
+            level++;
+            skillPoint++;
+        }
     }
 }

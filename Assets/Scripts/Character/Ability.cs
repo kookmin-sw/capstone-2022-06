@@ -20,6 +20,18 @@ public class Ability : MonoBehaviour
 
     public bool isPassive = false;
 
+    public GameObject skillUpButton;
+    public Image Q_SkillPoint1;
+    public Image Q_SkillPoint2;
+    public Image Q_SkillPoint3;
+    public Image W_SkillPoint1;
+    public Image W_SkillPoint2;
+    public Image W_SkillPoint3;
+    public Image E_SkillPoint1;
+    public Image E_SkillPoint2;
+    public Image E_SkillPoint3;
+    public Image R_SKillPoint1;
+
     // Component에서 스킬의 쿨타임, 인풋 키 설정
 
     [Header("Skill_Q")]
@@ -27,6 +39,7 @@ public class Ability : MonoBehaviour
     public float cooldown_Q = 5;
     bool isCooldown_Q = false;
     public KeyCode skill_Q;
+    public int skillPoint_Q;
 
     // Skill_Q 인풋 변수
     public ParticleSystem fire;
@@ -37,6 +50,7 @@ public class Ability : MonoBehaviour
     public float cooldown_W = 7;
     bool isCooldown_W = false;
     public KeyCode skill_W;
+    public int skillPoint_W;
 
     [Header("Skill_E")]
     public Image skillImage_E;
@@ -47,6 +61,7 @@ public class Ability : MonoBehaviour
     public GameObject projPrefab_E;
     public Transform projSpawnPoint_E;
     public bool isSkill_E = false;
+    public int skillPoint_E;
 
     // Skill_E 인풋 변수
     Vector3 position;
@@ -63,6 +78,7 @@ public class Ability : MonoBehaviour
     public GameObject projPrefab_R;
     public Transform projSpawnPoint_R;
     public bool isSkill_R = false;
+    public int skillPoint_R;
 
     // Skill_R 인풋 변수
     public Image targetCircle;
@@ -106,6 +122,7 @@ public class Ability : MonoBehaviour
 
     void Update()
     {
+        SkillUP();
         Skill_Q();
         Skill_W();
         Skill_E();
@@ -150,6 +167,11 @@ public class Ability : MonoBehaviour
 
     void Skill_Q()
     {
+        if(skillPoint_Q < 1)
+        {
+            return;
+        }
+
         // 스킬Q의 쿨타임 UI 이미지
         if (Input.GetKey(skill_Q) && isCooldown_Q == false)
         {
@@ -187,6 +209,11 @@ public class Ability : MonoBehaviour
 
     void Skill_W()
     {
+        if (skillPoint_W < 1)
+        {
+            return;
+        }
+
         // 스킬W의 쿨타임 UI 이미지
         if (Input.GetKey(skill_W) && isCooldown_W == false)
         {
@@ -211,6 +238,11 @@ public class Ability : MonoBehaviour
 
     void Skill_E()
     {
+        if (skillPoint_E < 1)
+        {
+            return;
+        }
+
         // 스킬E의 쿨타임 UI 이미지
         if (Input.GetKey(skill_E) && isCooldown_E == false)
         {
@@ -278,6 +310,11 @@ public class Ability : MonoBehaviour
 
     void Skill_R()
     {
+        if (skillPoint_R < 1)
+        {
+            return;
+        }
+
         // 스킬R의 쿨타임 UI 이미지
         if (Input.GetKey(skill_R) && isCooldown_R == false)
         {
@@ -388,5 +425,99 @@ public class Ability : MonoBehaviour
                 isCooldown_F = false;
             }
         }
+    }
+
+    void SkillUP()
+    {
+        if(stats.skillPoint >= 1)
+        {
+            Debug.Log("skillup");
+            skillUpButton.SetActive(true);
+        }
+        else
+        {
+            skillUpButton.SetActive(false);
+        }
+    }
+
+    public void SkillPointUp_Q()
+    {
+        if(skillPoint_Q == 3)
+        {
+            return;
+        }
+
+        skillPoint_Q++;
+        stats.skillPoint--;
+        if (skillPoint_Q == 1)
+        {
+            Q_SkillPoint1.color = Color.yellow;
+        }
+        else if (skillPoint_Q == 2)
+        {
+            Q_SkillPoint2.color = Color.yellow;
+        }
+        else if (skillPoint_Q == 3)
+        {
+            Q_SkillPoint3.color = Color.yellow;
+        }
+    }
+
+    public void SkillPointUp_W()
+    {
+        if (skillPoint_W == 3)
+        {
+            return;
+        }
+
+        skillPoint_W++;
+        stats.skillPoint--;
+        if (skillPoint_W == 1)
+        {
+            W_SkillPoint1.color = Color.yellow;
+        }
+        else if (skillPoint_W == 2)
+        {
+            W_SkillPoint2.color = Color.yellow;
+        }
+        else if (skillPoint_W == 3)
+        {
+            W_SkillPoint3.color = Color.yellow;
+        }
+    }
+
+    public void SkillPointUp_E()
+    {
+        if (skillPoint_E == 3)
+        {
+            return;
+        }
+
+        skillPoint_E++;
+        stats.skillPoint--;
+        if (skillPoint_E == 1)
+        {
+            E_SkillPoint1.color = Color.yellow;
+        }
+        else if (skillPoint_E == 2)
+        {
+            E_SkillPoint2.color = Color.yellow;
+        }
+        else if (skillPoint_E == 3)
+        {
+            E_SkillPoint3.color = Color.yellow;
+        }
+    }
+
+    public void SkillPointUp_R()
+    {
+        if (skillPoint_R == 1 || stats.level < 6)
+        {
+            return;
+        }
+
+        skillPoint_R++;
+        stats.skillPoint--;
+        R_SKillPoint1.color = Color.yellow;
     }
 }

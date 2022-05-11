@@ -29,7 +29,7 @@ public class FieldOfView : MonoBehaviour
         viewMeshFilter.mesh = viewMesh;
 
         // StartCoroutine("ScanEnemiesWithDelay", 0.1f);
-        StartCoroutine(ScanEnemiesWithDelay(0.1f));
+        StartCoroutine(ScanEnemiesWithDelay(0.05f));
     }
 
     private void LateUpdate()

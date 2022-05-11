@@ -14,14 +14,6 @@ public class UI_Marker : UI_Base
     {
         Bind<GameObject>(typeof(GameObjects));
         transform.position = transform.parent.position + new Vector3(0, 9, 0);
-        if (transform.parent.gameObject.layer == LayerMask.GetMask("RedTeam"))
-        {
-            SetMarkerColor(new Vector3(255, 0, 0));
-        }
-        else
-        {
-            SetMarkerColor(new Vector3(0, 0, 255));
-        }
         // SetMarkerColor(new Vector3(255, 0, 0));
     }
 
@@ -35,7 +27,7 @@ public class UI_Marker : UI_Base
         
     }
 
-    void SetMarkerColor(Vector3 color)
+    public void SetMarkerColor(Vector3 color)
     {
         GameObject marker = Get<GameObject>((int)GameObjects.Marker);
         Image markerImage = marker.GetComponent<Image>();

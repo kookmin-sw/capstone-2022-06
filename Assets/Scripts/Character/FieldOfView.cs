@@ -60,8 +60,8 @@ public class FieldOfView : MonoBehaviour
                 float distToEnemy = (target.position - transform.position).magnitude;
                 if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, opposingMask))
                 {
-                    Managers.Visible.AddVisible(target.gameObject);
                     visibleEnemies.Add(target);
+                    Managers.Visible.AddVisible(target.gameObject);
                 }
             }
         }

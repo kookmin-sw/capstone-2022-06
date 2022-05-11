@@ -17,6 +17,8 @@ public class WaveManager : MonoBehaviour
 
     GameObject minion;
 
+    public LayerMask initLayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,19 +49,27 @@ public class WaveManager : MonoBehaviour
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
+                    minion = PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
+                    PV.RPC("setLayer", RpcTarget.All);
                 }
             }
             else
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
+                    minion = PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
+                    PV.RPC("setLayer", RpcTarget.All);
                 }
             } 
         }
 
         waveTimer = 0f;
         isSpawning = false;
+    }
+
+    [PunRPC]
+    void setLayer()
+    {
+        minion.layer = initLayer;
     }
 }

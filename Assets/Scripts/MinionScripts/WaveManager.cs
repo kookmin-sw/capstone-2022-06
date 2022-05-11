@@ -16,16 +16,18 @@ public class WaveManager : MonoBehaviour
     PhotonView PV;
 
     GameObject minion;
-
+    
     public LayerMask initLayer;
+    int localPlayerId;
 
-    // Start is called before the first frame update
     void Start()
     {
-        PV = GetComponent<PhotonView>();   
+        object tmp;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp);
+        localPlayerId = (int)tmp; 
+        PV = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -47,17 +49,25 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
             if (i < 2)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     minion = PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
+                    if (!isSameLayer())
+                    {
+                        Util.OffRenderer(minion);
+                    }
                     PV.RPC("setLayer", RpcTarget.All);
                 }
             }
             else
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     minion = PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
+                    if (!isSameLayer())
+                    {
+                        Util.OffRenderer(minion);
+                    }
                     PV.RPC("setLayer", RpcTarget.All);
                 }
             } 
@@ -71,5 +81,17 @@ public class WaveManager : MonoBehaviour
     void setLayer()
     {
         minion.layer = initLayer;
+    }
+
+    bool isSameLayer()
+    {
+        if (localPlayerId <= 5)
+        {
+            return initLayer.value == LayerMask.GetMask("BlueTeam");
+        }
+        else
+        {
+            return initLayer.value == LayerMask.GetMask("RedTeam");
+        }
     }
 }

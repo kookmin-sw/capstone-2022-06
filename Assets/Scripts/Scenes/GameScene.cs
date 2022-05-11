@@ -42,6 +42,7 @@ public class GameScene : BaseScene
             GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
             FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
             fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+            fov.obstacleMask = LayerMask.GetMask("Obstacle");
         }
         else
         {

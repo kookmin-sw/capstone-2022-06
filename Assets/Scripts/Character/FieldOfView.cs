@@ -6,12 +6,12 @@ public class FieldOfView : MonoBehaviour
 {
     [Range(0, 360)]
     public float viewAngle = 360;
-    public float viewRadius = 10;
+    public float viewRadius = 40;
     public LayerMask allyMask, opposingMask, obstacleMask;
 
     [Range(0, 2)]
-    public float samplingRate;
-    public float edgeDstThreshold;
+    public float samplingRate = 0.08f;
+    public float edgeDstThreshold = 1f;
 
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;

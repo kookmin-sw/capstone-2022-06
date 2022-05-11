@@ -18328,6 +18328,9 @@ MonoBehaviour:
   - {fileID: 583941213}
   - {fileID: 1105435062}
   - {fileID: 1876152297}
+  initLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &618369202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31003,6 +31006,9 @@ MonoBehaviour:
   - {fileID: 142866797}
   - {fileID: 1428213045}
   - {fileID: 1778269374}
+  initLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &1074742374
 MonoBehaviour:
   m_ObjectHideFlags: 0

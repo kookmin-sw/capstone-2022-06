@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
 
     public Sprite LoadSprite(string spritename)
     {
-        return Resources.Load<Sprite>("Textures/Items/" + spritename);
+        return Resources.Load<Sprite>("Private/Textures/Items/" + spritename);
     }
     // Start is called before the first frame update
     void Start()

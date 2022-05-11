@@ -43,6 +43,17 @@ public class GameScene : BaseScene
             FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
             fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
             fov.obstacleMask = LayerMask.GetMask("Obstacle");
+
+            if (myId <= 5)
+            {
+                fov.allyMask = LayerMask.GetMask("BlueTeam");
+                fov.opposingMask = LayerMask.GetMask("RedTeam");
+            }
+            else
+            {
+                fov.allyMask = LayerMask.GetMask("RedTeam");
+                fov.opposingMask = LayerMask.GetMask("BlueTeam");
+            }
         }
         else
         {

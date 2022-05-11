@@ -22,11 +22,7 @@ public class VisibleManager
         else
         {
             visibleObjects[unit] = 1;
-            Renderer renderer = unit.GetComponent<Renderer>();
-            if (renderer)
-            {
-                renderer.enabled = true;
-            }
+            Util.OnRenderer(unit);
         }
     }
 
@@ -44,8 +40,7 @@ public class VisibleManager
 
         if (visibleObjects[unit] <= 0)
         {
-            Renderer renderer = unit.GetComponent<Renderer>();
-            renderer.enabled = false;
+            Util.OffRenderer(unit);
             visibleObjects.Remove(unit);
         }
     }

@@ -49,9 +49,8 @@ public class TurretController : Controller
             _attackTimer = 0f;
 
         ChangeTargetNull();
-
-        if (PhotonNetwork.IsMasterClient)
-            HPSlider.value = stat.Status.hp / stat.Status.maxHp;
+        
+        HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
 
     void UpdateTarget()

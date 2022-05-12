@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public delegate void TargetsVisibilityChange(HashSet<Transform> newTargets);
 
 public class FieldOfView : MonoBehaviour
 {
@@ -16,8 +19,10 @@ public class FieldOfView : MonoBehaviour
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;
 
-    List<Transform> visibleEnemies = new List<Transform>();
+    HashSet<Transform> visibleEnemies = new HashSet<Transform>();
     List<Vector3> capturedVertices = new List<Vector3>();
+
+    public static event TargetsVisibilityChange OnTargetsVisibilityChange;
 
     /*
     fov 메쉬를 초기화하고 시야 내의 적을 찾는 코루틴 호출
@@ -28,7 +33,6 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "view";
         viewMeshFilter.mesh = viewMesh;
 
-        // StartCoroutine("ScanEnemiesWithDelay", 0.1f);
         StartCoroutine(ScanEnemiesWithDelay(0.2f));
     }
 
@@ -39,13 +43,10 @@ public class FieldOfView : MonoBehaviour
 
     /// <summary>
     /// viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
+    /// 그 후 delegate 호출
     /// </summary>
     private void ScanVisibleEnemies()
     {
-        foreach (Transform e in visibleEnemies)
-        {
-            Managers.Visible.SubtractVisible(e.gameObject);
-        }
         visibleEnemies.Clear();
 
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
@@ -61,9 +62,13 @@ public class FieldOfView : MonoBehaviour
                 if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, opposingMask))
                 {
                     visibleEnemies.Add(target);
-                    Managers.Visible.AddVisible(target.gameObject);
                 }
             }
+        }
+
+        if (OnTargetsVisibilityChange is not null)
+        {
+            OnTargetsVisibilityChange(visibleEnemies);
         }
     }
 

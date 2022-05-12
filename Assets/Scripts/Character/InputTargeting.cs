@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputTargeting : MonoBehaviour
 {
-    // Ä«¸Ş¶ó¿¡¼­ ÇÃ·¹ÀÌ¾î°¡ ¸¶¿ì½º·Î Å¸°ÙÆÃ ÇÏ´Â ¹°Ã¼¸¦ Ã£±â À§ÇÑ ½ºÅ©¸³Æ®
+    // ì¹´ë©”ë¼ì—ì„œ í”Œë ˆì´ì–´ê°€ ë§ˆìš°ìŠ¤ë¡œ íƒ€ê²ŸíŒ… í•˜ëŠ” ë¬¼ì²´ë¥¼ ì°¾ê¸° ìœ„í•œ ìŠ¤í¬ë¦½íŠ¸
 
     public GameObject selectedHero;
     public bool heroPlayer;
@@ -17,12 +17,12 @@ public class InputTargeting : MonoBehaviour
 
     void Update()
     {
-        // ¹Ì´Ï¾ğ Å¸°ÙÆÃ
+        // ë¯¸ë‹ˆì–¸ íƒ€ê²ŸíŒ…
         if(Input.GetMouseButtonDown(1))
         {
             if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                // Å¸°ÙÆÃÀÌ °¡´ÉÇÑ °æ¿ì
+                // íƒ€ê²ŸíŒ…ì´ ê°€ëŠ¥í•œ ê²½ìš°
                 if(hit.collider.GetComponent<Targetable>() != null)
                 {
                     if(hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
@@ -36,18 +36,22 @@ public class InputTargeting : MonoBehaviour
                 }
                 else if(hit.collider.gameObject.GetComponent<Targetable>() == null)
                 {
-                    selectedHero.GetComponent<HeroCombat>().targetedEnemy = null;
+                    var tmp = selectedHero.GetComponent<HeroCombat>();
+                    if (tmp)
+                    {
+                        tmp.targetedEnemy = null;
+                    }
                 }
             }
         }
 
         /*
-        // Ã¨ÇÇ¾ğ Å¸°ÙÆÃ
+        // ì±”í”¼ì–¸ íƒ€ê²ŸíŒ…
         if (Input.GetMouseButtonDown(1))
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                // Å¸°ÙÆÃÀÌ °¡´ÉÇÑ °æ¿ì
+                // íƒ€ê²ŸíŒ…ì´ ê°€ëŠ¥í•œ ê²½ìš°
                 if (hit.collider.GetComponent<Targetable>() != null)
                 {
                     if (hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)

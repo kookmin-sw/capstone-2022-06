@@ -75,7 +75,7 @@ public class Util
     /// <summary>
     /// 해당 go가 "보이지 않도록" 적절한 컴포넌트를 off 합니다.
     /// </summary>
-    public static void OffRenderer(GameObject go)
+    public static void OffRenderer(Transform go)
     {
         Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
         
@@ -94,7 +94,7 @@ public class Util
     /// <summary>
     /// 해당 go가 "보이도록" 적절한 컴포넌트를 on 합니다.
     /// </summary>
-    public static void OnRenderer(GameObject go)
+    public static void OnRenderer(Transform go)
     {
         Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)

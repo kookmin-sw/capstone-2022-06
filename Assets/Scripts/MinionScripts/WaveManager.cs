@@ -73,10 +73,6 @@ public class WaveManager : MonoBehaviour
                         fov.opposingMask.value = LayerMask.GetMask("BlueTeam");
                     }
                 }
-                else
-                {
-                    Util.OffRenderer(minion.transform);
-                }
             }
         }
 

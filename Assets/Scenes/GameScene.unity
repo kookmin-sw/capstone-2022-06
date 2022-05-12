@@ -18281,7 +18281,7 @@ GameObject:
   - component: {fileID: 618369200}
   - component: {fileID: 618369201}
   - component: {fileID: 618369202}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: RTeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30959,7 +30959,7 @@ GameObject:
   - component: {fileID: 1074742372}
   - component: {fileID: 1074742373}
   - component: {fileID: 1074742374}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: BTeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}

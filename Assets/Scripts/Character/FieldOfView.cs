@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void TargetsVisibilityChange(HashSet<Transform> newTargets);
+public delegate void TargetsVisibilityChange(List<Transform> newTargets);
 
 public class FieldOfView : MonoBehaviour
 {
@@ -13,16 +13,22 @@ public class FieldOfView : MonoBehaviour
     public LayerMask allyMask, opposingMask, obstacleMask;
 
     [Range(0, 2)]
-    public float samplingRate = 0.038f;
+    public float samplingRate = 0.05f;
     public float edgeDstThreshold = 1f;
 
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;
 
-    HashSet<Transform> visibleEnemies = new HashSet<Transform>();
+    [HideInInspector]
+    public List<Transform> visibleEnemies = new List<Transform>();
     List<Vector3> capturedVertices = new List<Vector3>();
 
     public static event TargetsVisibilityChange OnTargetsVisibilityChange;
+
+    void Awake()
+    {
+        obstacleMask = LayerMask.GetMask("Obstacle");
+    }
 
     /*
     fov 메쉬를 초기화하고 시야 내의 적을 찾는 코루틴 호출
@@ -33,7 +39,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "view";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine(ScanEnemiesWithDelay(0.2f));
+        StartCoroutine("ScanEnemiesWithDelay", 0.2f);
     }
 
     private void LateUpdate()
@@ -50,23 +56,33 @@ public class FieldOfView : MonoBehaviour
         visibleEnemies.Clear();
 
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
+        Debug.Log($"Count of candidates {candidates.Length}");
 
         foreach (Collider e in candidates)
         {
             Transform target = e.transform;
+            Debug.Log($"target is {target.name}");
             Vector3 dirToEnemy = (target.position - transform.position).normalized;
+            dirToEnemy.y = 0.05f;
+            Debug.Log($"{dirToEnemy.y}");
 
-            if (Vector3.Angle(transform.position, target.position) < viewAngle / 2)
+            if (Vector3.Angle(transform.forward, dirToEnemy) < viewAngle / 2)
             {
-                float distToEnemy = (target.position - transform.position).magnitude;
-                if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, opposingMask))
+                float distToEnemy = Vector3.Distance(transform.position, target.position);
+                if (!Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
                 {
+                    Debug.Log($"{gameObject.name} has enemy found => {target.gameObject.name}");
+                    Debug.Log($"{gameObject.layer} vs {target.gameObject.layer}");
                     visibleEnemies.Add(target);
+                }
+                else
+                {
+                    Debug.Log("Enemy not found");
                 }
             }
         }
 
-        if (OnTargetsVisibilityChange is not null)
+        if (OnTargetsVisibilityChange != null)
         {
             OnTargetsVisibilityChange(visibleEnemies);
         }
@@ -151,9 +167,8 @@ public class FieldOfView : MonoBehaviour
         float minAngle = minCast.angle, maxAngle = maxCast.angle;
         Vector3 u = Vector3.zero, v = Vector3.zero;
         
-        // 이진 탐색에 필요한 iteration 횟수를 100으로 정함
-        // 일반적으로 실수 값에 대해 100회 하는 것이 좋다고 알려짐
-        for (int i = 0; i < 100; i++)
+        // 이진 탐색에 필요한 iteration 횟수
+        for (int i = 0; i < 30; i++)
         {
             float midAngle = minAngle + (maxAngle - minAngle) / 2;
             CastFootprint castShot = CaptureRaycast(midAngle);
@@ -183,7 +198,9 @@ public class FieldOfView : MonoBehaviour
         Vector3 direction = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, obstacleMask))
+        int _fov = LayerMask.GetMask("FOV");
+
+        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, obstacleMask | _fov))
         {
             return new CastFootprint(true, hit.point, hit.distance, globalAngle);
         }

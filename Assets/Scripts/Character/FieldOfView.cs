@@ -39,7 +39,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "view";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("ScanEnemiesWithDelay", 0.2f);
+        StartCoroutine("ScanEnemiesWithDelay", 0.4f);
     }
 
     private void LateUpdate()
@@ -54,28 +54,23 @@ public class FieldOfView : MonoBehaviour
     {
         foreach (Transform e in visibleEnemies)
         {
-            Managers.Visible.ReduceVisible(e);
+            Util.OffRenderer(e);
         }
         visibleEnemies.Clear();
 
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
-        Debug.Log($"Count of candidates {candidates.Length}");
 
         foreach (Collider e in candidates)
         {
             Transform target = e.transform;
-            Debug.Log($"target is {target.name}");
             Vector3 dirToEnemy = (target.position - transform.position).normalized;
             dirToEnemy.y = 0.05f;
-            Debug.Log($"{dirToEnemy.y}");
 
             if (Vector3.Angle(transform.forward, dirToEnemy) < viewAngle / 2)
             {
                 float distToEnemy = Vector3.Distance(transform.position, target.position);
                 if (!Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
                 {
-                    Debug.Log($"{gameObject.name} has enemy found => {target.gameObject.name}");
-                    Debug.Log($"{gameObject.layer} vs {target.gameObject.layer}");
                     visibleEnemies.Add(target);
                 }
             }
@@ -83,7 +78,7 @@ public class FieldOfView : MonoBehaviour
 
         foreach (Transform e in visibleEnemies)
         {
-            Managers.Visible.IncreaseVisible(e);
+            Util.OnRenderer(e);
         }
     }
 

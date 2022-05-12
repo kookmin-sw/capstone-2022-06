@@ -55,13 +55,12 @@ public class WaveManager : MonoBehaviour
 
                 if (!isSameLayer())
                 {
-                    Util.OffRenderer(minion);
+                    minion.GetOrAddComponent<FogCoverable>();
                 }
                 else
                 {
                     GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
                     FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
-                    minion.GetOrAddComponent<FogCoverable>();
                     fov.viewRadius = 22f;
                     fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
                     fov.obstacleMask = LayerMask.GetMask("Obstacle");

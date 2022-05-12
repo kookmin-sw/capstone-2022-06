@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class FogCoverable : MonoBehaviour
 {
-    List<Renderer> renderers;
-    List<Canvas> canvases;
-
     void Start()
     {
-        
+
     }
 
-    Action<HashSet<Transform>> VisibilityChange;
+    void VisibilityChange(HashSet<Transform> newTargets) {
+        if (newTargets.Contains(transform))
+        {
+            Util.OnRenderer(gameObject);
+        }
+    }
 }

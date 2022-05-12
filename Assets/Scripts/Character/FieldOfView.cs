@@ -47,6 +47,11 @@ public class FieldOfView : MonoBehaviour
         DrawFieldOfView();
     }
 
+    void OnDestroy()
+    {
+        StopCoroutine("ScanEnemiesWithDelay");
+    }
+
     /// <summary>
     /// viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
     /// </summary>

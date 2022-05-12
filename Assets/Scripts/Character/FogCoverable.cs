@@ -15,5 +15,9 @@ public class FogCoverable : MonoBehaviour
         {
             Util.OnRenderer(gameObject);
         }
+        else
+        {
+            Util.OffRenderer(gameObject);
+        }
     }
 }

@@ -52,30 +52,27 @@ public class WaveManager : MonoBehaviour
             for (int j = 0; j < 3; j++)
             {
                 minion = PhotonNetwork.Instantiate(minionPath[i / 2], SpawnPos[j].position, Quaternion.identity);
+                minion.GetOrAddComponent<LayerController>().SetLayer(LayerMask.LayerToName((int)Mathf.Log(initLayer.value, 2)));
 
-                if (!isSameLayer())
-                {
-                    minion.GetOrAddComponent<FogCoverable>();
-                }
-                else
+                if (isSameLayer())
                 {
                     GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
                     FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
-                    fov.viewRadius = 22f;
+                    fov.viewRadius = 15f;
                     fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-                    fov.obstacleMask = LayerMask.GetMask("Obstacle");
-                    fov.allyMask = initLayer;
+
+                    fov.obstacleMask.value = LayerMask.GetMask("Obstacle");
+                    fov.allyMask.value = initLayer.value;
+    
                     if (initLayer == LayerMask.GetMask("BlueTeam"))
                     {
-                        fov.opposingMask = LayerMask.GetMask("RedTeam");
+                        fov.opposingMask.value = LayerMask.GetMask("RedTeam");
                     }
                     else
                     {
-                        fov.opposingMask = LayerMask.GetMask("BlueTeam");
+                        fov.opposingMask.value = LayerMask.GetMask("BlueTeam");
                     }
                 }
-                
-                PV.RPC("setLayer", RpcTarget.All);
             }
         }
 
@@ -86,18 +83,12 @@ public class WaveManager : MonoBehaviour
     [PunRPC]
     void setLayer()
     {
-        minion.layer = initLayer;
+        minion.layer = (int)Mathf.Log(initLayer.value, 2);
     }
 
     bool isSameLayer()
     {
-        if (localPlayerId <= 5)
-        {
-            return initLayer.value == LayerMask.GetMask("BlueTeam");
-        }
-        else
-        {
-            return initLayer.value == LayerMask.GetMask("RedTeam");
-        }
+        string[] arr = new string[] {"BlueTeam", "RedTeam"};
+        return initLayer == LayerMask.GetMask(arr[localPlayerId / 6]);
     }
 }

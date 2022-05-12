@@ -119,29 +119,5 @@ public class GameScene : BaseScene
             fov.allyMask = LayerMask.GetMask("RedTeam");
             fov.opposingMask = LayerMask.GetMask("BlueTeam");
         }
-
-        // 스폰한 챔피언의 layer를 설정하는 코드
-        PhotonView pv = myChamp.GetPhotonView();
-
-        if (pv != null)
-        {
-            pv.RPC("SetChampionLayer", RpcTarget.All);
-        }
-    }
-
-    /// <summary>
-    /// 자신의 actorId에 따라 layer를 설정합니다.
-    /// </summary>
-    [PunRPC]
-    void SetChampionLayer()
-    {
-        if (myId <= 5)
-        {
-            myChamp.layer = LayerMask.NameToLayer("BlueTeam");
-        }
-        else
-        {
-            myChamp.layer = LayerMask.NameToLayer("RedTeam");
-        }
     }
 }

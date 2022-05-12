@@ -44,33 +44,39 @@ public class WaveManager : MonoBehaviour
     
     IEnumerator WaveSpawn()
     {
+        string[] minionPath = new string[] {"Prefabs/FootmanHP", "Prefabs/FreeLichHP"};
         for (int i = 0; i < 4; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            if (i < 2)
+
+            for (int j = 0; j < 3; j++)
             {
-                for (int j = 0; j < 3; j++)
+                minion = PhotonNetwork.Instantiate(minionPath[i / 2], SpawnPos[j].position, Quaternion.identity);
+
+                if (!isSameLayer())
                 {
-                    minion = PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
-                    if (!isSameLayer())
-                    {
-                        Util.OffRenderer(minion);
-                    }
-                    PV.RPC("setLayer", RpcTarget.All);
+                    Util.OffRenderer(minion);
                 }
+                else
+                {
+                    GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
+                    FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
+                    fov.viewRadius = 22f;
+                    fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+                    fov.obstacleMask = LayerMask.GetMask("Obstacle");
+                    fov.allyMask = initLayer;
+                    if (initLayer == LayerMask.GetMask("BlueTeam"))
+                    {
+                        fov.opposingMask = LayerMask.GetMask("RedTeam");
+                    }
+                    else
+                    {
+                        fov.opposingMask = LayerMask.GetMask("BlueTeam");
+                    }
+                }
+                
+                PV.RPC("setLayer", RpcTarget.All);
             }
-            else
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    minion = PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
-                    if (!isSameLayer())
-                    {
-                        Util.OffRenderer(minion);
-                    }
-                    PV.RPC("setLayer", RpcTarget.All);
-                }
-            } 
         }
 
         waveTimer = 0f;

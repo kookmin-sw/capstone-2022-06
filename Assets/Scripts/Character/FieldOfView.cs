@@ -49,10 +49,13 @@ public class FieldOfView : MonoBehaviour
 
     /// <summary>
     /// viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
-    /// 그 후 delegate 호출
     /// </summary>
     private void ScanVisibleEnemies()
     {
+        foreach (Transform e in visibleEnemies)
+        {
+            Managers.Visible.ReduceVisible(e);
+        }
         visibleEnemies.Clear();
 
         Collider[] candidates = Physics.OverlapSphere(transform.position, viewRadius, opposingMask);
@@ -75,16 +78,12 @@ public class FieldOfView : MonoBehaviour
                     Debug.Log($"{gameObject.layer} vs {target.gameObject.layer}");
                     visibleEnemies.Add(target);
                 }
-                else
-                {
-                    Debug.Log("Enemy not found");
-                }
             }
         }
 
-        if (OnTargetsVisibilityChange != null)
+        foreach (Transform e in visibleEnemies)
         {
-            OnTargetsVisibilityChange(visibleEnemies);
+            Managers.Visible.IncreaseVisible(e);
         }
     }
 

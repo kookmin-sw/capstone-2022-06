@@ -11,6 +11,8 @@ public class GameScene : BaseScene
     int myId;
     string myPrefabPath;
 
+    GameObject myChamp;
+
     void Start()
     {
         isCommander = (bool)GetPropVal("isCommander");
@@ -31,32 +33,16 @@ public class GameScene : BaseScene
             spawnPoint.z = Random.Range(98, 111);
         }
 
-        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
-        // 카메라를 따라가게 하는 컴포넌트인 CameraFollow를 부착합니다.
-        // 지휘관이면 CameraFollow를 제거하고 CommanderCamController를 부착합니다.
-        CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+
         if (!isCommander)
         {
-            GameObject myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
-            tracker.player = myChamp.transform;
-            GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
-            FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
-            fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-            fov.obstacleMask = LayerMask.GetMask("Obstacle");
-
-            if (myId <= 5)
-            {
-                fov.allyMask = LayerMask.GetMask("BlueTeam");
-                fov.opposingMask = LayerMask.GetMask("RedTeam");
-            }
-            else
-            {
-                fov.allyMask = LayerMask.GetMask("RedTeam");
-                fov.opposingMask = LayerMask.GetMask("BlueTeam");
-            }
+            Spawn();
         }
         else
         {
+            // 지휘관이면 CameraFollow를 제거하고 CommanderCamController를 부착합니다.
+            CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+
             if (tracker)
             {
                 Destroy(tracker);
@@ -105,5 +91,57 @@ public class GameScene : BaseScene
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 지휘관 포함 스폰할 때 일어나는 동작입니다.
+    /// </summary>
+    void Spawn()
+    {
+        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
+        // 카메라를 따라가게 하는 컴포넌트인 CameraFollow를 부착합니다.
+        CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+
+        myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+        tracker.player = myChamp.transform;
+
+        GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
+        FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
+        fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+        fov.obstacleMask = LayerMask.GetMask("Obstacle");
+        if (myId <= 5)
+        {
+            fov.allyMask = LayerMask.GetMask("BlueTeam");
+            fov.opposingMask = LayerMask.GetMask("RedTeam");
+        }
+        else
+        {
+            fov.allyMask = LayerMask.GetMask("RedTeam");
+            fov.opposingMask = LayerMask.GetMask("BlueTeam");
+        }
+
+        // 스폰한 챔피언의 layer를 설정하는 코드
+        PhotonView pv = myChamp.GetPhotonView();
+
+        if (pv != null)
+        {
+            pv.RPC("SetChampionLayer", RpcTarget.All);
+        }
+    }
+
+    /// <summary>
+    /// 자신의 actorId에 따라 layer를 설정합니다.
+    /// </summary>
+    [PunRPC]
+    void SetChampionLayer()
+    {
+        if (myId <= 5)
+        {
+            myChamp.layer = LayerMask.NameToLayer("BlueTeam");
+        }
+        else
+        {
+            myChamp.layer = LayerMask.NameToLayer("RedTeam");
+        }
     }
 }

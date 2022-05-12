@@ -16,7 +16,7 @@ public class CamSwitchManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(camViewChanged);
+        // Debug.Log(camViewChanged);
 
         if(camViewChanged == false)
         {

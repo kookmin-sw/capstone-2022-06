@@ -16,7 +16,7 @@ public class FogCoverable : MonoBehaviour
         FieldOfView.OnTargetsVisibilityChange -= VisibilityChange;
     }
 
-    void VisibilityChange(HashSet<Transform> newTargets)
+    void VisibilityChange(List<Transform> newTargets)
     {
         if (newTargets.Contains(transform))
         {

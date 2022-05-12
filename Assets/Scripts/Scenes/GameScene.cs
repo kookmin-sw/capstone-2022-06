@@ -108,14 +108,15 @@ public class GameScene : BaseScene
         GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
         FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
         fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-        fov.obstacleMask = LayerMask.GetMask("Obstacle");
         if (myId <= 5)
         {
+            myChamp.GetOrAddComponent<LayerController>().SetLayer("BlueTeam");
             fov.allyMask = LayerMask.GetMask("BlueTeam");
             fov.opposingMask = LayerMask.GetMask("RedTeam");
         }
         else
         {
+            myChamp.GetOrAddComponent<LayerController>().SetLayer("RedTeam");
             fov.allyMask = LayerMask.GetMask("RedTeam");
             fov.opposingMask = LayerMask.GetMask("BlueTeam");
         }

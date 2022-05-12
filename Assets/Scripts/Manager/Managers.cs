@@ -8,10 +8,12 @@ public class Managers : MonoBehaviour
     static Managers Instance { get { Init(); return s_instance; } }
 
     ResourceManager _resource = new ResourceManager();
+    VisibleManager _visible = new VisibleManager();
     UIManager _ui = new UIManager();
     DataManager _data = new DataManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
+    public static VisibleManager Visible { get { return Instance._visible; }}
     public static UIManager UI {get { return Instance._ui; }}
     public static DataManager Data { get { return Instance._data; } }
 

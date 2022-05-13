@@ -134,4 +134,21 @@ public class Util
             return 0;
         }
     }
+
+    /// <summary>
+    /// 현재 로컬 클라이언트의 actorId를 반환합니다.
+    /// 없으면 -1을 반환합니다.
+    /// </summary>
+    public static int GetLocalPlayerId()
+    {
+        object tmp;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
+        {
+            return (int)tmp;
+        }
+        else
+        {
+            return -1;
+        }
+    }
 }

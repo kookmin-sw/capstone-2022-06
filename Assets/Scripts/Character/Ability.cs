@@ -13,10 +13,12 @@ public class Ability : MonoBehaviour
         스킬 R : 사용 시 지정된 위치에 거대한 검을 떨어뜨림
      */
 
-    Stats stats;
+    //Stats stats;
+    ChampionStat stat;
     PlayerAnimation playerAnim;
     ClickMovement moveScript;
     HeroCombat heroCombat;
+    ChampionManager championManager;
 
     public bool isPassive = false;
 
@@ -114,10 +116,12 @@ public class Ability : MonoBehaviour
         targetCircle.GetComponent<Image>().enabled = false;
         indicatorRangeCircle.GetComponent<Image>().enabled = false;
 
-        stats = GetComponent<Stats>();
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
         playerAnim = GetComponent<PlayerAnimation>();
         moveScript = GetComponent<ClickMovement>();
         heroCombat = GetComponent<HeroCombat>();
+        championManager = GetComponent<ChampionManager>();
     }
 
     void Update()
@@ -197,13 +201,13 @@ public class Ability : MonoBehaviour
     {
         // 스킬Q사용 시 3초간 파티클과 공격력 상승
         isActive = true;
-        float originAttackDmg = stats.attackDmg;
-        stats.attackDmg += stats.attackDmg * 0.5f;
+        float originAttackDmg = stat.Status.atk;
+        stat.Status.atk += stat.Status.atk * 0.5f;
         fire.Play();
         
         yield return new WaitForSeconds(3.0f);
         isActive = false;
-        stats.attackDmg = originAttackDmg;
+        stat.Status.atk = originAttackDmg;
         fire.Stop();
     }
 
@@ -218,7 +222,7 @@ public class Ability : MonoBehaviour
         if (Input.GetKey(skill_W) && isCooldown_W == false)
         {
             // 생명력++
-            stats.health += 50 + (stats.abilityPower * 0.5f);
+            stat.Status.hp += 50 + (stat.Status.ap * 0.5f);
 
             isCooldown_W = true;
             skillImage_W.fillAmount = 1;
@@ -429,7 +433,7 @@ public class Ability : MonoBehaviour
 
     void SkillUP()
     {
-        if(stats.skillPoint >= 1)
+        if(championManager.skillPoint >= 1)
         {
             Debug.Log("skillup");
             skillUpButton.SetActive(true);
@@ -448,7 +452,7 @@ public class Ability : MonoBehaviour
         }
 
         skillPoint_Q++;
-        stats.skillPoint--;
+        championManager.skillPoint--;
         if (skillPoint_Q == 1)
         {
             Q_SkillPoint1.color = Color.yellow;
@@ -471,7 +475,7 @@ public class Ability : MonoBehaviour
         }
 
         skillPoint_W++;
-        stats.skillPoint--;
+        championManager.skillPoint--;
         if (skillPoint_W == 1)
         {
             W_SkillPoint1.color = Color.yellow;
@@ -494,7 +498,7 @@ public class Ability : MonoBehaviour
         }
 
         skillPoint_E++;
-        stats.skillPoint--;
+        championManager.skillPoint--;
         if (skillPoint_E == 1)
         {
             E_SkillPoint1.color = Color.yellow;
@@ -511,13 +515,13 @@ public class Ability : MonoBehaviour
 
     public void SkillPointUp_R()
     {
-        if (skillPoint_R == 1 || stats.level < 6)
+        if (skillPoint_R == 1 || stat.Status.level < 6)
         {
             return;
         }
 
         skillPoint_R++;
-        stats.skillPoint--;
+        championManager.skillPoint--;
         R_SKillPoint1.color = Color.yellow;
     }
 }

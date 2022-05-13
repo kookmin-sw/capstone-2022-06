@@ -50,15 +50,13 @@ public class WaveManager : MonoBehaviour
             for (int j = 0; j < 3; j++)
             {
                 minion = PhotonNetwork.Instantiate(minionPath[i / 2], SpawnPos[j].position, Quaternion.identity);
-                minion.GetOrAddComponent<LayerController>().SetLayer(LayerMask.LayerToName((int)Mathf.Log(initLayer.value, 2)));
+                int minionId = minion.GetPhotonView().ViewID;
+                PV.RPC("InitLayerController", RpcTarget.All, minionId);
 
                 if (IsSameLayer())
                 {
-                    GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
                     FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
                     fov.viewRadius = 15f;
-                    fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-
                     fov.obstacleMask.value = LayerMask.GetMask("Obstacle");
                     fov.allyMask.value = initLayer.value;
     
@@ -87,5 +85,11 @@ public class WaveManager : MonoBehaviour
     bool IsSameLayer()
     {
         return initLayer == LayerMask.GetMask(Util.GetMyLayerString());
+    }
+
+    [PunRPC]
+    void InitLayerController(int id)
+    {
+        PhotonView.Find(id).gameObject.GetOrAddComponent<LayerController>().SetLayer(LayerMask.LayerToName((int)Mathf.Log(initLayer.value, 2)));
     }
 }

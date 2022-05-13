@@ -18,7 +18,11 @@ public class LayerController : MonoBehaviour
     /// </summary>
     public void SetLayer(string layerName)
     {
-        PV.RPC("_SetLayer", RpcTarget.All, layerName);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("_SetLayer", RpcTarget.All, layerName);
+        }
+
         int id = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
         if ((id <= 5 && gameObject.layer == LayerMask.NameToLayer("RedTeam")) ||
         (id > 5 && gameObject.layer == LayerMask.NameToLayer("BlueTeam")))

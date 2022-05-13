@@ -14,26 +14,43 @@ public class LayerController : MonoBehaviour
 
     /// </summary>
     /// 레이어를 설정합니다.
-    /// 겸사겸사 자기 팀 레이어가 아니면 OffRenderer를 호출합니다.
+    /// 겸사겸사 자기 팀 레이어가 아니면 OffRenderer를 호출합니다. 자기 팀 레이어면 FieldOfView를 부착합니다.
     /// </summary>
     public void SetLayer(string layerName)
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PV.IsMine)
         {
-            PV.RPC("_SetLayer", RpcTarget.All, layerName);
+            int id = PV.ViewID;
+            PV.RPC("_SetLayer", RpcTarget.All, id, layerName);
         }
 
-        int id = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
-        if ((id <= 5 && gameObject.layer == LayerMask.NameToLayer("RedTeam")) ||
-        (id > 5 && gameObject.layer == LayerMask.NameToLayer("BlueTeam")))
+        int myLayer = Util.GetMyLayer();
+        if (gameObject.layer == myLayer)
+        {
+            FieldOfView fov = gameObject.GetOrAddComponent<FieldOfView>();
+            GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", transform);
+            fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+
+            fov.allyMask = 1 << myLayer;
+            if (myLayer == LayerMask.NameToLayer("BlueTeam"))
+            {
+                fov.opposingMask = LayerMask.GetMask("RedTeam");
+            }
+            else
+            {
+                fov.opposingMask = LayerMask.GetMask("BlueTeam");
+            }
+        }
+        else
         {
             Util.OffRenderer(transform);
         }
     }
 
     [PunRPC]
-    void _SetLayer(string layerName)
+    void _SetLayer(int id, string layerName)
     {
-        gameObject.layer = LayerMask.NameToLayer(layerName);
+        // gameObject.layer = LayerMask.NameToLayer(layerName);
+        PhotonView.Find(id).gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 }

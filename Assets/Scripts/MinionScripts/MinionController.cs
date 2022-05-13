@@ -36,6 +36,7 @@ public class MinionController : Controller, IPunObservable
 
     List<Transform> _wayPoints = new List<Transform>();     // List : movement path positions
     NavMeshAgent _nav;
+    Animator _anim;
     Collider[] targetCols;
 
     [SerializeField] protected GameObject _lockTarget;                       // GameObject about target 
@@ -52,6 +53,7 @@ public class MinionController : Controller, IPunObservable
     {
         _nav = GetComponent<NavMeshAgent>();
         PV = GetComponent<PhotonView>();
+        _anim = GetComponent<Animator>();
 
         SetParent();
 
@@ -79,6 +81,7 @@ public class MinionController : Controller, IPunObservable
                 break;
             case State.Walk:
                 _nav.isStopped = false;
+                _anim.SetBool("OnAttack", false);
                 UpdateWayPoints();
                 break;
             case State.Targetting:
@@ -87,7 +90,6 @@ public class MinionController : Controller, IPunObservable
                     MoveTo();
                 break;
             case State.Attack:
-                Animator _anim = GetComponent<Animator>();
                 _anim.SetBool("OnAttack", true);
                 _nav.isStopped = true;
 
@@ -150,26 +152,41 @@ public class MinionController : Controller, IPunObservable
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
-
-        targetCols = Physics.OverlapSphere(transform.position, 5.0f, targetLayer);
-
-        IEnumerable<Collider> query = from target in targetCols
-                                      orderby target.GetComponent<ObjectStat>().Status.priority,
-                                              Vector3.Distance(target.gameObject.transform.position, transform.position)
-                                      select target;
-
-        if (query.Count() > 0)
+        if (_state != State.Targetting)
         {
-            _lockTarget = query.ElementAt<Collider>(0).gameObject;
-            _state = State.Targetting;
-        }
+            targetCols = Physics.OverlapSphere(transform.position, 7.0f, targetLayer);
+            
+            IEnumerable<Collider> query = from target in targetCols
+                                          orderby target.GetComponent<ObjectStat>().Status.priority,
+                                                  Vector3.Distance(target.gameObject.transform.position, transform.position)
+                                          select target;
 
-        Array.Clear(targetCols, 0, targetCols.Length);
+            if (query.Count() > 0)
+            {
+                foreach (Collider col in query)
+                {
+                    if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= 7.0f)
+                    {
+                        _lockTarget = col.gameObject;
+                        _state = State.Targetting;
+                        break;
+                    }
+                }
+            }
+
+            Array.Clear(targetCols, 0, targetCols.Length);
+        }
     }
     
     // set destinaion to target until disance to target lower than attackRange
     protected void MoveTo()
     {
+        if (_lockTarget == null)
+        {
+            _state = State.Walk;
+            return;
+        }
+
         _nav.SetDestination(_lockTarget.transform.position);
 
         if ((transform.position - _lockTarget.transform.position).magnitude < _attackRange)
@@ -180,7 +197,6 @@ public class MinionController : Controller, IPunObservable
         else
         {
             _nav.isStopped = false;
-            _state = State.Targetting;
         }
     }
 

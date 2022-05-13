@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 public class Util
 {
@@ -106,6 +107,73 @@ public class Util
         foreach (Canvas canv in canvas)
         {
             canv.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 현재 클라이언트에 해당하는 레이어를 반환합니다.
+    /// bound를 넘지 않으면 BlueTeam, 넘으면 RedTeam입니다.
+    /// </summary>
+    public static int GetMyLayer()
+    {
+        int bound = 5;
+        object tmp;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
+        {
+            if ((int)tmp <= bound)
+            {
+                return LayerMask.NameToLayer("BlueTeam");
+            }
+            else
+            {
+                return LayerMask.NameToLayer("RedTeam");
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// 현재 클라이언트에 해당하는 레이어 이름을 반환합니다.
+    /// bound를 넘지 않으면 BlueTeam, 넘으면 RedTeam입니다.
+    /// </summary>
+    public static string GetMyLayerString()
+    {
+        int bound = 5;
+        object tmp;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
+        {
+            if ((int)tmp <= bound)
+            {
+                return "BlueTeam";
+            }
+            else
+            {
+                return "RedTeam";
+            }
+        }
+        else
+        {
+            return "Default";
+        }
+    }
+
+    /// <summary>
+    /// 현재 로컬 클라이언트의 actorId를 반환합니다.
+    /// 없으면 -1을 반환합니다.
+    /// </summary>
+    public static int GetLocalPlayerId()
+    {
+        object tmp;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
+        {
+            return (int)tmp;
+        }
+        else
+        {
+            return -1;
         }
     }
 }

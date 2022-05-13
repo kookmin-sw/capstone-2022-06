@@ -22,7 +22,7 @@ public class GameScene : BaseScene
 
         // 초기 스폰 좌표 지정. 지휘관일 경우 초기 view 위치를 지정할 예정
         // Blue Team
-        if (myId <= 5)
+        if (Util.GetMyLayerString() == "BlueTeam")
         {
             spawnPoint.x = Random.Range(-111, -98);
             spawnPoint.z = Random.Range(-111, -98);
@@ -104,21 +104,7 @@ public class GameScene : BaseScene
 
         myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         tracker.player = myChamp.transform;
-
-        GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
-        FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
-        fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-        if (myId <= 5)
-        {
-            myChamp.GetOrAddComponent<LayerController>().SetLayer("BlueTeam");
-            fov.allyMask = LayerMask.GetMask("BlueTeam");
-            fov.opposingMask = LayerMask.GetMask("RedTeam");
-        }
-        else
-        {
-            myChamp.GetOrAddComponent<LayerController>().SetLayer("RedTeam");
-            fov.allyMask = LayerMask.GetMask("RedTeam");
-            fov.opposingMask = LayerMask.GetMask("BlueTeam");
-        }
+        LayerController _layer = myChamp.GetOrAddComponent<LayerController>();
+        _layer.SetLayer(Util.GetMyLayerString());
     }
 }

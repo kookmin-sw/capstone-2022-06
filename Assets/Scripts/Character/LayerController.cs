@@ -14,22 +14,53 @@ public class LayerController : MonoBehaviour
 
     /// </summary>
     /// 레이어를 설정합니다.
-    /// 겸사겸사 자기 팀 레이어가 아니면 OffRenderer를 호출합니다.
+    /// 겸사겸사 자기 팀 레이어가 아니면 OffRenderer를 호출합니다. 자기 팀 레이어면 FieldOfView를 부착합니다.
     /// </summary>
     public void SetLayer(string layerName)
     {
-        PV.RPC("_SetLayer", RpcTarget.All, layerName);
-        int id = (int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"];
-        if ((id <= 5 && gameObject.layer == LayerMask.NameToLayer("RedTeam")) ||
-        (id > 5 && gameObject.layer == LayerMask.NameToLayer("BlueTeam")))
+        if (PV.IsMine)
         {
-            Util.OffRenderer(transform);
+            int id = PV.ViewID;
+            PV.RPC("_SetLayer", RpcTarget.All, id, layerName);
         }
     }
 
+    /// <summary>
+    /// 레이어를 진짜 설정하는 RPC 메서드
+    /// </summary>
     [PunRPC]
-    void _SetLayer(string layerName)
+    void _SetLayer(int id, string layerName)
     {
-        gameObject.layer = LayerMask.NameToLayer(layerName);
+        PhotonView.Find(id).gameObject.layer = LayerMask.NameToLayer(layerName);
+        AttachFovOrDisable(PhotonView.Find(id).gameObject);
+    }
+
+    /// <summary>
+    /// 해당 게임오브젝트의 레이어 마스크에 따라 FOV를 붙이거나 OffRenderer를 호출하는 메서드
+    /// </summary>
+    public void AttachFovOrDisable(GameObject go)
+    {
+        int myLayer = Util.GetMyLayer();
+    
+        if (go.layer == myLayer)
+        {
+            GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", transform);
+            FieldOfView fov = gameObject.GetOrAddComponent<FieldOfView>();
+            fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+
+            fov.allyMask = 1 << myLayer;
+            if (myLayer == LayerMask.NameToLayer("BlueTeam"))
+            {
+                fov.opposingMask = LayerMask.GetMask("RedTeam");
+            }
+            else
+            {
+                fov.opposingMask = LayerMask.GetMask("BlueTeam");
+            }
+        }
+        else
+        {
+            Util.OffRenderer(go.transform);
+        }
     }
 }

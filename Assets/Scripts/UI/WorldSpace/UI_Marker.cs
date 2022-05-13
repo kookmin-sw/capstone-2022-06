@@ -27,7 +27,7 @@ public class UI_Marker : UI_Base
         
     }
 
-    void SetMarkerColor(Vector3 color)
+    public void SetMarkerColor(Vector3 color)
     {
         GameObject marker = Get<GameObject>((int)GameObjects.Marker);
         Image markerImage = marker.GetComponent<Image>();

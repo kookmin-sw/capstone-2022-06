@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Util
 {
@@ -69,5 +70,42 @@ public class Util
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// 해당 go가 "보이지 않도록" 적절한 컴포넌트를 off 합니다.
+    /// </summary>
+    public static void OffRenderer(Transform go)
+    {
+        Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
+        
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+
+        Canvas[] canvas = go.GetComponentsInChildren<Canvas>();
+        foreach (Canvas canv in canvas)
+        {
+            canv.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// 해당 go가 "보이도록" 적절한 컴포넌트를 on 합니다.
+    /// </summary>
+    public static void OnRenderer(Transform go)
+    {
+        Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = true;
+        }
+
+        Canvas[] canvas = go.GetComponentsInChildren<Canvas>();
+        foreach (Canvas canv in canvas)
+        {
+            canv.enabled = true;
+        }
     }
 }

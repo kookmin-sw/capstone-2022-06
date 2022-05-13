@@ -16,14 +16,18 @@ public class WaveManager : MonoBehaviour
     PhotonView PV;
 
     GameObject minion;
+    
+    public LayerMask initLayer;
+    int localPlayerId;
 
-    // Start is called before the first frame update
     void Start()
     {
-        PV = GetComponent<PhotonView>();   
+        object tmp;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp);
+        localPlayerId = (int)tmp; 
+        PV = GetComponent<PhotonView>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -40,26 +44,51 @@ public class WaveManager : MonoBehaviour
     
     IEnumerator WaveSpawn()
     {
+        string[] minionPath = new string[] {"Prefabs/FootmanHP", "Prefabs/FreeLichHP"};
         for (int i = 0; i < 4; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            if (i < 2)
+
+            for (int j = 0; j < 3; j++)
             {
-                for (int j = 0; j < 2; j++)
+                minion = PhotonNetwork.Instantiate(minionPath[i / 2], SpawnPos[j].position, Quaternion.identity);
+                minion.GetOrAddComponent<LayerController>().SetLayer(LayerMask.LayerToName((int)Mathf.Log(initLayer.value, 2)));
+
+                if (isSameLayer())
                 {
-                    PhotonNetwork.Instantiate("Prefabs/FootmanHP", SpawnPos[j].position, Quaternion.identity);
+                    GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
+                    FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
+                    fov.viewRadius = 15f;
+                    fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
+
+                    fov.obstacleMask.value = LayerMask.GetMask("Obstacle");
+                    fov.allyMask.value = initLayer.value;
+    
+                    if (initLayer == LayerMask.GetMask("BlueTeam"))
+                    {
+                        fov.opposingMask.value = LayerMask.GetMask("RedTeam");
+                    }
+                    else
+                    {
+                        fov.opposingMask.value = LayerMask.GetMask("BlueTeam");
+                    }
                 }
             }
-            else
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    PhotonNetwork.Instantiate("Prefabs/FreeLichHP", SpawnPos[j].position, Quaternion.identity);
-                }
-            } 
         }
 
         waveTimer = 0f;
         isSpawning = false;
+    }
+
+    [PunRPC]
+    void setLayer()
+    {
+        minion.layer = (int)Mathf.Log(initLayer.value, 2);
+    }
+
+    bool isSameLayer()
+    {
+        string[] arr = new string[] {"BlueTeam", "RedTeam"};
+        return initLayer == LayerMask.GetMask(arr[localPlayerId / 6]);
     }
 }

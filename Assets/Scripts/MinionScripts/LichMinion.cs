@@ -40,7 +40,7 @@ public class LichMinion : MinionController
             bullet.GetComponent<LichBullet>()._target = _lockTarget;
     }
 
-    // ÃßÈÄ¿¡ ÇÃ·¹ÀÌ¾î ¹× Æ÷Å¾ µîÀÌ Ãß°¡µÇ¸é ¼öÁ¤ ÇÊ¿ä
+    // ì¶”í›„ì— í”Œë ˆì´ì–´ ë° í¬íƒ‘ ë“±ì´ ì¶”ê°€ë˜ë©´ ìˆ˜ì • í•„ìš”
     void ChangeTargetNull()
     {
         if (_lockTarget != null)

@@ -13,7 +13,6 @@ public class Managers : MonoBehaviour
     DataManager _data = new DataManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
-    public static VisibleManager Visible { get { return Instance._visible; }}
     public static UIManager UI {get { return Instance._ui; }}
     public static DataManager Data { get { return Instance._data; } }
 

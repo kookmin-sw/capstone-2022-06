@@ -45,7 +45,7 @@ public class MonsterController : Controller
         _nav = GetComponent<NavMeshAgent>();
         MonsterAnimator = GetComponent<Animator>();
         
-        targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
+        targetLayer = 1 << LayerMask.NameToLayer("RedTeam") | LayerMask.NameToLayer("BlueTeam");
 
         InitWayPoints();
 
@@ -79,12 +79,12 @@ public class MonsterController : Controller
     {
         // WALK 애니메이션 재생
         MonsterAnimator.SetBool("IsTrace", false);
+        _nav.isStopped = false;
         // 배회 알고리즘 (wayPoints 에 있는 transform들을 순서대로 목표하여 배회하도록)
         _nav.speed = _walkSpeed;
         ChangeWayPoint();
 
         _nav.SetDestination(wayPoints[destNum].position);
-        // 조건에 따른 _state 변경
     }
 
     void UpdateTrace()
@@ -93,11 +93,18 @@ public class MonsterController : Controller
         // RUN 애니메이션 재생
         MonsterAnimator.SetBool("IsTrace", true);
         MonsterAnimator.SetBool("IsAttack", false);
+        _nav.isStopped = false;
         // 타겟을 SetDestination하여 추적
         _nav.speed = _traceSpeed;
         _nav.SetDestination(_lockTarget.transform.position);
 
         // 타겟과의 거리가 공격범위 내에 들어오면 _state 를 ATTACK으로 변경 _traceTime = 0;
+        if (Vector3.Distance(transform.position, _lockTarget.transform.position) <= _attackRange)
+        {
+            _traceTime = 0;
+            _state = MonsterState.ATTACK;
+            return;
+        }
         // 타겟과의 거리가 일정 범위 벗어나면 target = null, _state도 WALK로 변경 _traceTime = 0;
         if (Vector3.Distance(transform.position, _lockTarget.transform.position) >= 50.0f)
         {
@@ -119,7 +126,12 @@ public class MonsterController : Controller
     void UpdateAttack()
     {
         // 공격 애니메이션 재생
+        MonsterAnimator.SetBool("IsTrace", false);
+        MonsterAnimator.SetBool("IsAttack", true);
+        _nav.isStopped = true;
         // 공격 중 거리가 벗어나면 _state를 trace로 변경 
+        if (Vector3.Distance(transform.position, _lockTarget.transform.position) >= _attackRange)
+            _state = MonsterState.TRACE;
     }
 
     void UpdateDie()
@@ -134,7 +146,7 @@ public class MonsterController : Controller
         // 피격 시 타겟 Lock
         if (_state == MonsterState.WALK)
         {
-            Collider[] targetCandidates = Physics.OverlapSphere(transform.position, 20.0f, targetLayer);
+            Collider[] targetCandidates = Physics.OverlapSphere(transform.position, 40.0f, targetLayer);
 
             Array.Sort(targetCandidates, delegate (Collider a, Collider b)
             {

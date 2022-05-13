@@ -1081,6 +1081,7 @@ MonoBehaviour:
     GivingExp: 0
     moveSpeed: 0
     priority: 0
+    atkInterTime: 0
 --- !u!114 &4388618243523973226
 MonoBehaviour:
   m_ObjectHideFlags: 0

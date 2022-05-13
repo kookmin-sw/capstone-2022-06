@@ -15,10 +15,9 @@ public class Health : MonoBehaviour
 
     void Start()
     {
-        stat = GetComponent<ChampionStat>();
-        stat.Initialize("Mangoawl");
 
         //statsScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Stat>();
+        stat = GameObject.FindGameObjectWithTag("Player").GetComponent<ChampionStat>();
 
         characterSlider2D = GetComponent<Slider>();
 

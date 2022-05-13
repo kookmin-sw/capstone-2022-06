@@ -43147,19 +43147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c40a82eb8e955408596fbbe48adfbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  exp: 0
-  maxHealth: 600
-  healthRegen: 2
-  health: 600
-  armor: 65
-  attackDmg: 10
-  abilityPower: 10
-  mana: 0
-  manaRegen: 0
-  speed: 15
-  attackSpeed: 1
-  attackTime: 1.4
   skillPoint: 0
 --- !u!136 &1557963480
 CapsuleCollider:
@@ -59860,6 +59847,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a159416fbc15cae4aa690daafc443218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &746211592243591824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746211592243422955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739fcb3561698764fb569dd99fe34337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    name: 
+    level: 0
+    exp: 0
+    hp: 0
+    mp: 0
+    maxHp: 0
+    maxMp: 0
+    atk: 0
+    ap: 0
+    healthRegen: 0
+    manaRegen: 0
+    defense: 0
+    atkSpeed: 0
+    GivingGold: 0
+    GivingExp: 0
+    moveSpeed: 0
+    priority: 0
+    atkInterTime: 0
 --- !u!1001 &6683152851512873171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59989,6 +60007,10 @@ PrefabInstance:
       objectReference: {fileID: 1916810477}
     - target: {fileID: 6683152851635762651, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}
       propertyPath: skillPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6683152851872757154, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}
+      propertyPath: m_Value
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6683152851957212241, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}

@@ -22,7 +22,7 @@ public class GameScene : BaseScene
 
         // 초기 스폰 좌표 지정. 지휘관일 경우 초기 view 위치를 지정할 예정
         // Blue Team
-        if (myId <= 5)
+        if (Util.GetMyLayerString() == "BlueTeam")
         {
             spawnPoint.x = Random.Range(-111, -98);
             spawnPoint.z = Random.Range(-111, -98);

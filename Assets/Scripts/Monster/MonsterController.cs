@@ -106,7 +106,8 @@ public class MonsterController : Controller
             return;
         }
         // 타겟과의 거리가 일정 범위 벗어나면 target = null, _state도 WALK로 변경 _traceTime = 0;
-        if (Vector3.Distance(transform.position, _lockTarget.transform.position) >= 50.0f)
+        // TRACE 상태를 일정시간동안 유지만 하면 _state를 WALK로 변경하고 target = null 
+        if (Vector3.Distance(transform.position, _lockTarget.transform.position) >= 50.0f || _traceTime >= _traceLimitTime)
         {
             _lockTarget = null;
             _traceTime = 0;
@@ -114,13 +115,6 @@ public class MonsterController : Controller
             return;
         }
 
-        // TRACE 상태를 일정시간동안 유지만 하면 _state를 WALK로 변경하고 target = null 
-        if (_traceTime >= _traceLimitTime)
-        {
-            _lockTarget = null;
-            _traceTime = 0;
-            _state = MonsterState.WALK;
-        }
     }
 
     void UpdateAttack()

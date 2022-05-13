@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 public class Util
 {
@@ -106,6 +107,30 @@ public class Util
         foreach (Canvas canv in canvas)
         {
             canv.enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 이 클라이언트의 id와 스트링으로 받은 레이어 마스크가 동일한지 확인합니다.
+    /// 값을 찾지 못하면 false를 반환합니다.
+    /// </summary>
+    bool isSameLayer(string layerName)
+    {
+        object tmp;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
+        {
+            if ((int)tmp <= 5)
+            {
+                return layerName == "BlueTeam";
+            }
+            else
+            {
+                return layerName == "RedTeam";
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 }

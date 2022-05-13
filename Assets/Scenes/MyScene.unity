@@ -4818,6 +4818,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2774013496813812668, guid: 4e7afdf31c20ebf419ea38bf1d358719, type: 3}
+      propertyPath: _attackRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774013496813812668, guid: 4e7afdf31c20ebf419ea38bf1d358719, type: 3}
+      propertyPath: _traceLimitTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5792744366562842766, guid: 4e7afdf31c20ebf419ea38bf1d358719, type: 3}
       propertyPath: m_Name
       value: CrabMonster 1
@@ -41669,7 +41677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558934127}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -64.34, y: 0, z: 53.17}
+  m_LocalPosition: {x: -67.2, y: 0, z: 39.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

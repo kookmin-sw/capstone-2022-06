@@ -114,7 +114,7 @@ public class Util
     /// 이 클라이언트의 id와 스트링으로 받은 레이어 마스크가 동일한지 확인합니다.
     /// 값을 찾지 못하면 false를 반환합니다.
     /// </summary>
-    bool isSameLayer(string layerName)
+    public static bool isSameLayer(string layerName)
     {
         object tmp;
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))

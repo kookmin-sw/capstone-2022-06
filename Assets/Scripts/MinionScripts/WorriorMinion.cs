@@ -33,7 +33,11 @@ public class WorriorMinion : MinionController
 
         _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk);
 
-        if (targetStat.Status.hp <= 0) _lockTarget = null;
+        if (targetStat.Status.hp <= 0)
+        {
+            _lockTarget = null;
+            _state = State.Walk;
+        }
 
         Debug.Log("Hit!");
     }

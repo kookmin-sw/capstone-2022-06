@@ -54,7 +54,7 @@ public class WaveManager : MonoBehaviour
                 minion = PhotonNetwork.Instantiate(minionPath[i / 2], SpawnPos[j].position, Quaternion.identity);
                 minion.GetOrAddComponent<LayerController>().SetLayer(LayerMask.LayerToName((int)Mathf.Log(initLayer.value, 2)));
 
-                if (isSameLayer())
+                if (IsSameLayer())
                 {
                     GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", minion.transform);
                     FieldOfView fov = minion.GetOrAddComponent<FieldOfView>();
@@ -86,9 +86,8 @@ public class WaveManager : MonoBehaviour
         minion.layer = (int)Mathf.Log(initLayer.value, 2);
     }
 
-    bool isSameLayer()
+    bool IsSameLayer()
     {
-        string[] arr = new string[] {"BlueTeam", "RedTeam"};
-        return initLayer == LayerMask.GetMask(arr[localPlayerId / 6]);
+        return initLayer == LayerMask.GetMask(Util.GetMyLayerString());
     }
 }

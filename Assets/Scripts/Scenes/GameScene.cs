@@ -104,21 +104,7 @@ public class GameScene : BaseScene
 
         myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         tracker.player = myChamp.transform;
-
-        GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", myChamp.transform);
-        FieldOfView fov = myChamp.GetOrAddComponent<FieldOfView>();
-        fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
-        if (myId <= 5)
-        {
-            myChamp.GetOrAddComponent<LayerController>().SetLayer("BlueTeam");
-            fov.allyMask = LayerMask.GetMask("BlueTeam");
-            fov.opposingMask = LayerMask.GetMask("RedTeam");
-        }
-        else
-        {
-            myChamp.GetOrAddComponent<LayerController>().SetLayer("RedTeam");
-            fov.allyMask = LayerMask.GetMask("RedTeam");
-            fov.opposingMask = LayerMask.GetMask("BlueTeam");
-        }
+        LayerController _layer = myChamp.GetOrAddComponent<LayerController>();
+        _layer.SetLayer(Util.GetMyLayerString());
     }
 }

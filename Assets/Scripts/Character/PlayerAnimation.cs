@@ -13,13 +13,15 @@ public class PlayerAnimation : MonoBehaviour
     public float speed;
     float motionSmoothTime = 0.1f;
 
-    Stats stats;
+    //Stats stats;
+    ChampionStat stat;
 
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        stats = GetComponent<Stats>();
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
     }
 
     void Update()
@@ -30,6 +32,6 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
 
         // 공격 속도
-        anim.SetFloat("attackSpeed", stats.attackSpeed);
+        anim.SetFloat("attackSpeed", stat.Status.atkSpeed);
     }
 }

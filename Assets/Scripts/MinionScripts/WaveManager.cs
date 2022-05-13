@@ -22,9 +22,7 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
-        object tmp;
-        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp);
-        localPlayerId = (int)tmp; 
+        localPlayerId = (int)Util.GetLocalPlayerId();
         PV = GetComponent<PhotonView>();
     }
 

@@ -23,12 +23,29 @@ public class LayerController : MonoBehaviour
             int id = PV.ViewID;
             PV.RPC("_SetLayer", RpcTarget.All, id, layerName);
         }
+    }
 
+    /// <summary>
+    /// 레이어를 진짜 설정하는 RPC 메서드
+    /// </summary>
+    [PunRPC]
+    void _SetLayer(int id, string layerName)
+    {
+        PhotonView.Find(id).gameObject.layer = LayerMask.NameToLayer(layerName);
+        AttachFovOrDisable(PhotonView.Find(id).gameObject);
+    }
+
+    /// <summary>
+    /// 해당 게임오브젝트의 레이어 마스크에 따라 FOV를 붙이거나 OffRenderer를 호출하는 메서드
+    /// </summary>
+    public void AttachFovOrDisable(GameObject go)
+    {
         int myLayer = Util.GetMyLayer();
-        if (gameObject.layer == myLayer)
+    
+        if (go.layer == myLayer)
         {
-            FieldOfView fov = gameObject.GetOrAddComponent<FieldOfView>();
             GameObject filter = Managers.Resource.Instantiate("ViewVisualisation", transform);
+            FieldOfView fov = gameObject.GetOrAddComponent<FieldOfView>();
             fov.viewMeshFilter = filter.GetComponent<MeshFilter>();
 
             fov.allyMask = 1 << myLayer;
@@ -43,14 +60,7 @@ public class LayerController : MonoBehaviour
         }
         else
         {
-            Util.OffRenderer(transform);
+            Util.OffRenderer(go.transform);
         }
-    }
-
-    [PunRPC]
-    void _SetLayer(int id, string layerName)
-    {
-        // gameObject.layer = LayerMask.NameToLayer(layerName);
-        PhotonView.Find(id).gameObject.layer = LayerMask.NameToLayer(layerName);
     }
 }

@@ -111,26 +111,27 @@ public class Util
     }
 
     /// <summary>
-    /// 이 클라이언트의 id와 스트링으로 받은 레이어 마스크가 동일한지 확인합니다.
-    /// 값을 찾지 못하면 false를 반환합니다.
+    /// 현재 클라이언트에 해당하는 레이어를 반환합니다.
+    /// bound를 넘지 않으면 BlueTeam, 넘으면 RedTeam입니다.
     /// </summary>
-    public static bool isSameLayer(string layerName)
+    public static int GetMyLayer()
     {
+        int bound = 5;
         object tmp;
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
         {
-            if ((int)tmp <= 5)
+            if ((int)tmp <= bound)
             {
-                return layerName == "BlueTeam";
+                return LayerMask.NameToLayer("BlueTeam");
             }
             else
             {
-                return layerName == "RedTeam";
+                return LayerMask.NameToLayer("RedTeam");
             }
         }
         else
         {
-            return false;
+            return 0;
         }
     }
 }

@@ -31,6 +31,7 @@ public class MonsterController : Controller
 
     public List<Transform> wayPoints = new List<Transform>();
     public GameObject _lockTarget;
+    public GameObject _currentAttacker;
     NavMeshAgent _nav;
     Animator MonsterAnimator;
 
@@ -128,15 +129,32 @@ public class MonsterController : Controller
             _state = MonsterState.TRACE;
     }
 
-    void UpdateDie()
+    IEnumerator UpdateDie()
     {
+        MonsterAnimator.SetBool("IsDead", true);
 
+        if (_currentAttacker.gameObject.tag == "Player")
+        {
+            //_currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+        }
+
+        yield return new WaitForSeconds(3.0f);
+
+        Managers.Resource.Destroy(this.gameObject);
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        _currentAttacker = attacker;
         // 데미지 계산 후 적용
         _stat.Status.hp -= damage;
+
+        if (_stat.Status.hp <= 0)
+        {
+            _state = MonsterState.DIE;
+            return;
+        }
+
         // 피격 시 타겟 Lock
         if (_state == MonsterState.WALK)
         {
@@ -199,6 +217,19 @@ public class MonsterController : Controller
             ++destNum;
 
             if (destNum >= wayPoints.Count) destNum = 0;
+        }
+    }
+
+    public void GiveBuff()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach(GameObject player in players)
+        {
+            if (player.layer == _currentAttacker.layer)
+            {
+                // 버프 오브젝트를 해당 챔피언들에 자식 오브젝트로 붙이기        
+            }
         }
     }
 }

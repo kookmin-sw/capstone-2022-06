@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+public class ChampionManager : MonoBehaviour
 {
+    /*
     public int level;
     public int exp;
     public float maxHealth;
@@ -17,57 +18,57 @@ public class Stats : MonoBehaviour
     public float speed;
     public float attackSpeed;
     public float attackTime;
+    */
 
     public int skillPoint;
 
     HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
-    Ability ability;
-
-    // 플레이어의 스탯 스크립트
+    ChampionStat stat;
 
     void Start()
     {
         heroCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroCombat>();
         playerAnim = GetComponent<PlayerAnimation>();
-        ability = GetComponent<Ability>();
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
     }
 
     void Update()
     {
-        if(level < 10)
+        if(stat.Status.level < 10)
         {
             LevelUp();
         }
 
-        if (health > maxHealth)
+        if (stat.Status.hp > stat.Status.maxHp)
         {
-            health = maxHealth;
+            stat.Status.hp = stat.Status.maxHp;
         }
 
-        if (health <= 0)
+        if (stat.Status.hp <= 0)
         {
             Destroy(gameObject);
             heroCombatScript.targetedEnemy = null;
             heroCombatScript.performMeleeAttack = false;
         }
 
-        playerAnim.agent.speed = speed;
+        playerAnim.agent.speed = stat.Status.moveSpeed;
     }
 
     void FixedUpdate()
     {
-        healthRegen = 2 + level * 1.5f;
+        stat.Status.healthRegen = 2 + stat.Status.level * 1.5f;
 
-        health += healthRegen;
+        stat.Status.hp += stat.Status.healthRegen;
     }
 
     void LevelUp()
     {
-        if(exp >= 100)
+        if(stat.Status.exp >= 100)
         {
-            exp = 0;
-            level++;
+            stat.Status.exp = 0;
+            stat.Status.level++;
             skillPoint++;
         }
     }

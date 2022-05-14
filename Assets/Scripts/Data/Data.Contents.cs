@@ -24,6 +24,7 @@ public class Stat
     [SerializeField] public float GivingExp;
     [SerializeField] public float moveSpeed;
     [SerializeField] public int priority;
+    [SerializeField] public float atkInterTime;
 
     public void Init(Stat loadStat)
     {
@@ -44,6 +45,7 @@ public class Stat
         this.GivingExp = loadStat.GivingExp;
         this.moveSpeed = loadStat.moveSpeed;
         this.priority = loadStat.priority;
+        this.atkInterTime = loadStat.atkInterTime;
     }
 }
 

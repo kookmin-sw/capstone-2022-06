@@ -40,6 +40,7 @@ public class MinionController : Controller, IPunObservable
     Collider[] targetCols;
 
     [SerializeField] protected GameObject _lockTarget;                       // GameObject about target 
+    [SerializeField] GameObject _currentAttacker;
     [SerializeField] Slider HPSlider;
 
     public State _state;
@@ -214,12 +215,18 @@ public class MinionController : Controller, IPunObservable
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (attacker != null)
+            _currentAttacker = attacker;
+
         stat.Status.hp -= damage;
 
         if (stat.Status.hp <= 0)
+        {
             _state = State.Die;
+            return;
+        }
     }
 
     protected IEnumerator UpdateDie()
@@ -228,6 +235,11 @@ public class MinionController : Controller, IPunObservable
         _anim.SetBool("IsDead", true);
 
         this.gameObject.layer = LayerMask.NameToLayer("Default");
+
+        if (_currentAttacker.gameObject.tag == "Player")
+        {
+            //_currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+        }
 
         yield return new WaitForSeconds(3.0f);
 

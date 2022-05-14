@@ -94,7 +94,7 @@ public class TurretController : Controller
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject attacker = null)
     {
         stat.Status.hp -= damage;
 

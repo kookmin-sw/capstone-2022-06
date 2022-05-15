@@ -26,14 +26,15 @@ public class UI_Cooldown : MonoBehaviour
         fill.fillAmount = currentCooldown / maxCooldown;
     }
 
+    void Start()
+    {
+        SetCurrentCooldown(90f);
+        StartCoroutine(DecreaseCoolDown());
+    }
+
     void Update()
     {
-        SetCurrentCooldown(currentCooldown - Time.deltaTime);
-
-        // if (currentCooldown < 0f)
-        // {
-        //     currentCooldown = maxCooldown;
-        // }
+        
     }
 
     IEnumerator DecreaseCoolDown()

@@ -31,7 +31,7 @@ public class UI_Cooldown : MonoBehaviour
 
     void Start()
     {
-        SetCurrentCooldown(90f);
+        SetCurrentCooldown(maxCooldown);
         StartCoroutine(ReduceCooldown());
     }
 

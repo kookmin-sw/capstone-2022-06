@@ -9,18 +9,21 @@ public class UI_Cooldown : MonoBehaviour
     private float maxCooldown = 90f;
     private float currentCooldown = 0f;
 
+    /// <summary> 최대 쿨타임을 변경 </summary>
     public void SetMaxCooldown(in float value)
     {
         maxCooldown = value;
         UpdateFillAmount();
     }
 
+    /// <summary> 현재 쿨타임을 변경 </summary>
     public void SetCurrentCooldown(in float value)
     {
         currentCooldown = value;
         UpdateFillAmount();
     }
 
+    /// <summary> 현재 쿨타임에 따라 시각 효과를 반영하는 메서드 </summary>
     private void UpdateFillAmount()
     {
         fill.fillAmount = currentCooldown / maxCooldown;
@@ -34,7 +37,7 @@ public class UI_Cooldown : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     IEnumerator DecreaseCoolDown()

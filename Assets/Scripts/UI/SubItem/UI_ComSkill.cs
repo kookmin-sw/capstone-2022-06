@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_ComSkill : UI_Scene
+public class UI_ComSkill : UI_Base
 {
     enum GameObjects
     {

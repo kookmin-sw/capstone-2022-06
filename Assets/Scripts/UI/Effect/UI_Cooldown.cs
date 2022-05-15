@@ -48,4 +48,9 @@ public class UI_Cooldown : MonoBehaviour
         });
         SetCurrentCooldown(0f);
     }
+
+    public bool IsCooldownFinished()
+    {
+        return currentCooldown == 0f;
+    }
 }

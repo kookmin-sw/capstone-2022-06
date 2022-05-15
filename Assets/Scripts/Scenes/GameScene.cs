@@ -36,7 +36,6 @@ public class GameScene : BaseScene
         if (!isCommander)
         {
             Spawn();
-            Managers.UI.ShowSceneUI<UI_ChampSkill>();
         }
         else
         {
@@ -55,8 +54,6 @@ public class GameScene : BaseScene
             Camera.main.transform.position = origin;
 
             Camera.main.gameObject.GetOrAddComponent<CommanderCamController>();
-
-            Managers.UI.ShowSceneUI<UI_ComSkill>();
         }
     }
 

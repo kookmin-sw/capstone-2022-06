@@ -33,7 +33,6 @@ public class GameScene : BaseScene
             spawnPoint.z = Random.Range(98, 111);
         }
 
-
         if (!isCommander)
         {
             Spawn();
@@ -41,12 +40,18 @@ public class GameScene : BaseScene
         else
         {
             // 지휘관이면 CameraFollow를 제거하고 CommanderCamController를 부착합니다.
+            // 스폰 지점으로 이동시킵니다.
             CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
 
             if (tracker)
             {
                 Destroy(tracker);
             }
+
+            Vector3 origin = Camera.main.transform.position;
+            origin.x = spawnPoint.x;
+            origin.z = spawnPoint.z;
+            Camera.main.transform.position = origin;
 
             Camera.main.gameObject.GetOrAddComponent<CommanderCamController>();
         }

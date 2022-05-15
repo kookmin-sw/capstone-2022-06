@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class UI_Cooldown : MonoBehaviour
 {
     public Image fill;
-    private float maxCooldown = 5f;
-    private float currentCooldown = 5f;
+    private float maxCooldown = 90f;
+    private float currentCooldown = 0f;
 
     public void SetMaxCooldown(in float value)
     {
@@ -30,9 +30,18 @@ public class UI_Cooldown : MonoBehaviour
     {
         SetCurrentCooldown(currentCooldown - Time.deltaTime);
 
-        if (currentCooldown < 0f)
-        {
-            currentCooldown = maxCooldown;
-        }
+        // if (currentCooldown < 0f)
+        // {
+        //     currentCooldown = maxCooldown;
+        // }
+    }
+
+    IEnumerator DecreaseCoolDown()
+    {
+        yield return new WaitUntil(() => {
+            SetCurrentCooldown(currentCooldown - Time.deltaTime);
+            return currentCooldown <= 0;
+        });
+        SetCurrentCooldown(0f);
     }
 }

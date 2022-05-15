@@ -32,7 +32,7 @@ public class UI_Cooldown : MonoBehaviour
     void Start()
     {
         SetCurrentCooldown(90f);
-        StartCoroutine(DecreaseCoolDown());
+        StartCoroutine(ReduceCooldown());
     }
 
     void Update()
@@ -40,7 +40,7 @@ public class UI_Cooldown : MonoBehaviour
 
     }
 
-    public IEnumerator DecreaseCoolDown()
+    public IEnumerator ReduceCooldown()
     {
         yield return new WaitUntil(() => {
             SetCurrentCooldown(currentCooldown - Time.deltaTime);

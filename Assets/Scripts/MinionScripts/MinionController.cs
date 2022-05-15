@@ -238,7 +238,7 @@ public class MinionController : Controller, IPunObservable
 
         if (_currentAttacker.gameObject.tag == "Player")
         {
-            //_currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+            _currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
         }
 
         yield return new WaitForSeconds(3.0f);

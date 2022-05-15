@@ -135,7 +135,7 @@ public class MonsterController : Controller
 
         if (_currentAttacker.gameObject.tag == "Player")
         {
-            //_currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+            _currentAttacker.GetComponent<ObjectStat>().Status.gold += _stat.Status.GivingGold;
         }
 
         yield return new WaitForSeconds(3.0f);
@@ -228,7 +228,8 @@ public class MonsterController : Controller
         {
             if (player.layer == _currentAttacker.layer)
             {
-                // 버프 오브젝트를 해당 챔피언들에 자식 오브젝트로 붙이기        
+                // 버프 오브젝트를 해당 챔피언들에 자식 오브젝트로 붙이기
+                Managers.Resource.Instantiate("BuffEffect", player.transform);
             }
         }
     }

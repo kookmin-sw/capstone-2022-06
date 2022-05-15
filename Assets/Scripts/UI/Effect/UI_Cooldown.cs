@@ -40,7 +40,7 @@ public class UI_Cooldown : MonoBehaviour
 
     }
 
-    IEnumerator DecreaseCoolDown()
+    public IEnumerator DecreaseCoolDown()
     {
         yield return new WaitUntil(() => {
             SetCurrentCooldown(currentCooldown - Time.deltaTime);

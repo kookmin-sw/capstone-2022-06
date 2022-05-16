@@ -941,6 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lockTarget: {fileID: 0}
+  _currentAttacker: {fileID: 0}
   HPSlider: {fileID: 6048292626844819750}
   _state: 0
 --- !u!54 &-323424216349625699

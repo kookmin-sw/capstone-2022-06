@@ -20,5 +20,13 @@ public class THSSkill_RProj : MonoBehaviour
         yield return new WaitForSeconds(0.65f);
         Destroy(gameObject);
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            other.GetComponent<Controller>().TakeDamage(damage, this.gameObject);
+        }
+    }
+
 }
 

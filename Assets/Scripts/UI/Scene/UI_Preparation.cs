@@ -29,8 +29,8 @@ public class UI_Preparation : UI_Scene
     private string initPortraitPath = "Private/Textures/Layout/empty_hero_spot";
 
     // 지휘관이 될 룸 id
-    // private int[] commanderSlot = {1, 6};
-    private int[] commanderSlot = {5, 10};
+    private int[] commanderSlot = {1, 6};
+    // private int[] commanderSlot = {5, 10};
 
     private GameObject contentsDiv = null;
 

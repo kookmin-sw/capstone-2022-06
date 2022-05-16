@@ -31,13 +31,8 @@ public class UI_Cooldown : MonoBehaviour
 
     void Start()
     {
-        SetCurrentCooldown(maxCooldown);
+        // SetCurrentCooldown(maxCooldown);
         StartCoroutine(ReduceCooldown());
-    }
-
-    void Update()
-    {
-
     }
 
     public IEnumerator ReduceCooldown()

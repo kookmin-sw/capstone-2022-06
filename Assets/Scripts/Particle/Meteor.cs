@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Meteor : MonoBehaviour
+public class Meteor : ParticleBase
 {
     void Start()
     {
-        GetComponent<AudioSource>().Play();
-        StartCoroutine(WaitToFinish());
-    }
-
-    IEnumerator WaitToFinish()
-    {
-        yield return new WaitUntil(() => {
-            return GetComponent<ParticleSystem>().isPlaying is false;
-        });
-        PhotonNetwork.Destroy(gameObject);
+        base.Init();
     }
 }

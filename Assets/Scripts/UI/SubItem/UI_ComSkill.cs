@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class UI_ComSkill : UI_Base
 {
@@ -78,7 +79,10 @@ public class UI_ComSkill : UI_Base
 
         if (Input.GetMouseButtonUp(0))
         {
-            (GameObjects)(0)
+            int idx = GetCurrentSkillIndex();
+            Get<GameObject>(idx).GetComponent<UI_Cooldown>().FillCurrentCooldown();
+
+            PhotonNetwork.Instantiate("Private/" + prefabPath, skillPointer.transform.position, Quaternion.identity);
         }
     }
 

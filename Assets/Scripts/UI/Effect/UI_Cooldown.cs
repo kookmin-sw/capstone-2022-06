@@ -27,7 +27,6 @@ public class UI_Cooldown : MonoBehaviour
     public void FillCurrentCooldown()
     {
         SetCurrentCooldown(maxCooldown);
-        UpdateFillAmount();
     }
 
     /// <summary> 현재 쿨타임에 따라 시각 효과를 반영하는 메서드 </summary>

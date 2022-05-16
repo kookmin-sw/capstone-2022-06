@@ -37,7 +37,7 @@ public class UI_ComSkill : UI_Base
 
             skillType = 0;
         }
-        else if (Input.GetKey(KeyCode.Q))
+        else if (Input.GetKey(KeyCode.W))
         {
             if (!Get<GameObject>((int)GameObjects.Heal).GetComponent<UI_Cooldown>().IsCooldownFinished())
             {

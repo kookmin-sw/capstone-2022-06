@@ -14,6 +14,8 @@ public class UI_ComSkill : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(GameObjects));
+        skillPointer = Managers.UI.AttachWorldUI<UI_AreaIndicator>();
+        skillPointer.gameObject.SetActive(false);
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class UI_ComSkill : UI_Base
 
         if (Input.GetKey(KeyCode.Q))
         {
-            if (!Get<UI_Cooldown>((int)GameObjects.Meteor).IsCooldownFinished())
+            if (!Get<GameObject>((int)GameObjects.Meteor).GetComponent<UI_Cooldown>().IsCooldownFinished())
             {
                 return;
             }
@@ -37,7 +39,7 @@ public class UI_ComSkill : UI_Base
         }
         else if (Input.GetKey(KeyCode.Q))
         {
-            if (!Get<UI_Cooldown>((int)GameObjects.Heal).IsCooldownFinished())
+            if (!Get<GameObject>((int)GameObjects.Heal).GetComponent<UI_Cooldown>().IsCooldownFinished())
             {
                 return;
             }
@@ -48,7 +50,7 @@ public class UI_ComSkill : UI_Base
         // 스킬 사용가능, skillPointer 활성화
         if (skillType > -1)
         {
-            skillPointer = Managers.UI.AttachWorldUI<UI_AreaIndicator>();
+            skillPointer.gameObject.SetActive(true);
         }
     }
 

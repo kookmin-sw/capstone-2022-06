@@ -823,7 +823,9 @@ public class ItemManager : MonoBehaviour
                   "advanced", "defense", "health", "health regeneration"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"hp", 150},
+                    {"defense", 30},
+                    {"healthRegen", 100}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -841,7 +843,8 @@ public class ItemManager : MonoBehaviour
                   "advanced", "health regeneration", "mana regeneration"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"healthRegen", 100},
+                    {"manaRegen", 50}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -865,7 +868,9 @@ public class ItemManager : MonoBehaviour
                   "final", "defense", "health", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 40},
+                    {"hp", 300},
+                    {"defense", 30}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -883,7 +888,9 @@ public class ItemManager : MonoBehaviour
                   "final", "cooldown reduction", "health", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 45},
+                    {"hp", 250},
+                    {"coolDown", 10}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -901,7 +908,9 @@ public class ItemManager : MonoBehaviour
                   "final", "health regeneration", "health", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 50},
+                    {"hp", 400},
+                    {"healthRegen", 150}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -919,7 +928,9 @@ public class ItemManager : MonoBehaviour
                   "final", "cooldown reduction", "mana", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 35},
+                    {"mana", 500},
+                    {"coolDown", 15}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -937,7 +948,9 @@ public class ItemManager : MonoBehaviour
                   "final", "attack speed", "defense", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 40},
+                    {"atkSpeed", 40},
+                    {"defense", 30}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -955,7 +968,8 @@ public class ItemManager : MonoBehaviour
                   "final", "cooldown reduction", "attack damage"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"atk", 70},
+                    {"coolDown", 10}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -973,7 +987,8 @@ public class ItemManager : MonoBehaviour
                   "final", "ability power", "attack speed"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"ap", 100},
+                    {"atkSpeed", 50}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -991,7 +1006,9 @@ public class ItemManager : MonoBehaviour
                   "final", "ability power", "health", "mana regeneration"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"ap", 75},
+                    {"hp", 400},
+                    {"manaRegen0", 100}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1009,7 +1026,9 @@ public class ItemManager : MonoBehaviour
                   "final", "defense", "health", "move speed"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"hp", 300},
+                    {"defense", 45},
+                    {"moveSpeed", 5}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1027,7 +1046,9 @@ public class ItemManager : MonoBehaviour
                   "final", "health regeneration", "health", "defense"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"hp", 800},
+                    {"healthRegen", 200},
+                    {"defense", 30}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1045,7 +1066,9 @@ public class ItemManager : MonoBehaviour
                   "final", "ability power", "health", "mana"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"ap", 60},
+                    {"hp", 200},
+                    {"mana", 500}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1069,7 +1092,7 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "base shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 25}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1087,7 +1110,7 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 60}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1105,7 +1128,8 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 45},
+                    {"coolDown", 10}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1123,7 +1147,8 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 45},
+                    {"atkSpeed", 30}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1141,7 +1166,8 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 45},
+                    {"ap", 15}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1159,7 +1185,8 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 45},
+                    {"atk", 15}
                 },
                 new List<string>() //하위 아이템 이름
                 {
@@ -1177,7 +1204,8 @@ public class ItemManager : MonoBehaviour
                   "shoes", "move speed", "advanced shoes"
                 },
                 new Dictionary<string, int>(){ //아이템 스탯
-                    //{"str", 1},
+                    {"moveSpeed", 45},
+                    {"defense", 20}
                 },
                 new List<string>() //하위 아이템 이름
                 {

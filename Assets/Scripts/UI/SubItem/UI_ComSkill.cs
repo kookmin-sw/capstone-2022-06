@@ -84,6 +84,9 @@ public class UI_ComSkill : UI_Base
             Get<GameObject>(idx).GetComponent<UI_Cooldown>().FillCurrentCooldown();
 
             PhotonNetwork.Instantiate("Private/" + prefabPath, skillPointer.transform.position, Quaternion.identity);
+
+            skillAble = false;
+            skillMask = 0;
         }
     }
 

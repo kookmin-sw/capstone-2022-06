@@ -10,22 +10,25 @@ public class Health : MonoBehaviour
     public Slider characterSlider3D;
     Slider characterSlider2D;
 
-    Stats statsScript;
+    //Stats statsScript;
+    ChampionStat stat;
 
     void Start()
     {
-        statsScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
+
+        //statsScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Stat>();
+        stat = GameObject.FindGameObjectWithTag("Player").GetComponent<ChampionStat>();
 
         characterSlider2D = GetComponent<Slider>();
 
-        characterSlider3D.maxValue = statsScript.maxHealth;
-        characterSlider2D.maxValue = statsScript.maxHealth;
-        statsScript.health = statsScript.maxHealth;
+        characterSlider3D.maxValue = stat.Status.maxHp;
+        characterSlider2D.maxValue = stat.Status.maxHp;
+        stat.Status.hp = stat.Status.maxHp;
     }
 
     void Update()
     {
-        characterSlider2D.value = statsScript.health;
+        characterSlider2D.value = stat.Status.hp;
         characterSlider3D.value = characterSlider2D.value;
     }
 }

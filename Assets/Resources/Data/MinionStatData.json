@@ -14,6 +14,7 @@
       "manaRegen": 0,
       "defense": 0,
       "atkSpeed": 1.2,
+      "gold" :  0,
       "GivingGold": 22,
       "GivingExp": 60,
       "moveSpeed": 325,
@@ -33,10 +34,11 @@
       "manaRegen": 0,
       "defense": 0,
       "atkSpeed": 0.7,
+      "gold": 0,
       "GivingGold": 16,
       "GivingExp": 30,
       "moveSpeed": 325,
-      "priority": 5
+      "priority": 6
     }
   ]
 }

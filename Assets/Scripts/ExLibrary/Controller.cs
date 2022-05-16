@@ -6,5 +6,5 @@ using Photon.Realtime;
 
 public abstract class Controller : MonoBehaviourPunCallbacks
 {
-    public abstract void TakeDamage(float damage);
+    public abstract void TakeDamage(float damage, GameObject attacker = null);
 }

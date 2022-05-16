@@ -11,6 +11,8 @@ public class GameScene : BaseScene
     int myId;
     string myPrefabPath;
 
+    GameObject myChamp;
+
     void Start()
     {
         isCommander = (bool)GetPropVal("isCommander");
@@ -20,7 +22,7 @@ public class GameScene : BaseScene
 
         // 초기 스폰 좌표 지정. 지휘관일 경우 초기 view 위치를 지정할 예정
         // Blue Team
-        if (myId <= 5)
+        if (Util.GetMyLayerString() == "BlueTeam")
         {
             spawnPoint.x = Random.Range(-111, -98);
             spawnPoint.z = Random.Range(-111, -98);
@@ -31,21 +33,25 @@ public class GameScene : BaseScene
             spawnPoint.z = Random.Range(98, 111);
         }
 
-        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
-        // 카메라를 따라가게 하는 컴포넌트인 CameraFollow를 부착합니다.
-        // 지휘관이면 CameraFollow를 제거하고 CommanderCamController를 부착합니다.
-        CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
         if (!isCommander)
         {
-            GameObject myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
-            tracker.player = myChamp.transform;
+            Spawn();
         }
         else
         {
+            // 지휘관이면 CameraFollow를 제거하고 CommanderCamController를 부착합니다.
+            // 스폰 지점으로 이동시킵니다.
+            CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+
             if (tracker)
             {
                 Destroy(tracker);
             }
+
+            Vector3 origin = Camera.main.transform.position;
+            origin.x = spawnPoint.x;
+            origin.z = spawnPoint.z;
+            Camera.main.transform.position = origin;
 
             Camera.main.gameObject.GetOrAddComponent<CommanderCamController>();
         }
@@ -90,5 +96,20 @@ public class GameScene : BaseScene
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 지휘관 포함 스폰할 때 일어나는 동작입니다.
+    /// </summary>
+    void Spawn()
+    {
+        // 지휘관이 아니면 프리팹을 경로로 받아 챔피언을 스폰
+        // 카메라를 따라가게 하는 컴포넌트인 CameraFollow를 부착합니다.
+        CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
+
+        myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+        tracker.player = myChamp.transform;
+        LayerController _layer = myChamp.GetOrAddComponent<LayerController>();
+        _layer.SetLayer(Util.GetMyLayerString());
     }
 }

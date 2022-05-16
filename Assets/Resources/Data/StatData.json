@@ -14,10 +14,12 @@
       "manaRegen": 8,
       "defense": 25,
       "atkSpeed": 0.7,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 330,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Mangoawl",
@@ -33,10 +35,12 @@
       "manaRegen": 5,
       "defense": 30,
       "atkSpeed": 0.65,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
-      "moveSpeed": 340,
-      "priority": 6
+      "moveSpeed": 15,
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Mobusta",
@@ -52,10 +56,12 @@
       "manaRegen": 9,
       "defense": 40,
       "atkSpeed": 0.6,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 340,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Mummush",
@@ -71,10 +77,12 @@
       "manaRegen": 10,
       "defense": 25,
       "atkSpeed": 0.65,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 335,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Pilly",
@@ -90,10 +98,12 @@
       "manaRegen": 8,
       "defense": 20,
       "atkSpeed": 0.6,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 330,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Purplepeace",
@@ -109,10 +119,12 @@
       "manaRegen": 5,
       "defense": 30,
       "atkSpeed": 0.7,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 345,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Ridar",
@@ -128,10 +140,12 @@
       "manaRegen": 8,
       "defense": 35,
       "atkSpeed": 0.65,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 350,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     },
     {
       "name": "Talia",
@@ -147,10 +161,12 @@
       "manaRegen": 8,
       "defense": 25,
       "atkSpeed": 0.65,
+      "gold": 500,
       "GivingGold": 300,
       "GivingExp": 0,
       "moveSpeed": 330,
-      "priority": 6
+      "priority": 6,
+      "atkInterTime": 1.4
     }
   ]
 }

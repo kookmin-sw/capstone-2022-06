@@ -16,7 +16,7 @@ public class HeroCombat : MonoBehaviour
     public float rotateSpeedForAttack;
 
     private ClickMovement moveScript;
-    private Stats statsScript;
+    private ChampionStat stat;
     public Animator anim;
     public Ability ability;
 
@@ -27,7 +27,8 @@ public class HeroCombat : MonoBehaviour
     void Start()
     {
         moveScript = GetComponent<ClickMovement>();
-        statsScript = GetComponent<Stats>();
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
         anim = GetComponentInChildren<Animator>();
         ability = GetComponent<Ability>();
     }
@@ -70,7 +71,7 @@ public class HeroCombat : MonoBehaviour
         performMeleeAttack = false;
         anim.SetBool("BasicAttack", true);
         
-        yield return new WaitForSeconds(statsScript.attackTime / ((100 + statsScript.attackTime) * 0.01f));
+        yield return new WaitForSeconds(stat.Status.atkInterTime / ((100 + stat.Status.atkInterTime) * 0.01f));
 
         if (targetedEnemy == null || ability.isSkill_E == true)
         {
@@ -82,20 +83,23 @@ public class HeroCombat : MonoBehaviour
 
     public void MeleeAttack()
     {
+        /*
         if(targetedEnemy != null)
         {
             if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
             {
                 Debug.Log("attack Minion");
-                targetedEnemy.GetComponent<EnemyStats>().health -= statsScript.attackDmg * (100 / (100 + targetedEnemy.GetComponent<EnemyStats>().armor));
+                targetedEnemy.GetComponent<EnemyStats>().health -= stat.Status.atk * (100 / (100 + targetedEnemy.GetComponent<EnemyStats>().armor));
             }
 
             if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)
             {
                 Debug.Log("attack Champion");
-                targetedEnemy.GetComponent<Stats>().health -= statsScript.attackDmg * (100 / (100 + targetedEnemy.GetComponent<Stats>().armor));
+                targetedEnemy.GetComponent<ChampionStat>().Status.hp -= stat.Status.atk * (100 / (100 + targetedEnemy.GetComponent<ChampionStat>().Status.defense));
             }
         }
+        */
+        targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
 
         performMeleeAttack = true;
     }

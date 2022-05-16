@@ -20,10 +20,12 @@ public class Stat
     [SerializeField] public float manaRegen;
     [SerializeField] public float defense;
     [SerializeField] public float atkSpeed;
+    [SerializeField] public int gold;
     [SerializeField] public int GivingGold;
     [SerializeField] public float GivingExp;
     [SerializeField] public float moveSpeed;
     [SerializeField] public int priority;
+    [SerializeField] public float atkInterTime;
 
     public void Init(Stat loadStat)
     {
@@ -40,10 +42,12 @@ public class Stat
         this.manaRegen = loadStat.manaRegen;
         this.defense = loadStat.defense;
         this.atkSpeed = loadStat.atkSpeed;
+        this.gold = loadStat.gold;
         this.GivingGold = loadStat.GivingGold;
         this.GivingExp = loadStat.GivingExp;
         this.moveSpeed = loadStat.moveSpeed;
         this.priority = loadStat.priority;
+        this.atkInterTime = loadStat.atkInterTime;
     }
 }
 

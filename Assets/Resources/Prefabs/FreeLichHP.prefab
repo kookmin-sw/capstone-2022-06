@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 1953307599537147135}
   - component: {fileID: 8132820013483660463}
   - component: {fileID: 8577992467546380714}
+  - component: {fileID: 6498968438371046112}
   m_Layer: 0
   m_Name: FreeLichHP
   m_TagString: Minion
@@ -910,6 +911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lockTarget: {fileID: 0}
+  _currentAttacker: {fileID: 0}
   HPSlider: {fileID: 2183574689225437936}
   _state: 0
   BulletSpawnPos: {fileID: 2036052554715269811}
@@ -1047,10 +1049,25 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
     priority: 0
+    atkInterTime: 0
+--- !u!114 &6498968438371046112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cbd594f6fe8204f9616f6179ec526a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyType: 0
 --- !u!114 &4550667465296390788
 MonoBehaviour:
   m_ObjectHideFlags: 0

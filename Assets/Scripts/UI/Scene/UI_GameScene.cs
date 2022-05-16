@@ -33,5 +33,26 @@ public class UI_GameScene : UI_Scene
         base.Init();
 
         Bind<Text>(typeof(Texts));
+
+        if ((bool)GetPropVal("isCommander"))
+        {
+            Managers.UI.AttachSubItem<UI_ComSkill>(transform);
+        }
+        else
+        {
+            Managers.UI.AttachSubItem<UI_ChampSkill>(transform);
+        }
+    }
+
+    object GetPropVal(object key)
+    {
+        object ret;
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out ret))
+        {
+            return ret;
+        }
+
+        return null;
     }
 }

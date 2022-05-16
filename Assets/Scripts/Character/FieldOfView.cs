@@ -1,23 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public delegate void TargetsVisibilityChange(List<Transform> newTargets);
 
 public class FieldOfView : MonoBehaviour
 {
     [Range(0, 360)]
     public float viewAngle = 360;
-    public float viewRadius = 10;
+    public float viewRadius = 40;
     public LayerMask allyMask, opposingMask, obstacleMask;
 
     [Range(0, 2)]
-    public float samplingRate;
-    public float edgeDstThreshold;
+    public float samplingRate = 0.05f;
+    public float edgeDstThreshold = 1f;
 
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;
 
-    List<Transform> visibleEnemies = new List<Transform>();
+    [HideInInspector]
+    public List<Transform> visibleEnemies = new List<Transform>();
     List<Vector3> capturedVertices = new List<Vector3>();
+
+    public static event TargetsVisibilityChange OnTargetsVisibilityChange;
+
+    void Awake()
+    {
+        obstacleMask = LayerMask.GetMask("Obstacle");
+    }
 
     /*
     fov 메쉬를 초기화하고 시야 내의 적을 찾는 코루틴 호출
@@ -28,8 +39,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "view";
         viewMeshFilter.mesh = viewMesh;
 
-        // StartCoroutine("ScanEnemiesWithDelay", 0.1f);
-        StartCoroutine(ScanEnemiesWithDelay(0.1f));
+        StartCoroutine("ScanEnemiesWithDelay", 0.4f);
     }
 
     private void LateUpdate()
@@ -37,14 +47,19 @@ public class FieldOfView : MonoBehaviour
         DrawFieldOfView();
     }
 
-    /*
-    viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
-    */
+    void OnDestroy()
+    {
+        StopCoroutine("ScanEnemiesWithDelay");
+    }
+
+    /// <summary>
+    /// viewRadius를 원지름으로 한 원 반경 내에서 시야에 닿는 적 오브젝트를 visibleEnemies에 저장
+    /// </summary>
     private void ScanVisibleEnemies()
     {
         foreach (Transform e in visibleEnemies)
         {
-            Managers.Visible.SubtractVisible(e.gameObject);
+            Util.OffRenderer(e);
         }
         visibleEnemies.Clear();
 
@@ -54,15 +69,21 @@ public class FieldOfView : MonoBehaviour
         {
             Transform target = e.transform;
             Vector3 dirToEnemy = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.position, target.position) < viewAngle / 2)
+            dirToEnemy.y = 0.05f;
+
+            if (Vector3.Angle(transform.forward, dirToEnemy) < viewAngle / 2)
             {
-                float distToEnemy = (target.position - transform.position).magnitude;
-                if (Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
+                float distToEnemy = Vector3.Distance(transform.position, target.position);
+                if (!Physics.Raycast(transform.position, dirToEnemy, distToEnemy, obstacleMask))
                 {
-                    Managers.Visible.AddVisible(target.gameObject);
                     visibleEnemies.Add(target);
                 }
             }
+        }
+
+        foreach (Transform e in visibleEnemies)
+        {
+            Util.OnRenderer(e);
         }
     }
 
@@ -145,9 +166,8 @@ public class FieldOfView : MonoBehaviour
         float minAngle = minCast.angle, maxAngle = maxCast.angle;
         Vector3 u = Vector3.zero, v = Vector3.zero;
         
-        // 이진 탐색에 필요한 iteration 횟수를 100으로 정함
-        // 일반적으로 실수 값에 대해 100회 하는 것이 좋다고 알려짐
-        for (int i = 0; i < 100; i++)
+        // 이진 탐색에 필요한 iteration 횟수
+        for (int i = 0; i < 30; i++)
         {
             float midAngle = minAngle + (maxAngle - minAngle) / 2;
             CastFootprint castShot = CaptureRaycast(midAngle);
@@ -177,7 +197,9 @@ public class FieldOfView : MonoBehaviour
         Vector3 direction = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, obstacleMask))
+        int _fov = LayerMask.GetMask("FOV");
+
+        if (Physics.Raycast(transform.position, direction, out hit, viewRadius, obstacleMask | _fov))
         {
             return new CastFootprint(true, hit.point, hit.distance, globalAngle);
         }

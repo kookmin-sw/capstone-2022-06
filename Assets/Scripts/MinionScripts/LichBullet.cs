@@ -5,7 +5,7 @@ using UnityEngine;
 public class LichBullet : MonoBehaviour
 {
     [SerializeField] float _speed;
-    float _atk;
+    [SerializeField] float _atk;
 
     public GameObject _target;
 
@@ -23,18 +23,26 @@ public class LichBullet : MonoBehaviour
             Vector3 _dir = (_target.transform.position - transform.position).normalized;
             transform.position += _dir * _speed * Time.deltaTime;
             transform.forward = _dir;
+
+            if (Vector3.Distance(transform.position, _target.transform.position) <= 1f)
+            { 
+                if (_target.GetComponent<Controller>() == null)
+                    Debug.Log("Error!");
+                else
+                {
+                    _target.GetComponent<Controller>().TakeDamage(_atk, transform.parent.gameObject);
+                    Managers.Resource.Destroy(gameObject);
+                }
+            }
         }
-        else
-            Managers.Resource.Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other == _target.GetComponent<CapsuleCollider>())
-        {
-            Debug.Log("Bullet hits minion!!");
-            _target.GetComponent<Controller>().TakeDamage(_atk);
-            Managers.Resource.Destroy(gameObject);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other == _target.GetComponent<CapsuleCollider>())
+    //    {
+    //        _target.GetComponent<Controller>().TakeDamage(_atk, transform.parent.gameObject);
+    //        Managers.Resource.Destroy(gameObject);
+    //    }
+    //}
 }

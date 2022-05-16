@@ -9,6 +9,8 @@ TagManager:
   - RangedProjectile
   - THSSkill_E
   - THSSkill_R
+  - Minion
+  - Parent
   layers:
   - Default
   - TransparentFX
@@ -20,9 +22,9 @@ TagManager:
   - BlueTeam
   - Neutral
   - Obstacle
-  - FOVRed
-  - FOVBlue
+  - FOV
   - MapUI
+  - 
   - 
   - 
   - 

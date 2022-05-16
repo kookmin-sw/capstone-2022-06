@@ -49,9 +49,8 @@ public class TurretController : Controller
             _attackTimer = 0f;
 
         ChangeTargetNull();
-
-        if (PhotonNetwork.IsMasterClient)
-            HPSlider.value = stat.Status.hp / stat.Status.maxHp;
+        
+        HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
 
     void UpdateTarget()
@@ -95,7 +94,7 @@ public class TurretController : Controller
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject attacker = null)
     {
         stat.Status.hp -= damage;
 

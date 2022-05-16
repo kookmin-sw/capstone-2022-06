@@ -16,6 +16,9 @@ public class UI_AreaIndicator : UI_Base
         UpdatePosition();
     }
 
+    /// <summary>
+    /// AreaIndicator 의 위치를 현재 마우스 좌표(스크린 to world space)로 갱신합니다.
+    /// </summary>
     void UpdatePosition()
     {
         RaycastHit hit;

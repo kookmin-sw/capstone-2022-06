@@ -23,6 +23,7 @@ public class UI_ComSkill : UI_Base
     void Update()
     {
         OnKeyPressed();
+        OnMouseClicked();
     }
 
     /// <summary> 지휘관 스킬 키를 눌렀을 때 일어나는 동작을 작성한 메서드 </summary>

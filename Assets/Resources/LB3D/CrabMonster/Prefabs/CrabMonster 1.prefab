@@ -4152,6 +4152,7 @@ GameObject:
   - component: {fileID: -3920335753181857663}
   - component: {fileID: -1671946708796314141}
   - component: {fileID: 6707305086357101376}
+  - component: {fileID: -2628275310683641048}
   m_Layer: 0
   m_Name: CrabMonster 1
   m_TagString: Untagged
@@ -4217,6 +4218,7 @@ MonoBehaviour:
   _state: 0
   wayPoints: []
   _lockTarget: {fileID: 0}
+  _currentAttacker: {fileID: 0}
 --- !u!195 &6621611953726376330
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4329,10 +4331,12 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
     priority: 0
+    atkInterTime: 0
 --- !u!135 &6707305086357101376
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4346,6 +4350,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 7
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2628275310683641048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792744366562842766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cbd594f6fe8204f9616f6179ec526a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyType: 0
 --- !u!1 &5792748071347383548
 GameObject:
   m_ObjectHideFlags: 0

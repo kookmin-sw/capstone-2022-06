@@ -23,6 +23,13 @@ public class UI_Cooldown : MonoBehaviour
         UpdateFillAmount();
     }
 
+    /// <summary> 현재 쿨타임을 최대로 채우는 메서드 </summary>
+    public void FillCurrentCooldown()
+    {
+        SetCurrentCooldown(maxCooldown);
+        StartCoroutine(ReduceCooldown());
+    }
+
     /// <summary> 현재 쿨타임에 따라 시각 효과를 반영하는 메서드 </summary>
     private void UpdateFillAmount()
     {
@@ -31,13 +38,8 @@ public class UI_Cooldown : MonoBehaviour
 
     void Start()
     {
-        SetCurrentCooldown(maxCooldown);
+        // SetCurrentCooldown(maxCooldown);
         StartCoroutine(ReduceCooldown());
-    }
-
-    void Update()
-    {
-
     }
 
     public IEnumerator ReduceCooldown()

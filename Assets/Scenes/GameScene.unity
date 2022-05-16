@@ -6552,10 +6552,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BirdEyeView
       objectReference: {fileID: 0}
-    - target: {fileID: 3415256326413206064, guid: d286abb4bf073d2479f5c57a2e88f52f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d286abb4bf073d2479f5c57a2e88f52f, type: 3}
 --- !u!1001 &227038352
@@ -27009,7 +27005,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1015
+    m_Bits: 5111
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -29750,7 +29746,7 @@ GameObject:
   - component: {fileID: 1037151992}
   - component: {fileID: 1037151991}
   - component: {fileID: 1037151990}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Floor
   m_TagString: Floor
   m_Icon: {fileID: 0}

@@ -18,8 +18,13 @@ public class UI_AreaIndicator : UI_Base
 
     void UpdatePosition()
     {
-        currentPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        currentPos.y = 0.01f;
-        transform.position = currentPos;
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        int mask = (1<< LayerMask.NameToLayer("Floor"));
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
+        {
+            transform.position = new Vector3(hit.point.x, 0.25f, hit.point.z);
+        }
     }
 }

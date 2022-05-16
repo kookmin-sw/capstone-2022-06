@@ -61,8 +61,29 @@ public class UI_ComSkill : UI_Base
         skillPointer.gameObject.SetActive(skillAble);
     }
 
+    /// <summary> 마우스 클릭이 일어났을 때 일어나는 동작을 작성한 메서드 </summary>
+    void OnMouseClicked()
+    {
+        if (!skillAble)
+        {
+            return;
+        }
+
+        string prefabPath = GetCurrentSkillPath();
+
+        if (string.IsNullOrEmpty(prefabPath))
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            (GameObjects)(0)
+        }
+    }
+
     /// <summary>
-    /// 현재 활성화된 스킬을 찾습니다. 없으면 null을 리턴합니다.
+    /// 현재 활성화된 스킬의 프리팹 경로를 찾습니다. 없으면 null을 리턴합니다.
     /// </summary>
     string GetCurrentSkillPath()
     {
@@ -75,6 +96,22 @@ public class UI_ComSkill : UI_Base
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 현재 활성화된 스킬의 인덱스를 찾습니다. 없으면 -1을 리턴합니다.
+    /// </summary>
+    int GetCurrentSkillIndex()
+    {
+        for (int i = 0; i < skillPaths.Length; i++)
+        {
+            if ((skillMask & (1 << i)) > 0)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     enum GameObjects

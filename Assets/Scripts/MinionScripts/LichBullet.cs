@@ -33,7 +33,7 @@ public class LichBullet : MonoBehaviour
         if (other == _target.GetComponent<CapsuleCollider>())
         {
             Debug.Log("Bullet hits minion!!");
-            _target.GetComponent<Controller>().TakeDamage(_atk);
+            _target.GetComponent<Controller>().TakeDamage(_atk, transform.parent.gameObject);
             Managers.Resource.Destroy(gameObject);
         }
     }

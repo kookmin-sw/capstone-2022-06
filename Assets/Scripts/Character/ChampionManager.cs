@@ -1,30 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class ChampionManager : MonoBehaviour
+public class ChampionManager : Controller
 {
-    /*
-    public int level;
-    public int exp;
-    public float maxHealth;
-    public float healthRegen;
-    public float health;
-    public float armor;
-    public float attackDmg;
-    public float abilityPower;
-    public float mana;
-    public float manaRegen;
-    public float speed;
-    public float attackSpeed;
-    public float attackTime;
-    */
-
     public int skillPoint;
 
     HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
     ChampionStat stat;
+
+    [SerializeField] GameObject currentAttacker;
 
     void Start()
     {
@@ -70,6 +58,36 @@ public class ChampionManager : MonoBehaviour
             stat.Status.exp = 0;
             stat.Status.level++;
             skillPoint++;
+        }
+    }
+
+    public override void TakeDamage(float damage, GameObject attacker = null)
+    {
+        if (attacker != null)
+        {
+            currentAttacker = attacker;
+        }
+
+        stat.Status.hp -= stat.Status.atk * (100 / (100 + heroCombatScript.targetedEnemy.GetComponent<ObjectStat>().Status.defense));
+
+        if (stat.Status.hp <= 0)
+        {
+            Invoke("OnDie", 30f);
+            return;
+        }
+    }
+
+    public void OnDie()
+    {
+        if(Util.GetLocalPlayerId() <= 5)
+        {
+            // 블루팀 리스폰
+            transform.Translate(new Vector3(-105, 0, -105));
+        }
+        else
+        {
+            // 레드팀 리스폰
+            transform.Translate(new Vector3(105, 0, 105));
         }
     }
 }

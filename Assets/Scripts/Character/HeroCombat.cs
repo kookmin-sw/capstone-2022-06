@@ -83,6 +83,7 @@ public class HeroCombat : MonoBehaviour
 
     public void MeleeAttack()
     {
+        /*
         if(targetedEnemy != null)
         {
             if(targetedEnemy.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
@@ -97,6 +98,8 @@ public class HeroCombat : MonoBehaviour
                 targetedEnemy.GetComponent<ChampionStat>().Status.hp -= stat.Status.atk * (100 / (100 + targetedEnemy.GetComponent<ChampionStat>().Status.defense));
             }
         }
+        */
+        targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
 
         performMeleeAttack = true;
     }

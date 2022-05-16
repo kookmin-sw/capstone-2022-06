@@ -31,7 +31,7 @@ public class WorriorMinion : MinionController
     {
         ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
 
-        _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk);
+        _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
 
         if (targetStat.Status.hp <= 0)
         {

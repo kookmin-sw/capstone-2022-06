@@ -8496,6 +8496,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -11186,6 +11187,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -14981,6 +14983,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -16039,6 +16042,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -18446,6 +18450,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -18612,6 +18617,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -21718,6 +21724,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -24964,6 +24971,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -41335,6 +41343,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -42466,6 +42475,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -45023,6 +45033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPoint: 0
+  currentAttacker: {fileID: 0}
 --- !u!136 &1557963480
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51796,6 +51807,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -55001,6 +55013,7 @@ MonoBehaviour:
     manaRegen: 0
     defense: 0
     atkSpeed: 0
+    gold: 0
     GivingGold: 0
     GivingExp: 0
     moveSpeed: 0
@@ -62036,6 +62049,10 @@ PrefabInstance:
     - target: {fileID: 6261207865447609912, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}
       propertyPath: m_Name
       value: Mangawl
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261207865447609912, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6261207865447770712, guid: 1ab3d114e8f777c409aaba816c72d1e2, type: 3}
       propertyPath: m_RootOrder

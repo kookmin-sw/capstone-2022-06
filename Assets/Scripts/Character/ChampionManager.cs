@@ -34,13 +34,6 @@ public class ChampionManager : Controller
             stat.Status.hp = stat.Status.maxHp;
         }
 
-        if (stat.Status.hp <= 0)
-        {
-            Destroy(gameObject);
-            heroCombatScript.targetedEnemy = null;
-            heroCombatScript.performMeleeAttack = false;
-        }
-
         playerAnim.agent.speed = stat.Status.moveSpeed;
     }
 
@@ -68,7 +61,10 @@ public class ChampionManager : Controller
             currentAttacker = attacker;
         }
 
-        stat.Status.hp -= stat.Status.atk * (100 / (100 + heroCombatScript.targetedEnemy.GetComponent<ObjectStat>().Status.defense));
+        if (stat == null)
+            Debug.Log("Error Stat");
+        else
+            stat.Status.hp -= stat.Status.atk * (100 / (100 + stat.Status.defense));
 
         if (stat.Status.hp <= 0)
         {

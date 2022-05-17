@@ -21,7 +21,6 @@ public class PlayerAnimation : MonoBehaviour
         agent = gameObject.GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         stat = GetComponent<ChampionStat>();
-        stat.Initialize("Mangoawl");
     }
 
     void Update()

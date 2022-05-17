@@ -34,7 +34,7 @@ public class ParticleBase : MonoBehaviour
     /// <summary> 아군 유닛들을 overlapSphere로 스캔하는 메서드 </summary>
     protected Collider[] ScanFriendlies(float radius)
     {
-        int friendLayer = Util.GetEnemyLayer();
+        int friendLayer = Util.GetMyLayer();
         return Physics.OverlapSphere(transform.position, radius, 1 << friendLayer);
     }
 }

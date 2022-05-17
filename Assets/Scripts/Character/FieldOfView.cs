@@ -167,7 +167,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 u = Vector3.zero, v = Vector3.zero;
         
         // 이진 탐색에 필요한 iteration 횟수
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 16; i++)
         {
             float midAngle = minAngle + (maxAngle - minAngle) / 2;
             CastFootprint castShot = CaptureRaycast(midAngle);

@@ -17,8 +17,7 @@ public class Meteor : ParticleBase
     /// </summary>
     void GiveDamage()
     {
-        int enemyLayer = Util.GetEnemyLayer();
-        Collider[] candidates = Physics.OverlapSphere(transform.position, 7f, 1 << enemyLayer);
+        Collider[] candidates = ScanOppositeness(7f);
 
         for (int i = 0; i < candidates.Length; i++)
         {

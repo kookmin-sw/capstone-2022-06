@@ -13,8 +13,8 @@ public class FieldOfView : MonoBehaviour
     public LayerMask allyMask, opposingMask, obstacleMask;
 
     [Range(0, 2)]
-    public float samplingRate = 0.05f;
-    public float edgeDstThreshold = 1f;
+    public float samplingRate = 0.03f;
+    public float edgeDstThreshold = 0.5f;
 
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;

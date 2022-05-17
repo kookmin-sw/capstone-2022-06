@@ -23,4 +23,18 @@ public class ParticleBase : MonoBehaviour
         });
         PhotonNetwork.Destroy(gameObject);
     }
+
+    /// <summary> 상대팀 유닛들을 overlapSphere로 스캔하는 메서드 </summary>
+    protected Collider[] ScanOppositeness(float radius)
+    {
+        int enemyLayer = Util.GetEnemyLayer();
+        return Physics.OverlapSphere(transform.position, radius, 1 << enemyLayer);
+    }
+
+    /// <summary> 아군 유닛들을 overlapSphere로 스캔하는 메서드 </summary>
+    protected Collider[] ScanFriendlies(float radius)
+    {
+        int friendLayer = Util.GetMyLayer();
+        return Physics.OverlapSphere(transform.position, radius, 1 << friendLayer);
+    }
 }

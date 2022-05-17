@@ -135,6 +135,24 @@ public class Util
         }
     }
 
+    /// <summary> 상대팀의 레이어 인덱스를 가져옵니다. 0이면 그냥 0을 반환합니다. </summary>
+    public static int GetEnemyLayer()
+    {
+        int me = GetMyLayer();
+        if (me == 0)
+        {
+            return 0;
+        }
+        else if (me == LayerMask.NameToLayer("BlueTeam"))
+        {
+            return LayerMask.NameToLayer("RedTeam");
+        }
+        else
+        {
+            return LayerMask.NameToLayer("BlueTeam");
+        }
+    }
+
     /// <summary>
     /// 현재 클라이언트에 해당하는 레이어 이름을 반환합니다.
     /// bound를 넘지 않으면 BlueTeam, 넘으면 RedTeam입니다.
@@ -157,6 +175,25 @@ public class Util
         else
         {
             return "Default";
+        }
+    }
+
+    /// <summary> 상대팀의 레이어 이름을 가져옵니다. </summary>
+    public static string GetEnemyLayerString()
+    {
+        string me = GetMyLayerString();
+
+        if (me == "Default")
+        {
+            return "Obstacle";
+        }
+        else if (me == "BlueTeam")
+        {
+            return "RedTeam";
+        }
+        else
+        {
+            return "BlueTeam";
         }
     }
 

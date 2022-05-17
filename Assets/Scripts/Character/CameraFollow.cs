@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        cameraOffset = transform.position - player.position;
+        cameraOffset = transform.position - Vector3.zero;
     }
 
     void Update()

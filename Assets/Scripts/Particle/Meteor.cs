@@ -8,7 +8,10 @@ public class Meteor : ParticleBase
     void Start()
     {
         base.Init();
-        Invoke("GiveDamage", 0.5f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Invoke("GiveDamage", 0.5f);
+        }
     }
 
     /// <summary>
@@ -17,7 +20,7 @@ public class Meteor : ParticleBase
     /// </summary>
     void GiveDamage()
     {
-        Collider[] candidates = ScanOppositeness(7f);
+        Collider[] candidates = ScanOppositeness(6f);
 
         for (int i = 0; i < candidates.Length; i++)
         {
@@ -39,7 +42,7 @@ public class Meteor : ParticleBase
                 continue;
             }
 
-            targetStat.TakeDamage(200f);
+            targetStat.TakeDamage(115f);
         }
     }
 }

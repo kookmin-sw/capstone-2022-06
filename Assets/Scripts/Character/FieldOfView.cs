@@ -13,8 +13,8 @@ public class FieldOfView : MonoBehaviour
     public LayerMask allyMask, opposingMask, obstacleMask;
 
     [Range(0, 2)]
-    public float samplingRate = 0.05f;
-    public float edgeDstThreshold = 1f;
+    public float samplingRate = 0.03f;
+    public float edgeDstThreshold = 0.5f;
 
     Mesh viewMesh;
     public MeshFilter viewMeshFilter;
@@ -167,7 +167,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 u = Vector3.zero, v = Vector3.zero;
         
         // 이진 탐색에 필요한 iteration 횟수
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 8; i++)
         {
             float midAngle = minAngle + (maxAngle - minAngle) / 2;
             CastFootprint castShot = CaptureRaycast(midAngle);

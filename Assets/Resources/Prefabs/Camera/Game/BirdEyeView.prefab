@@ -99,10 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogTexture: {fileID: 8400000, guid: 27c12235a9fce1840bd338369b177749, type: 2}
-  blurShader: {fileID: 4800000, guid: 2edb3cc95f9970149b585601e7d46893, type: 3}
+  blurShader: {fileID: 4800000, guid: 35477820caeed924aad6ca84b138964c, type: 3}
   upsample: 1
-  blendSpeed: 8
-  updateRate: 0.01
+  blendSpeed: 1.5
+  updateRate: 0.15
 --- !u!1 &3415256326836192189
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,8 +171,8 @@ Camera:
   m_TargetTexture: {fileID: 8400000, guid: 27c12235a9fce1840bd338369b177749, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1

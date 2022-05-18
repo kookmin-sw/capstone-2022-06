@@ -19,6 +19,7 @@ class HeroInfo
     public string spritePath;
     public string heroName;
     public string prefabPath;
+    public string skillJsonPath;
 }
 
 public class UI_Preparation : UI_Scene

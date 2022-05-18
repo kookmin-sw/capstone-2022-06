@@ -40,6 +40,10 @@ public class UI_ChampSkill : UI_Base
         UpdateSkillIcon(Get<GameObject>((int)GameObjects.Ability_F), myIcons.f);
     }
 
+    /// <summary>
+    /// 스킬 아이콘이 담긴 go에서 스프라이트를 path에 있는 이미지로 바꾸는 메서드
+    /// 스킬 포인트가 바뀌는 것을 방지하기 위해 Point 스트링이 감지된 경우 무시합니다.
+    /// </summary>
     private void UpdateSkillIcon(GameObject go, string path)
     {
         Sprite loadedSprite = Managers.Resource.Load<Sprite>(path);

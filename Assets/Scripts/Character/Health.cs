@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class Health : MonoBehaviour
 {
@@ -15,9 +16,19 @@ public class Health : MonoBehaviour
 
     void Start()
     {
+        GameObject[] ar = GameObject.FindGameObjectsWithTag("Player");
 
-        //statsScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Stat>();
-        stat = GameObject.FindGameObjectWithTag("Player").GetComponent<ChampionStat>();
+        foreach (GameObject go in ar)
+        {
+            PhotonView pv = go.GetPhotonView();
+
+            if (pv != null && pv.IsMine)
+            {
+                stat = go.GetComponent<ChampionStat>();
+                characterSlider3D = Util.SearchChild<Slider>(go, "Slider", true);
+                break;
+            }
+        }
 
         characterSlider2D = GetComponent<Slider>();
 

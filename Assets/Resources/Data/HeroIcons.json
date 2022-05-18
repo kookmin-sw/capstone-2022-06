@@ -3,12 +3,14 @@
         {
             "spritePath" : "Sprites/PlaceHolder",
             "heroName" : "temp_hero",
-            "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)"
+            "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)",
+            "skillJsonPath" : "Data/SkillIcons/MangoawlSkills"
         },
         {
             "spritePath" : "Sprites/PlaceHolder",
             "heroName" : "temp_hero2",
-            "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)"
+            "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)",
+            "skillJsonPath" : "Data/SkillIcons/MangoawlSkills"
         }
     ]
 }

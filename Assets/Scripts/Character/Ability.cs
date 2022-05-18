@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class Ability : MonoBehaviour
     ChampionManager championManager;
 
     public bool isPassive = false;
+    private bool isSkillReady = false;
+    private Action registeredSkill;
 
     public GameObject skillUpButton;
     public Image Q_SkillPoint1;
@@ -32,7 +35,7 @@ public class Ability : MonoBehaviour
     public Image E_SkillPoint1;
     public Image E_SkillPoint2;
     public Image E_SkillPoint3;
-    public Image R_SKillPoint1;
+    public Image R_SkillPoint1;
 
     // Component에서 스킬의 쿨타임, 인풋 키 설정
 
@@ -103,6 +106,8 @@ public class Ability : MonoBehaviour
 
     void Start()
     {
+        ConnectToUI();
+
         // 쿨타임 표시를 위한 초기 설정
         skillImage_Q.fillAmount = 0;
         skillImage_W.fillAmount = 0;
@@ -126,13 +131,9 @@ public class Ability : MonoBehaviour
 
     void Update()
     {
+        OnMouseClicked();
         SkillUP();
-        Skill_Q();
-        Skill_W();
-        Skill_E();
-        Skill_R();
-        Ability_D();
-        Ability_F();
+        OnButtonPressed();
 
         // 마우스 스킬 입력
         RaycastHit hit;
@@ -169,6 +170,59 @@ public class Ability : MonoBehaviour
         skill_RCanvas.transform.position = (newHitPos);
     }
 
+    /// <summary>
+    /// 마우스 클릭을 확인하는 메서드
+    /// regiseteredSkill이 빈 상태가 아니면 콜백을 호출하고 액션을 비웁니다.
+    /// </summary>
+    void OnMouseClicked()
+    {
+        if (Input.GetMouseButton(0) && isSkillReady && registeredSkill != null)
+        {
+            registeredSkill();
+            registeredSkill = null;
+        }
+    }
+
+    /// <summary>
+    /// 스킬과 관련된 키가 입력되었는지 확인하는 메서드.
+    /// 매칭되는 스킬을 찾으면 해당 스킬을 호출합니다.
+    /// </summary>
+    void OnButtonPressed()
+    {
+        // 스킬 취소
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            OffSkill();
+            registeredSkill = null;
+            return;
+        }
+
+        if (Input.GetKey(skill_Q))
+        {
+            Skill_Q();
+        }
+        else if (Input.GetKey(skill_W))
+        {
+            Skill_W();
+        }
+        else if (Input.GetKey(skill_E))
+        {
+            Skill_E();
+        }
+        else if (Input.GetKey(skill_R))
+        {
+            Skill_R();
+        }
+        else if (Input.GetKey(ability_D))
+        {
+            Ability_D();
+        }
+        else if (Input.GetKey(ability_F))
+        {
+            Ability_F();
+        }
+    }
+
     void Skill_Q()
     {
         if(skillPoint_Q < 1)
@@ -177,7 +231,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬Q의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_Q) && isCooldown_Q == false)
+        if (isCooldown_Q == false)
         {
             StartCoroutine("FireAttack");
 
@@ -219,7 +273,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬W의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_W) && isCooldown_W == false)
+        if (isCooldown_W == false)
         {
             // 생명력++
             stat.Status.hp += 50 + (stat.Status.ap * 0.5f);
@@ -248,16 +302,24 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬E의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_E) && isCooldown_E == false)
+        if (isCooldown_E == false)
         {
             skillshot.GetComponent<Image>().enabled = true;
+            isSkillReady = true;
 
             // 다른 스킬샷 UI disable
             indicatorRangeCircle.GetComponent<Image>().enabled = false;
             targetCircle.GetComponent<Image>().enabled = false;
         }
 
-        if (skillshot.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        OffSkill();
+        registeredSkill = null;
+        registeredSkill += Callback_E;
+    }
+
+    void Callback_E()
+    {
+        if (skillshot.GetComponent<Image>().enabled)
         {
             isSkill_E = true;
             heroCombat.targetedEnemy = null;
@@ -271,25 +333,26 @@ public class Ability : MonoBehaviour
             moveScript.agent.SetDestination(transform.position);
             moveScript.agent.stoppingDistance = 0;
 
-            if(canSkillshot_E)
+            if (canSkillshot_E)
             {
                 isCooldown_E = true;
                 skillImage_E.fillAmount = 1;
 
                 // 애니메이션
                 StartCoroutine(corSkill_E());
+                isSkillReady = false;
             }
-        }
 
-        if (isCooldown_E)
-        {
-            skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
-            skillshot.GetComponent<Image>().enabled = false;
-
-            if (skillImage_E.fillAmount <= 0)
+            if (isCooldown_E)
             {
-                skillImage_E.fillAmount = 0;
-                isCooldown_E = false;
+                skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
+                skillshot.GetComponent<Image>().enabled = false;
+    
+                if (skillImage_E.fillAmount <= 0)
+                {
+                    skillImage_E.fillAmount = 0;
+                    isCooldown_E = false;
+                }
             }
         }
     }
@@ -320,7 +383,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬R의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_R) && isCooldown_R == false)
+        if (isCooldown_R == false)
         {
             indicatorRangeCircle.GetComponent<Image>().enabled = true;
             targetCircle.GetComponent<Image>().enabled = true;
@@ -392,7 +455,7 @@ public class Ability : MonoBehaviour
     void Ability_D()
     {
         // 어빌리티D의 쿨타임 UI 이미지
-        if (Input.GetKey(ability_D) && isCooldown_D == false)
+        if (isCooldown_D == false)
         {
             isCooldown_D = true;
             abilityImage_D.fillAmount = 1;
@@ -413,7 +476,7 @@ public class Ability : MonoBehaviour
     void Ability_F()
     {
         // 어빌리티F의 쿨타임 UI 이미지
-        if (Input.GetKey(ability_F) && isCooldown_F == false)
+        if (isCooldown_F == false)
         {
             isCooldown_F = true;
             abilityImage_F.fillAmount = 1;
@@ -433,9 +496,8 @@ public class Ability : MonoBehaviour
 
     void SkillUP()
     {
-        if(championManager.skillPoint >= 1)
+        if (championManager.skillPoint >= 1)
         {
-            Debug.Log("skillup");
             skillUpButton.SetActive(true);
         }
         else
@@ -522,6 +584,70 @@ public class Ability : MonoBehaviour
 
         skillPoint_R++;
         championManager.skillPoint--;
-        R_SKillPoint1.color = Color.yellow;
+        R_SkillPoint1.color = Color.yellow;
+    }
+
+    /// <summary>
+    /// 스킬을 취소할 경우 변경된 월드 스페이스 UI를 원래대로 되돌립니다.
+    /// </summary>
+    void OffSkill()
+    {
+        isSkillReady = false;
+        skillshot.GetComponent<Image>().enabled = false;
+        indicatorRangeCircle.GetComponent<Image>().enabled = false;
+        targetCircle.GetComponent<Image>().enabled = false;
+    }
+
+    /// <summary>
+    /// UI_ChampSkill을 가져와서 필요한 컴포넌트를 할당 받습니다.
+    /// </summary>
+    private void ConnectToUI()
+    {
+        Debug.Log(Managers.UI.Root.name);
+        
+        UI_ChampSkill ui = Util.SearchChild<UI_ChampSkill>(Managers.UI.Root, null, true);
+        GameObject ui_go = ui.gameObject;
+        
+        if (!ui)
+        {
+            Debug.LogError("Failed to find UI_ChampSkill");
+            return;
+        }
+
+        Q_SkillPoint1 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 1", true);
+        Q_SkillPoint2 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 2", true);
+        Q_SkillPoint3 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 3", true);
+
+        W_SkillPoint1 = Util.SearchChild<Image>(ui_go, "W_Skill Point 1", true);
+        W_SkillPoint2 = Util.SearchChild<Image>(ui_go, "W_Skill Point 2", true);
+        W_SkillPoint3 = Util.SearchChild<Image>(ui_go, "W_Skill Point 3", true);
+
+        E_SkillPoint1 = Util.SearchChild<Image>(ui_go, "E_Skill Point 1", true);
+        E_SkillPoint2 = Util.SearchChild<Image>(ui_go, "E_Skill Point 2", true);
+        E_SkillPoint3 = Util.SearchChild<Image>(ui_go, "E_Skill Point 3", true);
+
+        R_SkillPoint1 = Util.SearchChild<Image>(ui_go, "R_Skill Point 1", true);
+
+        skillImage_Q = Util.SearchChild<Image>(ui_go, "Skill_QImage_Cooldown", true);
+        skillImage_W = Util.SearchChild<Image>(ui_go, "Skill_WImage_Cooldown", true);
+        skillImage_E = Util.SearchChild<Image>(ui_go, "Skill_EImage_Cooldown", true);
+        skillImage_R = Util.SearchChild<Image>(ui_go, "Skill_RImage_Cooldown", true);
+
+        abilityImage_D = Util.SearchChild<Image>(ui_go, "Ability_DImage_Cooldown", true);
+        abilityImage_F = Util.SearchChild<Image>(ui_go, "Ability_FImage_Cooldown", true);
+
+        skillUpButton = Util.SearchChild(ui_go, "SkillPoint Up", true);
+
+        Button increaseQ = Util.SearchChild<Button>(skillUpButton, "Q Up Button");
+        increaseQ.onClick.AddListener(SkillPointUp_Q);
+
+        Button increaseW = Util.SearchChild<Button>(skillUpButton, "W Up Button");
+        increaseW.onClick.AddListener(SkillPointUp_W);
+
+        Button increaseE = Util.SearchChild<Button>(skillUpButton, "E Up Button");
+        increaseE.onClick.AddListener(SkillPointUp_E);
+
+        Button increaseR = Util.SearchChild<Button>(skillUpButton, "R Up Button");
+        increaseR.onClick.AddListener(SkillPointUp_R);
     }
 }

@@ -7,10 +7,12 @@ using Photon.Realtime;
 public class ChampionManager : Controller
 {
     public int skillPoint;
+    public bool isDead = false;
 
     HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
     ChampionStat stat;
+    Animator anim;
 
     [SerializeField] GameObject currentAttacker;
 
@@ -20,6 +22,7 @@ public class ChampionManager : Controller
         playerAnim = GetComponent<PlayerAnimation>();
         stat = GetComponent<ChampionStat>();
         stat.Initialize("Mangoawl");
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -39,9 +42,12 @@ public class ChampionManager : Controller
 
     void FixedUpdate()
     {
-        stat.Status.healthRegen = 2 + stat.Status.level * 1.5f;
+        if(!isDead)
+        {
+            stat.Status.healthRegen = 0.02f + stat.Status.level * 0.05f;
 
-        stat.Status.hp += stat.Status.healthRegen;
+            stat.Status.hp += stat.Status.healthRegen;
+        }
     }
 
     void LevelUp()
@@ -56,6 +62,9 @@ public class ChampionManager : Controller
 
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (isDead)
+            return;
+
         if (attacker != null)
         {
             currentAttacker = attacker;
@@ -68,7 +77,7 @@ public class ChampionManager : Controller
 
         if (stat.Status.hp <= 0)
         {
-            Invoke("OnDie", 30f);
+            OnDie();
             return;
         }
     }
@@ -78,12 +87,18 @@ public class ChampionManager : Controller
         if(Util.GetLocalPlayerId() <= 5)
         {
             // 블루팀 리스폰
-            transform.Translate(new Vector3(-105, 0, -105));
+            isDead = true;
+            anim.SetTrigger("doDie");
+            //stat.Status.hp = stat.Status.maxHp;
+            //transform.Translate(new Vector3(-105, 0, -105));
         }
         else
         {
             // 레드팀 리스폰
-            transform.Translate(new Vector3(105, 0, 105));
+            isDead = true;
+            anim.SetTrigger("doDie");
+            //stat.Status.hp = stat.Status.maxHp;
+            //transform.Translate(new Vector3(105, 0, 105));
         }
     }
 }

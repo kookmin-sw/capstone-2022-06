@@ -213,4 +213,11 @@ public class Util
             return -1;
         }
     }
+
+    public static object GetLocalPlayerProp(object key)
+    {
+        object ret = null;
+        PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(key, out ret);
+        return ret;
+    }
 }

@@ -27,9 +27,8 @@ public class UI_ChampSkill : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(GameObjects));
-        string mySkillPath = (string)Util.GetLocalPlayerProp("skillPath");
+        string mySkillPath = (string)Util.GetLocalPlayerProp("skills");
         skillIcons = Managers.Resource.Load<TextAsset>(mySkillPath);
-
         SkillPaths myIcons = JsonUtility.FromJson<SkillPaths>(skillIcons.text);
 
         UpdateSkillIcon(Get<GameObject>((int)GameObjects.Passive), myIcons.passive);

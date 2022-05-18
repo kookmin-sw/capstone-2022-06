@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class Ability : MonoBehaviour
     ChampionManager championManager;
 
     public bool isPassive = false;
+    private bool isSkillReady = false;
+    private Action registeredSkill;
 
     public GameObject skillUpButton;
     public Image Q_SkillPoint1;
@@ -128,8 +131,9 @@ public class Ability : MonoBehaviour
 
     void Update()
     {
+        OnMouseClicked();
         SkillUP();
-        OnPressedSkill();
+        OnButtonPressed();
 
         // 마우스 스킬 입력
         RaycastHit hit;
@@ -167,11 +171,32 @@ public class Ability : MonoBehaviour
     }
 
     /// <summary>
+    /// 마우스 클릭을 확인하는 메서드
+    /// regiseteredSkill이 빈 상태가 아니면 콜백을 호출하고 액션을 비웁니다.
+    /// </summary>
+    void OnMouseClicked()
+    {
+        if (Input.GetMouseButton(0) && isSkillReady && registeredSkill != null)
+        {
+            registeredSkill();
+            registeredSkill = null;
+        }
+    }
+
+    /// <summary>
     /// 스킬과 관련된 키가 입력되었는지 확인하는 메서드.
     /// 매칭되는 스킬을 찾으면 해당 스킬을 호출합니다.
     /// </summary>
-    void OnPressedSkill()
+    void OnButtonPressed()
     {
+        // 스킬 취소
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            OffSkill();
+            registeredSkill = null;
+            return;
+        }
+
         if (Input.GetKey(skill_Q))
         {
             Skill_Q();
@@ -280,13 +305,20 @@ public class Ability : MonoBehaviour
         if (isCooldown_E == false)
         {
             skillshot.GetComponent<Image>().enabled = true;
+            isSkillReady = true;
 
             // 다른 스킬샷 UI disable
             indicatorRangeCircle.GetComponent<Image>().enabled = false;
             targetCircle.GetComponent<Image>().enabled = false;
         }
 
-        if (skillshot.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        registeredSkill = null;
+        registeredSkill += Callback_E;
+    }
+
+    void Callback_E()
+    {
+        if (skillshot.GetComponent<Image>().enabled)
         {
             isSkill_E = true;
             heroCombat.targetedEnemy = null;
@@ -300,25 +332,26 @@ public class Ability : MonoBehaviour
             moveScript.agent.SetDestination(transform.position);
             moveScript.agent.stoppingDistance = 0;
 
-            if(canSkillshot_E)
+            if (canSkillshot_E)
             {
                 isCooldown_E = true;
                 skillImage_E.fillAmount = 1;
 
                 // 애니메이션
                 StartCoroutine(corSkill_E());
+                isSkillReady = false;
             }
-        }
 
-        if (isCooldown_E)
-        {
-            skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
-            skillshot.GetComponent<Image>().enabled = false;
-
-            if (skillImage_E.fillAmount <= 0)
+            if (isCooldown_E)
             {
-                skillImage_E.fillAmount = 0;
-                isCooldown_E = false;
+                skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
+                skillshot.GetComponent<Image>().enabled = false;
+    
+                if (skillImage_E.fillAmount <= 0)
+                {
+                    skillImage_E.fillAmount = 0;
+                    isCooldown_E = false;
+                }
             }
         }
     }
@@ -551,6 +584,17 @@ public class Ability : MonoBehaviour
         skillPoint_R++;
         championManager.skillPoint--;
         R_SkillPoint1.color = Color.yellow;
+    }
+
+    /// <summary>
+    /// 스킬을 취소할 경우 변경된 월드 스페이스 UI를 원래대로 되돌립니다.
+    /// </summary>
+    void OffSkill()
+    {
+        isSkillReady = false;
+        skillshot.GetComponent<Image>().enabled = false;
+        indicatorRangeCircle.GetComponent<Image>().enabled = false;
+        targetCircle.GetComponent<Image>().enabled = false;
     }
 
     /// <summary>

@@ -214,6 +214,10 @@ public class Util
         }
     }
 
+    /// <summary>
+    /// 로컬 플레이어가 가진 커스텀 프로퍼티에서 주어진 key에 대해 대응하는 value를 반환합니다.
+    /// 없으면 null을 반환합니다.
+    /// </summary>
     public static object GetLocalPlayerProp(object key)
     {
         object ret = null;

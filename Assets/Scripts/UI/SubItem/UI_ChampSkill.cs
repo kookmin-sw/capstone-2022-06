@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 class SkillPaths
@@ -26,5 +27,22 @@ public class UI_ChampSkill : UI_Base
         Bind<GameObject>(typeof(GameObjects));
         string mySkillPath = (string)Util.GetLocalPlayerProp("skillPath");
         skillIcons = Managers.Resource.Load<TextAsset>(mySkillPath);
+
+        SkillPaths myIcons = JsonUtility.FromJson<SkillPaths>(skillIcons.text);
+    }
+
+    private void UpdateSkillIcon(GameObject go, string path)
+    {
+        Sprite loadedSprite = Managers.Resource.Load<Sprite>(path);
+
+        foreach (Transform item in go.transform)
+        {
+            Image itemImage = item.gameObject.GetComponent<Image>();
+
+            if (itemImage)
+            {
+                itemImage.sprite = loadedSprite;
+            }
+        }
     }
 }

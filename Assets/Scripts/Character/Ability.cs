@@ -32,7 +32,7 @@ public class Ability : MonoBehaviour
     public Image E_SkillPoint1;
     public Image E_SkillPoint2;
     public Image E_SkillPoint3;
-    public Image R_SKillPoint1;
+    public Image R_SkillPoint1;
 
     // Component에서 스킬의 쿨타임, 인풋 키 설정
 
@@ -101,13 +101,10 @@ public class Ability : MonoBehaviour
     bool isCooldown_F = false;
     public KeyCode ability_F;
 
-    void Awake()
-    {
-        ConnectToChampSkill();
-    }
-
     void Start()
     {
+        ConnectToUI();
+
         // 쿨타임 표시를 위한 초기 설정
         skillImage_Q.fillAmount = 0;
         skillImage_W.fillAmount = 0;
@@ -527,14 +524,47 @@ public class Ability : MonoBehaviour
 
         skillPoint_R++;
         championManager.skillPoint--;
-        R_SKillPoint1.color = Color.yellow;
+        R_SkillPoint1.color = Color.yellow;
     }
 
     /// <summary>
     /// UI_ChampSkill을 가져와서 필요한 컴포넌트를 할당 받습니다.
     /// </summary>
-    private void ConnectToChampSkill()
+    private void ConnectToUI()
     {
+        Debug.Log(Managers.UI.Root.name);
+        
+        UI_ChampSkill ui = Util.SearchChild<UI_ChampSkill>(Managers.UI.Root, null, true);
+        GameObject ui_go = ui.gameObject;
+        
+        if (!ui)
+        {
+            Debug.LogError("Failed to find UI_ChampSkill");
+            return;
+        }
 
+        Q_SkillPoint1 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 1", true);
+        Q_SkillPoint2 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 2", true);
+        Q_SkillPoint3 = Util.SearchChild<Image>(ui_go, "Q_Skill Point 3", true);
+
+        W_SkillPoint1 = Util.SearchChild<Image>(ui_go, "W_Skill Point 1", true);
+        W_SkillPoint2 = Util.SearchChild<Image>(ui_go, "W_Skill Point 2", true);
+        W_SkillPoint3 = Util.SearchChild<Image>(ui_go, "W_Skill Point 3", true);
+
+        E_SkillPoint1 = Util.SearchChild<Image>(ui_go, "E_Skill Point 1", true);
+        E_SkillPoint2 = Util.SearchChild<Image>(ui_go, "E_Skill Point 2", true);
+        E_SkillPoint3 = Util.SearchChild<Image>(ui_go, "E_Skill Point 3", true);
+
+        R_SkillPoint1 = Util.SearchChild<Image>(ui_go, "R_Skill Point 1", true);
+
+        skillUpButton = Util.SearchChild(ui_go, "SkillPoint Up", true);
+
+        skillImage_Q = Util.SearchChild<Image>(ui_go, "Skill_QImage_Cooldown", true);
+        skillImage_W = Util.SearchChild<Image>(ui_go, "Skill_WImage_Cooldown", true);
+        skillImage_E = Util.SearchChild<Image>(ui_go, "Skill_EImage_Cooldown", true);
+        skillImage_R = Util.SearchChild<Image>(ui_go, "Skill_RImage_Cooldown", true);
+
+        abilityImage_D = Util.SearchChild<Image>(ui_go, "Ability_DImage_Cooldown", true);
+        abilityImage_F = Util.SearchChild<Image>(ui_go, "Ability_FImage_Cooldown", true);
     }
 }

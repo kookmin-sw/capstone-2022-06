@@ -29,6 +29,12 @@ public class UI_ChampSkill : UI_Base
         skillIcons = Managers.Resource.Load<TextAsset>(mySkillPath);
 
         SkillPaths myIcons = JsonUtility.FromJson<SkillPaths>(skillIcons.text);
+
+        UpdateSkillIcon(Get<GameObject>((int)GameObjects.Passive), myIcons.passive);
+        UpdateSkillIcon(Get<GameObject>((int)GameObjects.Skill_Q), myIcons.q);
+        UpdateSkillIcon(Get<GameObject>((int)GameObjects.Skill_W), myIcons.w);
+        UpdateSkillIcon(Get<GameObject>((int)GameObjects.Skill_E), myIcons.e);
+        UpdateSkillIcon(Get<GameObject>((int)GameObjects.Skill_R), myIcons.r);
     }
 
     private void UpdateSkillIcon(GameObject go, string path)

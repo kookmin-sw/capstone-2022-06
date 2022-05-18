@@ -129,12 +129,7 @@ public class Ability : MonoBehaviour
     void Update()
     {
         SkillUP();
-        Skill_Q();
-        Skill_W();
-        Skill_E();
-        Skill_R();
-        Ability_D();
-        Ability_F();
+        OnPressedSkill();
 
         // 마우스 스킬 입력
         RaycastHit hit;
@@ -171,6 +166,38 @@ public class Ability : MonoBehaviour
         skill_RCanvas.transform.position = (newHitPos);
     }
 
+    /// <summary>
+    /// 스킬과 관련된 키가 입력되었는지 확인하는 메서드.
+    /// 매칭되는 스킬을 찾으면 해당 스킬을 호출합니다.
+    /// </summary>
+    void OnPressedSkill()
+    {
+        if (Input.GetKey(skill_Q))
+        {
+            Skill_Q();
+        }
+        else if (Input.GetKey(skill_W))
+        {
+            Skill_W();
+        }
+        else if (Input.GetKey(skill_E))
+        {
+            Skill_E();
+        }
+        else if (Input.GetKey(skill_R))
+        {
+            Skill_R();
+        }
+        else if (Input.GetKey(ability_D))
+        {
+            Ability_D();
+        }
+        else if (Input.GetKey(ability_F))
+        {
+            Ability_F();
+        }
+    }
+
     void Skill_Q()
     {
         if(skillPoint_Q < 1)
@@ -179,7 +206,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬Q의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_Q) && isCooldown_Q == false)
+        if (isCooldown_Q == false)
         {
             StartCoroutine("FireAttack");
 
@@ -221,7 +248,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬W의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_W) && isCooldown_W == false)
+        if (isCooldown_W == false)
         {
             // 생명력++
             stat.Status.hp += 50 + (stat.Status.ap * 0.5f);
@@ -250,7 +277,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬E의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_E) && isCooldown_E == false)
+        if (isCooldown_E == false)
         {
             skillshot.GetComponent<Image>().enabled = true;
 
@@ -322,7 +349,7 @@ public class Ability : MonoBehaviour
         }
 
         // 스킬R의 쿨타임 UI 이미지
-        if (Input.GetKey(skill_R) && isCooldown_R == false)
+        if (isCooldown_R == false)
         {
             indicatorRangeCircle.GetComponent<Image>().enabled = true;
             targetCircle.GetComponent<Image>().enabled = true;
@@ -394,7 +421,7 @@ public class Ability : MonoBehaviour
     void Ability_D()
     {
         // 어빌리티D의 쿨타임 UI 이미지
-        if (Input.GetKey(ability_D) && isCooldown_D == false)
+        if (isCooldown_D == false)
         {
             isCooldown_D = true;
             abilityImage_D.fillAmount = 1;
@@ -415,7 +442,7 @@ public class Ability : MonoBehaviour
     void Ability_F()
     {
         // 어빌리티F의 쿨타임 UI 이미지
-        if (Input.GetKey(ability_F) && isCooldown_F == false)
+        if (isCooldown_F == false)
         {
             isCooldown_F = true;
             abilityImage_F.fillAmount = 1;
@@ -435,7 +462,7 @@ public class Ability : MonoBehaviour
 
     void SkillUP()
     {
-        if(championManager.skillPoint >= 1)
+        if (championManager.skillPoint >= 1)
         {
             skillUpButton.SetActive(true);
         }

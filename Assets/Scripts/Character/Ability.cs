@@ -312,6 +312,7 @@ public class Ability : MonoBehaviour
             targetCircle.GetComponent<Image>().enabled = false;
         }
 
+        OffSkill();
         registeredSkill = null;
         registeredSkill += Callback_E;
     }

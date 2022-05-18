@@ -101,6 +101,11 @@ public class Ability : MonoBehaviour
     bool isCooldown_F = false;
     public KeyCode ability_F;
 
+    void Awake()
+    {
+        ConnectToChampSkill();
+    }
+
     void Start()
     {
         // 쿨타임 표시를 위한 초기 설정
@@ -523,5 +528,13 @@ public class Ability : MonoBehaviour
         skillPoint_R++;
         championManager.skillPoint--;
         R_SKillPoint1.color = Color.yellow;
+    }
+
+    /// <summary>
+    /// UI_ChampSkill을 가져와서 필요한 컴포넌트를 할당 받습니다.
+    /// </summary>
+    private void ConnectToChampSkill()
+    {
+
     }
 }

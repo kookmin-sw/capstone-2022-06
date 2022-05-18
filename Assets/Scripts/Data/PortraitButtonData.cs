@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public class PortraitButtonData : MonoBehaviour
 {
-    public string prefabPath, spritePath, heroName;
+    public string prefabPath, spritePath, heroName, skillJsonPath;
 }

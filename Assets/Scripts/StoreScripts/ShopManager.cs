@@ -7,13 +7,18 @@ public class ShopManager : MonoBehaviour
 {
     public GameObject StorePanel;
     public RectTransform CanvasRectTransform;
-    bool panelactive = false;
+    public bool panelactive = false;
     public int playerGold = 10000; //이후 다른 스크립트에서 static으로 선언 후 접근 해도 됨
 
     public bool[] elixirApplied = new bool[4]; //마법, 분노, 강철, 신속
 
     public Transform InventorySlotTransform;
     public InventorySlot[] InventorySlots;
+
+    public Transform OuterInventorySlotTransform;
+    public OuterInventorySlot[] OuterInventorySlots;
+
+    public List<Transform> CharacterSlotTransforms;
 
     public List<GameObject> ShopItemGameobjects = new List<GameObject>();
     public Transform TabsTransform;
@@ -38,6 +43,7 @@ public class ShopManager : MonoBehaviour
     public Text SelectedItemDescription;
     public Image SelectedItemImage;
     public Text GoldText;
+    public Text OuterGoldText;
     public Text SearchText;
     public Text InputFieldText;
     string previousinputfieldtext;
@@ -72,6 +78,7 @@ public class ShopManager : MonoBehaviour
         StorePanel.SetActive(panelactive);
         Treeslots = TreeSlotTransform.GetComponentsInChildren<TreeSlot>();
         InventorySlots = InventorySlotTransform.GetComponentsInChildren<InventorySlot>();
+        OuterInventorySlots = OuterInventorySlotTransform.GetComponentsInChildren<OuterInventorySlot>();
         TabButtons = TabsTransform.GetComponentsInChildren<TabButton>();
         SelectedTabButton = TabButtons[0];
         UpperSlots = UpperSlotTransform.GetComponentsInChildren<UpperItemSlot>();
@@ -91,10 +98,11 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         GoldText.text = playerGold.ToString();
-        if (Input.GetKeyDown(KeyCode.Tab))
+        OuterGoldText.text = playerGold.ToString();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            panelactive = !panelactive;
-            StorePanel.SetActive(panelactive);
+            CloseButton();
         }
         if (Input.GetMouseButtonDown(0)) mouseentered = false;
         if (mouseentered)
@@ -231,6 +239,7 @@ public class ShopManager : MonoBehaviour
                         SetInventorySlot(invslot, item, false);
                         invslot.ItemNumText.text = invslot.stackednum.ToString();
                         invslot.ItemNumText.enabled = true;
+                        UpdateInventories();
                         return;
                     }
                 }  
@@ -240,6 +249,7 @@ public class ShopManager : MonoBehaviour
                     SetInventorySlot(EmptySlot, item, false);
                     EmptySlot.ItemNumText.text = EmptySlot.stackednum.ToString();
                     EmptySlot.ItemNumText.enabled = true;
+                    UpdateInventories();
 
                 }
             }
@@ -340,6 +350,7 @@ public class ShopManager : MonoBehaviour
             invslot.ItemNumText.text = invslot.stackednum.ToString();
             InventorySelect(invslot);
             CalculateActualPriceAll();
+            UpdateInventories();
             return;
         }
         else
@@ -359,6 +370,7 @@ public class ShopManager : MonoBehaviour
                 slot.SelectFrameObject.SetActive(false);
             }
             CalculateActualPriceAll();
+            UpdateInventories();
             return;
         }
 
@@ -388,6 +400,8 @@ public class ShopManager : MonoBehaviour
         invslot.stackednum += 1;
         GoldText.text = playerGold.ToString();
         CalculateActualPriceAll();
+
+        UpdateInventories();
     }
 
     public void InventorySelect(InventorySlot invslot)
@@ -578,6 +592,16 @@ public class ShopManager : MonoBehaviour
         else BuyButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 
+    public void OpenButton()
+    {
+        panelactive = true;
+        StorePanel.SetActive(true);
+    }
+    public void CloseButton()
+    {
+        panelactive = false;
+        StorePanel.SetActive(false);
+    }
 
     public void RevertButton()
     {
@@ -607,6 +631,9 @@ public class ShopManager : MonoBehaviour
                 InventorySlots[i].SelectFrameObject.SetActive(false);
                 i++;
             }
+            UpdateInventories();
+
+
         }
         CalculateActualPriceAll();
     }
@@ -615,5 +642,22 @@ public class ShopManager : MonoBehaviour
     {
         searchstring = InputFieldText.text.Replace(" ","");
         TabSelect(SelectedTabButton);
+    }
+    public void UpdateInventories()
+    {
+        foreach (OuterInventorySlot invslot in OuterInventorySlots)
+        {
+            invslot.ChangeValue();
+        }
+        if (CharacterSlotTransforms != null)
+        {
+            foreach(Transform CharacterSlotTransform in CharacterSlotTransforms)
+            {
+                foreach(OuterInventorySlot invslot in CharacterSlotTransform.GetComponentsInChildren<OuterInventorySlot>())
+                {
+                    invslot.ChangeValue(); ;
+                }
+            }
+        }
     }
 }

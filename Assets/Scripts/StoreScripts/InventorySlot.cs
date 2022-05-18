@@ -49,7 +49,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     }
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        if (item != null)
+        if (item != null && ItemImage.enabled)
         {
             SM.MouseOnItemInfo = item.iteminfo;
             SM.mouseentered = true;

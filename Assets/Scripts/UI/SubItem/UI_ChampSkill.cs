@@ -46,6 +46,11 @@ public class UI_ChampSkill : UI_Base
 
         foreach (Transform item in go.transform)
         {
+            if (item.name.IndexOf("Point") != -1)
+            {
+                continue;
+            }
+
             Image itemImage = item.gameObject.GetComponent<Image>();
 
             if (itemImage)

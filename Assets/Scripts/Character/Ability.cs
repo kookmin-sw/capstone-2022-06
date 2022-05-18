@@ -437,7 +437,6 @@ public class Ability : MonoBehaviour
     {
         if(championManager.skillPoint >= 1)
         {
-            Debug.Log("skillup");
             skillUpButton.SetActive(true);
         }
         else
@@ -557,8 +556,6 @@ public class Ability : MonoBehaviour
 
         R_SkillPoint1 = Util.SearchChild<Image>(ui_go, "R_Skill Point 1", true);
 
-        skillUpButton = Util.SearchChild(ui_go, "SkillPoint Up", true);
-
         skillImage_Q = Util.SearchChild<Image>(ui_go, "Skill_QImage_Cooldown", true);
         skillImage_W = Util.SearchChild<Image>(ui_go, "Skill_WImage_Cooldown", true);
         skillImage_E = Util.SearchChild<Image>(ui_go, "Skill_EImage_Cooldown", true);
@@ -566,5 +563,19 @@ public class Ability : MonoBehaviour
 
         abilityImage_D = Util.SearchChild<Image>(ui_go, "Ability_DImage_Cooldown", true);
         abilityImage_F = Util.SearchChild<Image>(ui_go, "Ability_FImage_Cooldown", true);
+
+        skillUpButton = Util.SearchChild(ui_go, "SkillPoint Up", true);
+
+        Button increaseQ = Util.SearchChild<Button>(skillUpButton, "Q Up Button");
+        increaseQ.onClick.AddListener(SkillPointUp_Q);
+
+        Button increaseW = Util.SearchChild<Button>(skillUpButton, "W Up Button");
+        increaseW.onClick.AddListener(SkillPointUp_W);
+
+        Button increaseE = Util.SearchChild<Button>(skillUpButton, "E Up Button");
+        increaseE.onClick.AddListener(SkillPointUp_E);
+
+        Button increaseR = Util.SearchChild<Button>(skillUpButton, "R Up Button");
+        increaseR.onClick.AddListener(SkillPointUp_R);
     }
 }

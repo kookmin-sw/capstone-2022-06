@@ -319,6 +319,7 @@ public class UI_Preparation : UI_Scene
             _data.heroName = info.heroName;
             _data.prefabPath = info.prefabPath;
             _data.spritePath = info.spritePath;
+            _data.skillJsonPath = info.skillJsonPath;
 
             // 버튼을 눌렀을 때 selectedPortrait를 갱신하는 OnClick 콜백을 추가합니다.
             // 자기 픽 슬롯의 portrait도 변경할 수 있도록 합니다.
@@ -331,13 +332,15 @@ public class UI_Preparation : UI_Scene
                 string _spritePath = selectedData.spritePath;
                 string _prefabPath = selectedData.prefabPath;
                 string _champName = selectedData.heroName;
+                string _skillPath = selectedData.skillJsonPath;
 
                 Hashtable myHash = new Hashtable() {
                     {"isExists", true},
                     {"isCommander", false},
                     {"prefabPath", _prefabPath},
                     {"championName", _champName},
-                    {"actorId", myActorId}
+                    {"actorId", myActorId},
+                    {"skills", _skillPath}
                 };
                 UpdateProperty(myHash);
 

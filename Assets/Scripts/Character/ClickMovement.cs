@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 
 /*
  * 플레이어의 이동 스크립트
@@ -22,36 +23,72 @@ public class ClickMovement : MonoBehaviour
 
     PhotonView PV;
 
+    ShopManager SM;
+
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         heroCombatScript = GetComponent<HeroCombat>();
         PV = GetComponent<PhotonView>();
+        SM = GameObject.Find("ShopManager").GetComponent<ShopManager>();
     }
 
     void Update()
     {
-        //if (heroCombatScript.targetedEnemy != null)
-        //{
-        //    if(heroCombatScript.targetedEnemy.GetComponent<HeroCombat>() != null)
-        //    {
-        //        if (heroCombatScript.targetedEnemy.GetComponent<HeroCombat>().isHeroAlive)
-        //        {
-        //            heroCombatScript.targetedEnemy = null;
-        //        }
-        //    }
-        //}
+        if (heroCombatScript.targetedEnemy != null)
+        {
+            if(heroCombatScript.targetedEnemy.GetComponent<HeroCombat>() != null)
+            {
+                if (heroCombatScript.targetedEnemy.GetComponent<HeroCombat>().isHeroAlive)
+                {
+                    heroCombatScript.targetedEnemy = null;
+                }
+            }
+        }
 
-        // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정
+        // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정 + 상점 체크
         if (Input.GetMouseButton(1) && PV != null && PV.IsMine)
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
+            if (!IsPointerOverUIObject())
             {
-                Vector3 dest = hit.point;
-                dest.y = 0;
-                PV.RPC("moveToDestination", RpcTarget.All, dest);
+                RaycastHit hit;
+
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject.CompareTag("Shop"))
+                    {
+                        if (SM != null && !SM.panelactive)
+                        {
+                            SM.panelactive = !SM.panelactive;
+                            SM.StorePanel.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        Vector3 dest = hit.point;
+                        dest.y = 0;
+                        PV.RPC("moveToDestination", RpcTarget.All, dest);
+                    }
+                }
+            }
+        }
+        if (Input.GetMouseButton(0) && PV != null && PV.IsMine)
+        {
+            if (!IsPointerOverUIObject())
+            {
+                RaycastHit hit;
+
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject.CompareTag("Shop"))
+                    {
+                        if (SM != null && !SM.panelactive)
+                        {
+                            SM.panelactive = !SM.panelactive;
+                            SM.StorePanel.SetActive(true);
+                        }
+                    }
+                }
             }
         }
     }
@@ -79,10 +116,28 @@ public class ClickMovement : MonoBehaviour
 
         // 이동
         agent.SetDestination(dest);
+        heroCombatScript.targetedEnemy = null;
         agent.stoppingDistance = 0;
         // 방향
         Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);
         float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));
         transform.eulerAngles = new Vector3(0, rotationY, 0);
+    }
+    public bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            if (results[i].gameObject.layer == 5) //5 = UI layer
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

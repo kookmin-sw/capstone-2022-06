@@ -45,7 +45,7 @@ public class WaveManager : MonoBehaviour
         string[] minionPath = new string[] {"Prefabs/FootmanHP", "Prefabs/FreeLichHP"};
         for (int i = 0; i < 4; i++)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(2.0f);
 
             for (int j = 0; j < 3; j++)
             {

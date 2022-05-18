@@ -155,7 +155,7 @@ public class MinionController : Controller, IPunObservable
 
         if (_state != State.Targetting)
         {
-            targetCols = Physics.OverlapSphere(transform.position, 7.0f, targetLayer);
+            targetCols = Physics.OverlapSphere(transform.position, 15.0f, targetLayer);
             
             IEnumerable<Collider> query = from target in targetCols
                                           orderby target.GetComponent<ObjectStat>().Status.priority,
@@ -190,9 +190,10 @@ public class MinionController : Controller, IPunObservable
 
         _nav.SetDestination(_lockTarget.transform.position);
 
-        if ((transform.position - _lockTarget.transform.position).magnitude < _attackRange)
+        if ((transform.position - _lockTarget.transform.position).magnitude <= _attackRange)
         {
             _nav.isStopped = true;
+            _nav.ResetPath();
             _state = State.Attack;
         }
         else

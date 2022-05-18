@@ -8,41 +8,42 @@ public class InputTargeting : MonoBehaviour
 
     public GameObject selectedHero;
     public bool heroPlayer;
-    RaycastHit hit;
+    RaycastHit[] hits;
+    public int _mask;
+
+    GameObject _target;
 
     void Start()
     {
-        selectedHero = GameObject.FindGameObjectWithTag("Player");
+       
     }
 
-    void Update()
+    void LateUpdate()
     {
         // 미니언 타겟팅
         if(Input.GetMouseButtonDown(1))
         {
-            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), Mathf.Infinity, _mask);
+            foreach (RaycastHit hit in hits)
             {
-                // 타겟팅이 가능한 경우
-                if(hit.collider.GetComponent<Targetable>() != null)
+                if (hit.collider.gameObject.GetComponent<CapsuleCollider>() != null)
                 {
-                    if(hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Minion)
+                    if (hit.collider == hit.collider.gameObject.GetComponent<CapsuleCollider>())
                     {
-                        selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
+                        _target = hit.collider.gameObject;
+                        break;
                     }
-                    else if (hit.collider.GetComponent<Targetable>().enemyType == Targetable.EnemyType.Champion)
-                    {
-                        selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
-                    }
+                    else
+                        _target = null;
                 }
-                else if(hit.collider.gameObject.GetComponent<Targetable>() == null)
-                {
-                    var tmp = selectedHero.GetComponent<HeroCombat>();
-                    if (tmp)
-                    {
-                        tmp.targetedEnemy = null;
-                    }
-                }
+                else
+                    _target = null;
             }
+
+            if (_target)
+                selectedHero.GetComponent<HeroCombat>().targetedEnemy = _target;
+            else
+                selectedHero.GetComponent<HeroCombat>().targetedEnemy = null;
         }
 
         /*
@@ -66,5 +67,15 @@ public class InputTargeting : MonoBehaviour
             }
         }
         */
+    }
+
+    public void Initialize(GameObject player)
+    {
+        selectedHero = player;
+
+        if (selectedHero.layer == LayerMask.NameToLayer("RedTeam"))
+            _mask = LayerMask.GetMask("BlueTeam");
+        else
+            _mask = LayerMask.GetMask("RedTeam");
     }
 }

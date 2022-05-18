@@ -13,6 +13,7 @@ public class TurretController : Controller
     [SerializeField] float _detectRange;
     [SerializeField] float _attackInterval;
     float _attackTimer;
+    float _attackRange;
 
     [SerializeField] GameObject _lockTarget;
     [SerializeField] Slider HPSlider;
@@ -35,6 +36,7 @@ public class TurretController : Controller
 
         InvokeRepeating("UpdateTarget", 0f, 0.1f);
         _attackTimer = _attackInterval;
+        _attackRange = 30f;
     }
 
     // Update is called once per frame
@@ -62,8 +64,16 @@ public class TurretController : Controller
                                                 Vector3.Distance(target.gameObject.transform.position, transform.position)
                                         select target;
         
-        if (query.Count() > 0)
-            _lockTarget = query.ElementAt<Collider>(0).gameObject;
+        //if (query.Count() > 0)
+        //    _lockTarget = query.ElementAt<Collider>(0).gameObject;
+
+        foreach(Collider col in query)
+        {
+            if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= _attackRange)
+            {
+                _lockTarget = col.gameObject;
+            }
+        }
 
         Array.Clear(targetCandidates, 0, targetCandidates.Length);
     }
@@ -90,7 +100,8 @@ public class TurretController : Controller
         if (_lockTarget != null)
         {
             ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
-            if (targetStat.Status.hp <= 0) _lockTarget = null;
+            if (targetStat.Status.hp <= 0 || Vector3.Distance(transform.position, _lockTarget.transform.position) > _attackRange) 
+                _lockTarget = null;
         }
     }
 

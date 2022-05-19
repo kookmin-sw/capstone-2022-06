@@ -35,17 +35,6 @@ public class ClickMovement : MonoBehaviour
 
     void Update()
     {
-        if (heroCombatScript.targetedEnemy != null)
-        {
-            if(heroCombatScript.targetedEnemy.GetComponent<HeroCombat>() != null)
-            {
-                if (heroCombatScript.targetedEnemy.GetComponent<HeroCombat>().isHeroAlive)
-                {
-                    heroCombatScript.targetedEnemy = null;
-                }
-            }
-        }
-
         // 마우스 우클릭으로 Raycast를 이용하여 클릭된 위치로 목적지 설정 + 상점 체크
         if (Input.GetMouseButton(1) && PV != null && PV.IsMine)
         {
@@ -53,7 +42,7 @@ public class ClickMovement : MonoBehaviour
             {
                 RaycastHit hit;
 
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
                 {
                     if (hit.collider.gameObject.CompareTag("Shop"))
                     {
@@ -65,6 +54,7 @@ public class ClickMovement : MonoBehaviour
                     }
                     else
                     {
+                        agent.isStopped = false;
                         Vector3 dest = hit.point;
                         dest.y = 0;
                         PV.RPC("moveToDestination", RpcTarget.All, dest);
@@ -116,7 +106,6 @@ public class ClickMovement : MonoBehaviour
 
         // 이동
         agent.SetDestination(dest);
-        heroCombatScript.targetedEnemy = null;
         agent.stoppingDistance = 0;
         // 방향
         Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);

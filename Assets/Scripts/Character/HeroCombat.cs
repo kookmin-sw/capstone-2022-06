@@ -24,6 +24,8 @@ public class HeroCombat : MonoBehaviour
     public bool isHeroAlive;
     public bool performMeleeAttack = true;
 
+    public float distance;
+
     void Start()
     {
         moveScript = GetComponent<ClickMovement>();
@@ -37,8 +39,10 @@ public class HeroCombat : MonoBehaviour
     {
         if(targetedEnemy != null)
         {
+            distance = Vector3.Distance(transform.position, targetedEnemy.transform.position);
             if(Vector3.Distance(gameObject.transform.position, targetedEnemy.transform.position) > attackRange)
             {
+                moveScript.agent.isStopped = false;
                 moveScript.agent.SetDestination(targetedEnemy.transform.position);
                 moveScript.agent.stoppingDistance = attackRange;
 
@@ -52,6 +56,7 @@ public class HeroCombat : MonoBehaviour
             {
                 if(targetedEnemy != null)
                 {
+                    moveScript.agent.isStopped = true;
                     if (heroAttackType == HeroAttackType.Melee)
                     {
                         if (performMeleeAttack)

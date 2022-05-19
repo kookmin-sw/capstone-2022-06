@@ -12,7 +12,7 @@ public class TurretController : Controller
     int targetLayer;
     [SerializeField] float _detectRange;
     [SerializeField] float _attackInterval;
-    float _attackTimer;
+    [SerializeField] float _attackTimer;
     float _attackRange;
 
     [SerializeField] GameObject _lockTarget;
@@ -36,7 +36,7 @@ public class TurretController : Controller
 
         InvokeRepeating("UpdateTarget", 0f, 0.1f);
         _attackTimer = _attackInterval;
-        _attackRange = 30f;
+        _attackRange = 15f;
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class TurretController : Controller
             _attackTimer += Time.deltaTime;
         }
         else
-            _attackTimer = 0f;
+            _attackTimer = _attackInterval;
 
         ChangeTargetNull();
         

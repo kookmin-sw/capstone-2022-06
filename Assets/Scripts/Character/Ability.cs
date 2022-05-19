@@ -159,8 +159,7 @@ public class Ability : MonoBehaviour
         // Skill_E 입력
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-            position.y = transform.position.y;
+            position = new Vector3(hit.point.x, 1f, hit.point.z);
         }
 
         // Skill_E 캔버스 입력
@@ -391,16 +390,16 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, Quaternion.LookRotation(position - transform.position));
+        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
     void Skill_R()
     {
-        // if (skillPoint_R < 1)
-        // {
-        //     return;
-        // }
+        if (skillPoint_R < 1)
+        {
+            return;
+        }
 
         OffSkill();
 

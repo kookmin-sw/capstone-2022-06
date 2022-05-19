@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class Ability : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class Ability : MonoBehaviour
     ClickMovement moveScript;
     HeroCombat heroCombat;
     ChampionManager championManager;
+    PhotonView PV;
 
     public bool isPassive = false;
     private bool isSkillReady = false;
@@ -104,8 +106,23 @@ public class Ability : MonoBehaviour
     bool isCooldown_F = false;
     public KeyCode ability_F;
 
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
+
     void Start()
     {
+        // 초기 스킬샷 UI enable
+        skillshot.GetComponent<Image>().enabled = false;
+        targetCircle.GetComponent<Image>().enabled = false;
+        indicatorRangeCircle.GetComponent<Image>().enabled = false;
+
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         ConnectToUI();
 
         // 쿨타임 표시를 위한 초기 설정
@@ -115,11 +132,6 @@ public class Ability : MonoBehaviour
         skillImage_R.fillAmount = 0;
         abilityImage_F.fillAmount = 0;
         abilityImage_D.fillAmount = 0;
-
-        // 초기 스킬샷 UI enable
-        skillshot.GetComponent<Image>().enabled = false;
-        targetCircle.GetComponent<Image>().enabled = false;
-        indicatorRangeCircle.GetComponent<Image>().enabled = false;
 
         stat = GetComponent<ChampionStat>();
         stat.Initialize("Mangoawl");
@@ -131,9 +143,15 @@ public class Ability : MonoBehaviour
 
     void Update()
     {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         OnMouseClicked();
         SkillUP();
         OnButtonPressed();
+        DecreaseCoolDown();
 
         // 마우스 스킬 입력
         RaycastHit hit;
@@ -142,7 +160,7 @@ public class Ability : MonoBehaviour
         // Skill_E 입력
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            position = new Vector3(hit.point.x, 1f, hit.point.z);
         }
 
         // Skill_E 캔버스 입력
@@ -223,22 +241,8 @@ public class Ability : MonoBehaviour
         }
     }
 
-    void Skill_Q()
+    void DecreaseCoolDown()
     {
-        if(skillPoint_Q < 1)
-        {
-            return;
-        }
-
-        // 스킬Q의 쿨타임 UI 이미지
-        if (isCooldown_Q == false)
-        {
-            StartCoroutine("FireAttack");
-
-            isCooldown_Q = true;
-            skillImage_Q.fillAmount = 1;
-        }
-
         if (isCooldown_Q)
         {
             skillImage_Q.fillAmount -= 1 / cooldown_Q * Time.deltaTime;
@@ -249,6 +253,65 @@ public class Ability : MonoBehaviour
                 isCooldown_Q = false;
             }
         }
+
+        if (isCooldown_W)
+        {
+            skillImage_W.fillAmount -= 1 / cooldown_W * Time.deltaTime;
+
+            if (skillImage_W.fillAmount <= 0)
+            {
+                skillImage_W.fillAmount = 0;
+                isCooldown_W = false;
+            }
+        }
+
+        if (isCooldown_E)
+        {
+            skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
+            skillshot.GetComponent<Image>().enabled = false;
+            if (skillImage_E.fillAmount <= 0)
+            {
+                skillImage_E.fillAmount = 0;
+                isCooldown_E = false;
+            }
+        }
+
+        if (isCooldown_R)
+        {
+            skillImage_R.fillAmount -= 1 / cooldown_R * Time.deltaTime;
+
+            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            targetCircle.GetComponent<Image>().enabled = false;
+
+            if (skillImage_R.fillAmount <= 0)
+            {
+                skillImage_R.fillAmount = 0;
+                isCooldown_R = false;
+            }
+        }
+    }
+
+    void Skill_Q()
+    {
+        if(skillPoint_Q < 1)
+        {
+            return;
+        }
+
+        // 스킬Q의 쿨타임 UI 이미지
+        if (isCooldown_Q == false)
+        {
+            PV.RPC("FireEffectRPC", RpcTarget.All);
+
+            isCooldown_Q = true;
+            skillImage_Q.fillAmount = 1;
+        }
+    }
+
+    [PunRPC]
+    void FireEffectRPC()
+    {
+        StartCoroutine(FireAttack());
     }
 
     IEnumerator FireAttack()
@@ -262,6 +325,21 @@ public class Ability : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         isActive = false;
         stat.Status.atk = originAttackDmg;
+        fire.Stop();
+    }
+
+    /// <summary>
+    /// Q 스킬 발동 시 3초간 파티클을 활성화 하며 데미지를 1.5배로 올리는 코루틴
+    /// <summary>
+    IEnumerator FireBuff()
+    {
+        float originAtk = stat.Status.atk;
+        isActive = true;
+        stat.Status.atk *= 1.5f;
+        fire.Play();
+        yield return new WaitForSeconds(3.0f);
+        isActive = false;
+        stat.Status.atk = originAtk;
         fire.Stop();
     }
 
@@ -281,17 +359,6 @@ public class Ability : MonoBehaviour
             isCooldown_W = true;
             skillImage_W.fillAmount = 1;
         }
-
-        if (isCooldown_W)
-        {
-            skillImage_W.fillAmount -= 1 / cooldown_W * Time.deltaTime;
-
-            if (skillImage_W.fillAmount <= 0)
-            {
-                skillImage_W.fillAmount = 0;
-                isCooldown_W = false;
-            }
-        }
     }
 
     void Skill_E()
@@ -300,6 +367,8 @@ public class Ability : MonoBehaviour
         {
             return;
         }
+
+        OffSkill();
 
         // 스킬E의 쿨타임 UI 이미지
         if (isCooldown_E == false)
@@ -312,7 +381,6 @@ public class Ability : MonoBehaviour
             targetCircle.GetComponent<Image>().enabled = false;
         }
 
-        OffSkill();
         registeredSkill = null;
         registeredSkill += Callback_E;
     }
@@ -342,18 +410,6 @@ public class Ability : MonoBehaviour
                 StartCoroutine(corSkill_E());
                 isSkillReady = false;
             }
-
-            if (isCooldown_E)
-            {
-                skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
-                skillshot.GetComponent<Image>().enabled = false;
-    
-                if (skillImage_E.fillAmount <= 0)
-                {
-                    skillImage_E.fillAmount = 0;
-                    isCooldown_E = false;
-                }
-            }
         }
     }
 
@@ -372,7 +428,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+        // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
     void Skill_R()
@@ -382,17 +439,25 @@ public class Ability : MonoBehaviour
             return;
         }
 
+        OffSkill();
+
         // 스킬R의 쿨타임 UI 이미지
         if (isCooldown_R == false)
         {
             indicatorRangeCircle.GetComponent<Image>().enabled = true;
             targetCircle.GetComponent<Image>().enabled = true;
+            isSkillReady = true;
 
             // 다른 스킬샷 UI disable
             skillshot.GetComponent<Image>().enabled = false;
         }
 
-        if (targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        registeredSkill = Callback_R;
+    }
+
+    void Callback_R()
+    {
+        if (targetCircle.GetComponent<Image>().enabled == true)
         {
             isSkill_R = true;
             heroCombat.targetedEnemy = null;
@@ -416,20 +481,7 @@ public class Ability : MonoBehaviour
 
                 // 애니메이션
                 StartCoroutine(corSkill_R());
-            }
-        }
-
-        if (isCooldown_R)
-        {
-            skillImage_R.fillAmount -= 1 / cooldown_R * Time.deltaTime;
-
-            indicatorRangeCircle.GetComponent<Image>().enabled = false;
-            targetCircle.GetComponent<Image>().enabled = false;
-
-            if (skillImage_R.fillAmount <= 0)
-            {
-                skillImage_R.fillAmount = 0;
-                isCooldown_R = false;
+                isSkillReady = false;
             }
         }
     }
@@ -449,7 +501,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_R()
     {
-        Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
     }
 
     void Ability_D()
@@ -603,8 +656,6 @@ public class Ability : MonoBehaviour
     /// </summary>
     private void ConnectToUI()
     {
-        Debug.Log(Managers.UI.Root.name);
-        
         UI_ChampSkill ui = Util.SearchChild<UI_ChampSkill>(Managers.UI.Root, null, true);
         GameObject ui_go = ui.gameObject;
         

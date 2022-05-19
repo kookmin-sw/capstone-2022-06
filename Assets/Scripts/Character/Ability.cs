@@ -118,6 +118,13 @@ public class Ability : MonoBehaviour
         targetCircle.GetComponent<Image>().enabled = false;
         indicatorRangeCircle.GetComponent<Image>().enabled = false;
 
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
+        playerAnim = GetComponent<PlayerAnimation>();
+        moveScript = GetComponent<ClickMovement>();
+        heroCombat = GetComponent<HeroCombat>();
+        championManager = GetComponent<ChampionManager>();
+
         if (!PV.IsMine)
         {
             return;
@@ -132,13 +139,6 @@ public class Ability : MonoBehaviour
         skillImage_R.fillAmount = 0;
         abilityImage_F.fillAmount = 0;
         abilityImage_D.fillAmount = 0;
-
-        stat = GetComponent<ChampionStat>();
-        stat.Initialize("Mangoawl");
-        playerAnim = GetComponent<PlayerAnimation>();
-        moveScript = GetComponent<ClickMovement>();
-        heroCombat = GetComponent<HeroCombat>();
-        championManager = GetComponent<ChampionManager>();
     }
 
     void Update()
@@ -289,6 +289,28 @@ public class Ability : MonoBehaviour
                 isCooldown_R = false;
             }
         }
+
+        if (isCooldown_D)
+        {
+            abilityImage_D.fillAmount -= 1 / cooldown_D * Time.deltaTime;
+
+            if (abilityImage_D.fillAmount <= 0)
+            {
+                abilityImage_D.fillAmount = 0;
+                isCooldown_D = false;
+            }
+        }
+
+        if (isCooldown_F)
+        {
+            abilityImage_F.fillAmount -= 1 / cooldown_D * Time.deltaTime;
+
+            if (abilityImage_F.fillAmount <= 0)
+            {
+                abilityImage_F.fillAmount = 0;
+                isCooldown_F = false;
+            }
+        }
     }
 
     void Skill_Q()
@@ -428,7 +450,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
@@ -501,7 +524,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_R()
     {
-        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
         // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
     }
 
@@ -513,17 +537,6 @@ public class Ability : MonoBehaviour
             isCooldown_D = true;
             abilityImage_D.fillAmount = 1;
         }
-
-        if (isCooldown_D)
-        {
-            abilityImage_D.fillAmount -= 1 / cooldown_D * Time.deltaTime;
-
-            if (abilityImage_D.fillAmount <= 0)
-            {
-                abilityImage_D.fillAmount = 0;
-                isCooldown_D = false;
-            }
-        }
     }
 
     void Ability_F()
@@ -533,17 +546,6 @@ public class Ability : MonoBehaviour
         {
             isCooldown_F = true;
             abilityImage_F.fillAmount = 1;
-        }
-
-        if (isCooldown_F)
-        {
-            abilityImage_F.fillAmount -= 1 / cooldown_D * Time.deltaTime;
-
-            if (abilityImage_F.fillAmount <= 0)
-            {
-                abilityImage_F.fillAmount = 0;
-                isCooldown_F = false;
-            }
         }
     }
 

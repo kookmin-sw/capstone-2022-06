@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
 
         characterSlider2D = GetComponent<Slider>();
 
-        characterSlider3D.maxValue = stat.Status.maxHp;
+        //characterSlider3D.maxValue = stat.Status.maxHp;
         characterSlider2D.maxValue = stat.Status.maxHp;
         stat.Status.hp = stat.Status.maxHp;
     }
@@ -40,6 +40,6 @@ public class Health : MonoBehaviour
     void Update()
     {
         characterSlider2D.value = stat.Status.hp;
-        characterSlider3D.value = characterSlider2D.value;
+        //characterSlider3D.value = characterSlider2D.value;
     }
 }

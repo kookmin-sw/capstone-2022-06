@@ -40,5 +40,12 @@ public class THSSkill_EProj : MonoBehaviour
                 PhotonNetwork.Destroy(gameObject);
             }
         }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        {
+            if (gameObject)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
     }
 }

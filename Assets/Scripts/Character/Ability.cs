@@ -297,12 +297,12 @@ public class Ability : MonoBehaviour
 
     void Skill_E()
     {
-        OffSkill();
-
         if (skillPoint_E < 1)
         {
             return;
         }
+
+        OffSkill();
 
         // 스킬E의 쿨타임 UI 이미지
         if (isCooldown_E == false)
@@ -380,22 +380,30 @@ public class Ability : MonoBehaviour
 
     void Skill_R()
     {
-        if (skillPoint_R < 1)
-        {
-            return;
-        }
+        // if (skillPoint_R < 1)
+        // {
+        //     return;
+        // }
+
+        OffSkill();
 
         // 스킬R의 쿨타임 UI 이미지
         if (isCooldown_R == false)
         {
             indicatorRangeCircle.GetComponent<Image>().enabled = true;
             targetCircle.GetComponent<Image>().enabled = true;
+            isSkillReady = true;
 
             // 다른 스킬샷 UI disable
             skillshot.GetComponent<Image>().enabled = false;
         }
 
-        if (targetCircle.GetComponent<Image>().enabled == true && Input.GetMouseButtonDown(0))
+        registeredSkill = Callback_R;
+    }
+
+    void Callback_R()
+    {
+        if (targetCircle.GetComponent<Image>().enabled == true)
         {
             isSkill_R = true;
             heroCombat.targetedEnemy = null;
@@ -419,6 +427,7 @@ public class Ability : MonoBehaviour
 
                 // 애니메이션
                 StartCoroutine(corSkill_R());
+                isSkillReady = false;
             }
         }
 
@@ -452,7 +461,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_R()
     {
-        Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
     }
 
     void Ability_D()
@@ -606,8 +616,6 @@ public class Ability : MonoBehaviour
     /// </summary>
     private void ConnectToUI()
     {
-        Debug.Log(Managers.UI.Root.name);
-        
         UI_ChampSkill ui = Util.SearchChild<UI_ChampSkill>(Managers.UI.Root, null, true);
         GameObject ui_go = ui.gameObject;
         

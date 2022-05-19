@@ -18,7 +18,7 @@ public class THSSkill_EProj : MonoBehaviour
 
     IEnumerator DestroyObject()
     {
-        yield return new WaitForSeconds(0.55f);
+        yield return new WaitForSeconds(1.1f);
         if (gameObject)
         {
             PhotonNetwork.Destroy(gameObject);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class Ability : MonoBehaviour
 {
@@ -296,6 +297,8 @@ public class Ability : MonoBehaviour
 
     void Skill_E()
     {
+        OffSkill();
+
         if (skillPoint_E < 1)
         {
             return;
@@ -312,7 +315,6 @@ public class Ability : MonoBehaviour
             targetCircle.GetComponent<Image>().enabled = false;
         }
 
-        OffSkill();
         registeredSkill = null;
         registeredSkill += Callback_E;
     }
@@ -372,7 +374,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, Quaternion.LookRotation(position - transform.position));
+        // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
     void Skill_R()

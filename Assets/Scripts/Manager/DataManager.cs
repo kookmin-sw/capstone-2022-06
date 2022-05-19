@@ -14,7 +14,7 @@ public class DataManager
     public Dictionary<string, Stat> MinionStatDict { get; private set; } = new Dictionary<string, Stat>();
     public Dictionary<string, Stat> TurretStatDict { get; private set; } = new Dictionary<string, Stat>();
     public Dictionary<string, Stat> MonsterStatDict { get; private set; } = new Dictionary<string, Stat>();
-    public Dictionary<string, Stat> HQStatDict {get; private set; } = new Dictionary<string, Stat>();
+    public Dictionary<string, Stat> HQStatDict { get; private set; } = new Dictionary<string, Stat>();
 
     public void Init()
     {

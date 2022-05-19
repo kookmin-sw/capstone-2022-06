@@ -21,6 +21,7 @@ public class Ability : MonoBehaviour
     ClickMovement moveScript;
     HeroCombat heroCombat;
     ChampionManager championManager;
+    PhotonView PV;
 
     public bool isPassive = false;
     private bool isSkillReady = false;
@@ -105,8 +106,23 @@ public class Ability : MonoBehaviour
     bool isCooldown_F = false;
     public KeyCode ability_F;
 
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
+
     void Start()
     {
+        // 초기 스킬샷 UI enable
+        skillshot.GetComponent<Image>().enabled = false;
+        targetCircle.GetComponent<Image>().enabled = false;
+        indicatorRangeCircle.GetComponent<Image>().enabled = false;
+
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         ConnectToUI();
 
         // 쿨타임 표시를 위한 초기 설정
@@ -116,11 +132,6 @@ public class Ability : MonoBehaviour
         skillImage_R.fillAmount = 0;
         abilityImage_F.fillAmount = 0;
         abilityImage_D.fillAmount = 0;
-
-        // 초기 스킬샷 UI enable
-        skillshot.GetComponent<Image>().enabled = false;
-        targetCircle.GetComponent<Image>().enabled = false;
-        indicatorRangeCircle.GetComponent<Image>().enabled = false;
 
         stat = GetComponent<ChampionStat>();
         stat.Initialize("Mangoawl");
@@ -132,6 +143,11 @@ public class Ability : MonoBehaviour
 
     void Update()
     {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         OnMouseClicked();
         SkillUP();
         OnButtonPressed();
@@ -144,6 +160,7 @@ public class Ability : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            position.y = transform.position.y;
         }
 
         // Skill_E 캔버스 입력

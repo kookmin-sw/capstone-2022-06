@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class InputTargeting : MonoBehaviour
 {
@@ -28,13 +30,12 @@ public class InputTargeting : MonoBehaviour
                 // 타겟팅이 가능한 경우
                 if (hit.collider.GetComponent<Targetable>() != null)
                 {
-                    Debug.Log("Hit");
-                    selectedHero.GetComponent<HeroCombat>().targetedEnemy = hit.collider.gameObject;
+                    selectedHero.GetComponent<HeroCombat>().SetTargetedEnemy(hit.collider.gameObject.GetPhotonView().ViewID);
                 }
             }
             else
             {
-                selectedHero.GetComponent<HeroCombat>().targetedEnemy = null;
+                selectedHero.GetComponent<HeroCombat>().SetTargetedEnemyNull();
             }
         }
 

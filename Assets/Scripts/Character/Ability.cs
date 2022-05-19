@@ -450,7 +450,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 
@@ -523,7 +524,8 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_R()
     {
-        PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
         // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
     }
 

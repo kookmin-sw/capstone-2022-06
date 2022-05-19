@@ -118,6 +118,13 @@ public class Ability : MonoBehaviour
         targetCircle.GetComponent<Image>().enabled = false;
         indicatorRangeCircle.GetComponent<Image>().enabled = false;
 
+        stat = GetComponent<ChampionStat>();
+        stat.Initialize("Mangoawl");
+        playerAnim = GetComponent<PlayerAnimation>();
+        moveScript = GetComponent<ClickMovement>();
+        heroCombat = GetComponent<HeroCombat>();
+        championManager = GetComponent<ChampionManager>();
+
         if (!PV.IsMine)
         {
             return;
@@ -132,13 +139,6 @@ public class Ability : MonoBehaviour
         skillImage_R.fillAmount = 0;
         abilityImage_F.fillAmount = 0;
         abilityImage_D.fillAmount = 0;
-
-        stat = GetComponent<ChampionStat>();
-        stat.Initialize("Mangoawl");
-        playerAnim = GetComponent<PlayerAnimation>();
-        moveScript = GetComponent<ClickMovement>();
-        heroCombat = GetComponent<HeroCombat>();
-        championManager = GetComponent<ChampionManager>();
     }
 
     void Update()
@@ -287,6 +287,28 @@ public class Ability : MonoBehaviour
             {
                 skillImage_R.fillAmount = 0;
                 isCooldown_R = false;
+            }
+        }
+
+        if (isCooldown_D)
+        {
+            abilityImage_D.fillAmount -= 1 / cooldown_D * Time.deltaTime;
+
+            if (abilityImage_D.fillAmount <= 0)
+            {
+                abilityImage_D.fillAmount = 0;
+                isCooldown_D = false;
+            }
+        }
+
+        if (isCooldown_F)
+        {
+            abilityImage_F.fillAmount -= 1 / cooldown_D * Time.deltaTime;
+
+            if (abilityImage_F.fillAmount <= 0)
+            {
+                abilityImage_F.fillAmount = 0;
+                isCooldown_F = false;
             }
         }
     }
@@ -513,17 +535,6 @@ public class Ability : MonoBehaviour
             isCooldown_D = true;
             abilityImage_D.fillAmount = 1;
         }
-
-        if (isCooldown_D)
-        {
-            abilityImage_D.fillAmount -= 1 / cooldown_D * Time.deltaTime;
-
-            if (abilityImage_D.fillAmount <= 0)
-            {
-                abilityImage_D.fillAmount = 0;
-                isCooldown_D = false;
-            }
-        }
     }
 
     void Ability_F()
@@ -533,17 +544,6 @@ public class Ability : MonoBehaviour
         {
             isCooldown_F = true;
             abilityImage_F.fillAmount = 1;
-        }
-
-        if (isCooldown_F)
-        {
-            abilityImage_F.fillAmount -= 1 / cooldown_D * Time.deltaTime;
-
-            if (abilityImage_F.fillAmount <= 0)
-            {
-                abilityImage_F.fillAmount = 0;
-                isCooldown_F = false;
-            }
         }
     }
 

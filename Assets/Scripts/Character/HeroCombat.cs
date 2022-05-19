@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 /*
  * 플레이어의 전투 관련 스크립트
@@ -19,12 +21,18 @@ public class HeroCombat : MonoBehaviour
     private ChampionStat stat;
     public Animator anim;
     public Ability ability;
+    PhotonView PV;
 
     public bool basicAtkIdle = false;
     public bool isHeroAlive;
     public bool performMeleeAttack = true;
 
     public float distance;
+
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
 
     void Start()
     {
@@ -109,4 +117,25 @@ public class HeroCombat : MonoBehaviour
         performMeleeAttack = true;
     }
 
+    [PunRPC]
+    public void _setTargetedEnemy(int id)
+    {
+        targetedEnemy = PhotonView.Find(id).gameObject;
+    }
+
+    [PunRPC]
+    public void _setTargetedEnemyNull()
+    {
+        targetedEnemy = null;
+    }
+
+    public void SetTargetedEnemy(int id)
+    { 
+        PV.RPC("_setTargetedEnemy", RpcTarget.All, id);
+    }
+
+    public void SetTargetedEnemyNull()
+    {
+        PV.RPC("_setTargetedEnemyNull", RpcTarget.All);
+    }
 }

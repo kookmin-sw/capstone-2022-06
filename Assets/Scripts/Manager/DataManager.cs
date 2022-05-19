@@ -10,10 +10,11 @@ public interface ILoader<Key, Value>
 
 public class DataManager 
 {
-    public Dictionary<string, Stat> StatDict { get; private set; } = new Dictionary<string, Stat>();    // Ã¨ÇÇ¾ğ ½ºÅÈÀ» ÀúÀåÇÑ µñ¼Å³Ê¸®
+    public Dictionary<string, Stat> StatDict { get; private set; } = new Dictionary<string, Stat>();    // ì±”í”¼ì–¸ ìŠ¤íƒ¯ì„ ì €ì¥í•œ ë”•ì…”ë„ˆë¦¬
     public Dictionary<string, Stat> MinionStatDict { get; private set; } = new Dictionary<string, Stat>();
     public Dictionary<string, Stat> TurretStatDict { get; private set; } = new Dictionary<string, Stat>();
     public Dictionary<string, Stat> MonsterStatDict { get; private set; } = new Dictionary<string, Stat>();
+    public Dictionary<string, Stat> HQStatDict {get; private set; } = new Dictionary<string, Stat>();
 
     public void Init()
     {
@@ -21,6 +22,7 @@ public class DataManager
         MinionStatDict = LoadJson<StatData, string, Stat>("MinionStatData").MakeDict();
         TurretStatDict = LoadJson<StatData, string, Stat>("TurretStatData").MakeDict();
         MonsterStatDict = LoadJson<StatData, string, Stat>("MonsterStatData").MakeDict();
+        HQStatDict = LoadJson<StatData, string, Stat>("HQStatData").MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>

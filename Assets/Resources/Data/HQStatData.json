@@ -1,0 +1,24 @@
+{
+  "stats": [
+    {
+      "name": "HeadQuarters",
+      "level": 1,
+      "exp": 0,
+      "hp": 16500,
+      "mp": 0,
+      "maxHp": 16500,
+      "maxMp": 0,
+      "atk": 0,
+      "ap": 0,
+      "healthRegen": 0,
+      "manaRegen": 0,
+      "defense": 30,
+      "atkSpeed": 0.0,
+      "gold": 0,
+      "GivingGold": 0,
+      "GivingExp": 0,
+      "moveSpeed": 0,
+      "priority": 3
+    }
+  ]
+}

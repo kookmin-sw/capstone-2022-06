@@ -8045,24 +8045,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 311634803}
   bulletSpawnPos: {fileID: 1415812450}
---- !u!135 &296209812
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296209809}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &296209813
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10457,24 +10444,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 2002055986}
   bulletSpawnPos: {fileID: 1195576294}
---- !u!135 &396097776
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 396097773}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &396097777
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14266,24 +14240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1390888884}
   bulletSpawnPos: {fileID: 580218786}
---- !u!135 &534331722
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 534331719}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &534331723
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15281,19 +15242,6 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: -0.036827564, y: 0.9468886, z: -0.0029096603}
---- !u!135 &572736991
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572736989}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &572736992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15338,7 +15286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1023932416}
@@ -16888,7 +16836,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618369199}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce973a81860aec543942eb884da0abfb, type: 3}
   m_Name: 
@@ -17645,24 +17593,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1354156349}
   bulletSpawnPos: {fileID: 1682374850}
---- !u!135 &638050138
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638050135}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &638050139
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17825,24 +17760,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 15
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1534435740}
   bulletSpawnPos: {fileID: 751255718}
---- !u!135 &639861962
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639861959}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &639861963
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -20818,24 +20740,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1435818669}
   bulletSpawnPos: {fileID: 1495540075}
---- !u!135 &782399114
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 782399111}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &782399115
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23887,24 +23796,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1329638200}
   bulletSpawnPos: {fileID: 1832077750}
---- !u!135 &898630844
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 898630841}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &898630845
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -28824,7 +28720,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074742371}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce973a81860aec543942eb884da0abfb, type: 3}
   m_Name: 
@@ -39763,24 +39659,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1421217316}
   bulletSpawnPos: {fileID: 1026482778}
---- !u!135 &1440536107
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1440536104}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1440536108
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -40908,24 +40791,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 22080069}
   bulletSpawnPos: {fileID: 1156926808}
---- !u!135 &1480360078
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480360075}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1480360079
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -50012,24 +49882,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 1273575263}
   bulletSpawnPos: {fileID: 577543952}
---- !u!135 &1815438762
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815438759}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1815438763
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -53049,24 +52906,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6c26f445c2fbf9479af97aa53cabb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _detectRange: 30
+  _detectRange: 4
   _attackInterval: 2
   _lockTarget: {fileID: 0}
   HPSlider: {fileID: 73795756}
   bulletSpawnPos: {fileID: 1066684941}
---- !u!135 &1895402073
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1895402070}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1895402074
 CapsuleCollider:
   m_ObjectHideFlags: 0

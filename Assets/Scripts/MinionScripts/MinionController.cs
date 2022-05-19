@@ -27,6 +27,7 @@ public class MinionController : Controller, IPunObservable
     protected bool _isDead = false;
 
     protected float _attackRange;
+    protected float _detectRange = 15f;
 
     // Reference Attribute
     PhotonView PV;
@@ -155,7 +156,7 @@ public class MinionController : Controller, IPunObservable
 
         if (_state != State.Targetting)
         {
-            targetCols = Physics.OverlapSphere(transform.position, 15.0f, targetLayer);
+            targetCols = Physics.OverlapSphere(transform.position, _detectRange, targetLayer);
             
             IEnumerable<Collider> query = from target in targetCols
                                           orderby target.GetComponent<ObjectStat>().Status.priority,

@@ -19,7 +19,7 @@ public class LichMinion : MinionController
     {
         base.Start();
 
-        _attackRange = 20f;
+        _attackRange = 10f;
     }
 
     // Update is called once per frame
@@ -46,7 +46,11 @@ public class LichMinion : MinionController
         if (_lockTarget != null)
         {
             ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
-            if (targetStat.Status.hp <= 0) _lockTarget = null;
+            if (targetStat.Status.hp <= 0 || Vector3.Distance(transform.position, _lockTarget.transform.position) > _detectRange)
+            {
+                _state = State.Walk;
+                _lockTarget = null;
+            }
         }
     }
 }

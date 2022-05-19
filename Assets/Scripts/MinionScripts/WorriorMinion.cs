@@ -24,21 +24,36 @@ public class WorriorMinion : MinionController
     void Update()
     {
         base.Update();
+
+        ChangeTargetNull();
     }
 
     // Animation Event Call
     public void OnHit()
     {
-        ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
-
-        _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
-
-        if (targetStat.Status.hp <= 0)
+        if (_lockTarget != null)
         {
-            _lockTarget = null;
-            _state = State.Walk;
-        }
+            ObjectStat targetStat = _lockTarget.GetComponent<ObjectStat>();
 
-        Debug.Log("Hit!");
+            _lockTarget.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
+
+            if (targetStat.Status.hp <= 0)
+            {
+                _lockTarget = null;
+                _state = State.Walk;
+            }
+        }
+    }
+
+    void ChangeTargetNull()
+    {
+        if (_lockTarget != null)
+        {
+            if (Vector3.Distance(transform.position, _lockTarget.transform.position) > _detectRange)
+            {
+                _state = State.Walk;
+                _lockTarget = null;
+            }
+        }
     }
 }

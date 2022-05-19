@@ -151,6 +151,7 @@ public class Ability : MonoBehaviour
         OnMouseClicked();
         SkillUP();
         OnButtonPressed();
+        DecreaseCoolDown();
 
         // 마우스 스킬 입력
         RaycastHit hit;
@@ -240,22 +241,8 @@ public class Ability : MonoBehaviour
         }
     }
 
-    void Skill_Q()
+    void DecreaseCoolDown()
     {
-        if(skillPoint_Q < 1)
-        {
-            return;
-        }
-
-        // 스킬Q의 쿨타임 UI 이미지
-        if (isCooldown_Q == false)
-        {
-            StartCoroutine("FireAttack");
-
-            isCooldown_Q = true;
-            skillImage_Q.fillAmount = 1;
-        }
-
         if (isCooldown_Q)
         {
             skillImage_Q.fillAmount -= 1 / cooldown_Q * Time.deltaTime;
@@ -266,6 +253,65 @@ public class Ability : MonoBehaviour
                 isCooldown_Q = false;
             }
         }
+
+        if (isCooldown_W)
+        {
+            skillImage_W.fillAmount -= 1 / cooldown_W * Time.deltaTime;
+
+            if (skillImage_W.fillAmount <= 0)
+            {
+                skillImage_W.fillAmount = 0;
+                isCooldown_W = false;
+            }
+        }
+
+        if (isCooldown_E)
+        {
+            skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
+            skillshot.GetComponent<Image>().enabled = false;
+            if (skillImage_E.fillAmount <= 0)
+            {
+                skillImage_E.fillAmount = 0;
+                isCooldown_E = false;
+            }
+        }
+
+        if (isCooldown_R)
+        {
+            skillImage_R.fillAmount -= 1 / cooldown_R * Time.deltaTime;
+
+            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            targetCircle.GetComponent<Image>().enabled = false;
+
+            if (skillImage_R.fillAmount <= 0)
+            {
+                skillImage_R.fillAmount = 0;
+                isCooldown_R = false;
+            }
+        }
+    }
+
+    void Skill_Q()
+    {
+        if(skillPoint_Q < 1)
+        {
+            return;
+        }
+
+        // 스킬Q의 쿨타임 UI 이미지
+        if (isCooldown_Q == false)
+        {
+            PV.RPC("FireEffectRPC", RpcTarget.All);
+
+            isCooldown_Q = true;
+            skillImage_Q.fillAmount = 1;
+        }
+    }
+
+    [PunRPC]
+    void FireEffectRPC()
+    {
+        StartCoroutine(FireAttack());
     }
 
     IEnumerator FireAttack()
@@ -279,6 +325,21 @@ public class Ability : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         isActive = false;
         stat.Status.atk = originAttackDmg;
+        fire.Stop();
+    }
+
+    /// <summary>
+    /// Q 스킬 발동 시 3초간 파티클을 활성화 하며 데미지를 1.5배로 올리는 코루틴
+    /// <summary>
+    IEnumerator FireBuff()
+    {
+        float originAtk = stat.Status.atk;
+        isActive = true;
+        stat.Status.atk *= 1.5f;
+        fire.Play();
+        yield return new WaitForSeconds(3.0f);
+        isActive = false;
+        stat.Status.atk = originAtk;
         fire.Stop();
     }
 
@@ -297,17 +358,6 @@ public class Ability : MonoBehaviour
 
             isCooldown_W = true;
             skillImage_W.fillAmount = 1;
-        }
-
-        if (isCooldown_W)
-        {
-            skillImage_W.fillAmount -= 1 / cooldown_W * Time.deltaTime;
-
-            if (skillImage_W.fillAmount <= 0)
-            {
-                skillImage_W.fillAmount = 0;
-                isCooldown_W = false;
-            }
         }
     }
 
@@ -359,18 +409,6 @@ public class Ability : MonoBehaviour
                 // 애니메이션
                 StartCoroutine(corSkill_E());
                 isSkillReady = false;
-            }
-
-            if (isCooldown_E)
-            {
-                skillImage_E.fillAmount -= 1 / cooldown_E * Time.deltaTime;
-                skillshot.GetComponent<Image>().enabled = false;
-    
-                if (skillImage_E.fillAmount <= 0)
-                {
-                    skillImage_E.fillAmount = 0;
-                    isCooldown_E = false;
-                }
             }
         }
     }
@@ -444,20 +482,6 @@ public class Ability : MonoBehaviour
                 // 애니메이션
                 StartCoroutine(corSkill_R());
                 isSkillReady = false;
-            }
-        }
-
-        if (isCooldown_R)
-        {
-            skillImage_R.fillAmount -= 1 / cooldown_R * Time.deltaTime;
-
-            indicatorRangeCircle.GetComponent<Image>().enabled = false;
-            targetCircle.GetComponent<Image>().enabled = false;
-
-            if (skillImage_R.fillAmount <= 0)
-            {
-                skillImage_R.fillAmount = 0;
-                isCooldown_R = false;
             }
         }
     }

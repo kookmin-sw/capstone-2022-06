@@ -451,7 +451,7 @@ public class Ability : MonoBehaviour
     public void SpawnSkill_E()
     {
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
+            PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, transform.rotation);
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
 

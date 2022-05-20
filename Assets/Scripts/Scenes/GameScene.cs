@@ -128,11 +128,11 @@ public class GameScene : BaseScene
 
         if (loser == "BlueTeam")
         {
-            losePos = new Vector3(-95, Camera.main.transform.position.y, -95);
+            losePos = new Vector3(-90, Camera.main.transform.position.y, -9);
         }
         else
         {
-            losePos = new Vector3(95, Camera.main.transform.position.y, 95);
+            losePos = new Vector3(90, Camera.main.transform.position.y, 90);
         }
 
         StartCoroutine(EndMatchCoroutine(losePos, loser));

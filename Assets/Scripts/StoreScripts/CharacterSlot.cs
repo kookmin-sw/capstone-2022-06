@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class CharacterSlot : MonoBehaviour
 {
+    public GameObject player;
+
     public Image CharacterImage;
     public Image SpellImage1;
     public Image SpellImage2;
 
-    public Text KDAText;
+    public Text KText;
+    public Text DText;
     public Text CSText;
 
     public Transform InventorySlotTransform;
@@ -22,6 +25,7 @@ public class CharacterSlot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        KText.text = player.GetComponent<ChampionManager>().killCount.ToString();
+        DText.text = player.GetComponent<ChampionManager>().deathCount.ToString();
     }
 }

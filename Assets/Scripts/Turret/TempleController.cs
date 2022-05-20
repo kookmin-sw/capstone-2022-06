@@ -25,14 +25,17 @@ public class TempleController : Controller, IPunObservable
             HPSlider.value = stat.Status.hp / stat.Status.maxHp;
     }
 
+    /// <summary>
+    /// ë³¸ë¶€ì—ê²Œ ë°ë¯¸ì§€ë¥¼ ì…íˆëŠ” ë©”ì„œë“œì…ë‹ˆë‹¤. ì²´ë ¥ì´ 0 ì´í•˜ë©´ FinishGameì„ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// </summary>
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
         stat.Status.hp -= damage;
 
         if (stat.Status.hp <= 0)
         {
-            // ³Ø¼­½º ÆÄ±«
-            // ½Â¸®ÆÀ ¼³Á¤ ¹× °ÔÀÓ Á¾·á
+            var go = GameObject.Find("@Scene").GetComponent<GameScene>();
+            go.FinishGame(LayerMask.LayerToName(gameObject.layer));
         }
     }
 

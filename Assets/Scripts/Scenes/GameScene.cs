@@ -113,4 +113,47 @@ public class GameScene : BaseScene
         LayerController _layer = myChamp.GetOrAddComponent<LayerController>();
         _layer.SetLayer(Util.GetMyLayerString());
     }
+
+    /// <summary>
+    /// 게임을 끝내고 로비로 가는 메서드
+    /// 카메라 추적을 중단하고 패배한 진영의 위치로 강제 이동시킵니다.
+    /// </summary>
+    public void FinishGame(string loser)
+    {
+        PhotonNetwork.AutomaticallySyncScene = false;
+        Destroy(Camera.main.gameObject.GetComponent<CameraFollow>());
+        Destroy(Camera.main.gameObject.GetComponent<CommanderCamController>());
+
+        Vector3 losePos;
+
+        if (loser == "BlueTeam")
+        {
+            losePos = new Vector3(-95, Camera.main.transform.position.y, -95);
+        }
+        else
+        {
+            losePos = new Vector3(95, Camera.main.transform.position.y, 95);
+        }
+
+        StartCoroutine(EndMatchCoroutine(losePos, loser));
+    }
+
+    IEnumerator EndMatchCoroutine(Vector3 v, string loser)
+    {
+        yield return new WaitUntil(() => {
+            Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, v, 0.5f);
+            return Vector3.Distance(Camera.main.transform.position, v) < 0.0001f;
+        });
+
+        yield return new WaitForSeconds(1.2f);
+
+        Vector3 pos = new Vector3(v.x, 0, v.z);
+        var go = Managers.Resource.Load<GameObject>("Particle/FireExplosionEffects/Prefabs/BigExplosionEffect");
+        GameObject particle = Instantiate(go, pos, Quaternion.identity);
+
+        yield return new WaitForSeconds(2f);
+
+        var ui = Managers.UI.AttachSubItem<UI_EndPopup>();
+        ui.SetResultText(loser);
+    }
 }

@@ -45,7 +45,7 @@ public class OuterInventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void ChangeValue()
     {
-        if (assigned)
+        if (assigned && SM.StorePanel.activeInHierarchy)
         {
             ItemBgImage.enabled = invslot.ItemBgImage.enabled;
             ItemImage.sprite = invslot.ItemImage.sprite;

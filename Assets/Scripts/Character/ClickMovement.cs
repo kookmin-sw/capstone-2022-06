@@ -28,6 +28,7 @@ public class ClickMovement : MonoBehaviour
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = 0.2f;
         heroCombatScript = GetComponent<HeroCombat>();
         PV = GetComponent<PhotonView>();
         SM = GameObject.Find("ShopManager").GetComponent<ShopManager>();
@@ -106,7 +107,6 @@ public class ClickMovement : MonoBehaviour
 
         // 이동
         agent.SetDestination(dest);
-        agent.stoppingDistance = 0;
         // 방향
         Quaternion rotationToLookAt = Quaternion.LookRotation(dest - transform.position);
         float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));

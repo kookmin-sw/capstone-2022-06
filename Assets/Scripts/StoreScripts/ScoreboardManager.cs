@@ -36,7 +36,7 @@ public class ScoreboardManager : MonoBehaviour
     {
         ScoreBoard.SetActive(true);
         SM = GameObject.Find("ShopManager").GetComponent<ShopManager>();
-        ChampionAdd();
+        StartCoroutine("ChampionAdd");
         SM.UpdateInventories();
         ScoreBoard.SetActive(false);
     }
@@ -67,10 +67,28 @@ public class ScoreboardManager : MonoBehaviour
     {
 
     }
-    public void ChampionAdd()
+    public IEnumerator ChampionAdd()
     {
-        GameObject player = Instantiate(ChampionInfoPrefab, RedChampionInfoTransform);
-        RedChampionInfos.Add(player);
-        SM.CharacterSlotTransforms.Add(player.GetComponent<CharacterSlot>().InventorySlotTransform);
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject p in players)
+        {
+            if (p.layer == LayerMask.GetMask("RedTeam"))
+            {
+                GameObject player = Instantiate(ChampionInfoPrefab, RedChampionInfoTransform);
+                player.GetComponent<CharacterSlot>().player = p;
+                RedChampionInfos.Add(player);
+                SM.CharacterSlotTransforms.Add(player.GetComponent<CharacterSlot>().InventorySlotTransform);
+            }
+            else
+            {
+                GameObject player = Instantiate(ChampionInfoPrefab, BlueChampionInfoTransform);
+                player.GetComponent<CharacterSlot>().player = p;
+                BlueChampionInfos.Add(player);
+                SM.CharacterSlotTransforms.Add(player.GetComponent<CharacterSlot>().InventorySlotTransform);
+            }
+        }
     }
 }

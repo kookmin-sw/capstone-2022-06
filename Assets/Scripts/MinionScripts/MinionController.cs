@@ -238,8 +238,9 @@ public class MinionController : Controller, IPunObservable
 
         this.gameObject.layer = LayerMask.NameToLayer("Default");
 
-        if (_currentAttacker.gameObject.tag == "Player")
+        if (_currentAttacker.gameObject.tag == "Player" && !_isDead)
         {
+            _isDead = true;
             _currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
         }
 

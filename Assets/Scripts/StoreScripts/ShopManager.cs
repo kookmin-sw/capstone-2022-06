@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class ShopManager : MonoBehaviour
 {
     public GameObject StorePanel;
     public RectTransform CanvasRectTransform;
     public bool panelactive = false;
-    public int playerGold = 10000; //이후 다른 스크립트에서 static으로 선언 후 접근 해도 됨
+    public GameObject player;
+    //public int playerGold = 10000; //이후 다른 스크립트에서 static으로 선언 후 접근 해도 됨
 
     public bool[] elixirApplied = new bool[4]; //마법, 분노, 강철, 신속
 
@@ -97,8 +100,8 @@ public class ShopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GoldText.text = playerGold.ToString();
-        OuterGoldText.text = playerGold.ToString();
+        GoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
+        OuterGoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -142,7 +145,7 @@ public class ShopManager : MonoBehaviour
         TreeSetting(iteminfo);
         UpperItemSetting(iteminfo);
 
-        if (SelectedItemInfo.actualprice <= playerGold) BuyButtonImage.color = new Color(1f, 1f, 1f, 1f);
+        if (SelectedItemInfo.actualprice <= player.GetComponent<ChampionStat>().Status.gold) BuyButtonImage.color = new Color(1f, 1f, 1f, 1f);
         else BuyButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 
@@ -226,7 +229,7 @@ public class ShopManager : MonoBehaviour
 
     public void ItemBuy(Item item, int actualprice)
     {
-        if (actualprice <= playerGold)
+        if (actualprice <= player.GetComponent<ChampionStat>().Status.gold)
         {
             if (item.itemtag.Contains("stackable"))
             {
@@ -269,7 +272,7 @@ public class ShopManager : MonoBehaviour
                 InventorySlotRecords.Clear(); //영약을 먹으면 되돌리기 할 수 없음
                 PlayerGoldRecords.Clear();
                 RevertButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
-                playerGold -= item.price;
+                player.GetComponent<ChampionStat>().Status.gold -= item.price;
             }
             else if (item.itemtag.Contains("shoes"))
             {
@@ -346,7 +349,7 @@ public class ShopManager : MonoBehaviour
         {
             if (!isrecursivesell) RecordInventory();
             invslot.stackednum -= 1;
-            playerGold += Mathf.FloorToInt(invslot.item.price * percent);
+            player.GetComponent<ChampionStat>().Status.gold += Mathf.FloorToInt(invslot.item.price * percent);
             invslot.ItemNumText.text = invslot.stackednum.ToString();
             InventorySelect(invslot);
             CalculateActualPriceAll();
@@ -357,7 +360,7 @@ public class ShopManager : MonoBehaviour
         {
             if (!isrecursivesell) RecordInventory();
             invslot.stackednum = 0;
-            playerGold += Mathf.FloorToInt(invslot.item.price * percent);
+            player.GetComponent<ChampionStat>().Status.gold += Mathf.FloorToInt(invslot.item.price * percent);
             invslot.ItemImage.enabled = false;
             invslot.ItemBgImage.enabled = false;
             invslot.occupied = false;
@@ -390,7 +393,7 @@ public class ShopManager : MonoBehaviour
     {
         if (!isrecursivebuy) RecordInventory();
         invslot.occupied = true;
-        playerGold -= item.price;
+        player.GetComponent<ChampionStat>().Status.gold -= item.price;
         invslot.item = item;
 
         invslot.ItemImage.sprite = invslot.item.icon;
@@ -398,7 +401,7 @@ public class ShopManager : MonoBehaviour
         invslot.ItemBgImage.enabled = true;
 
         invslot.stackednum += 1;
-        GoldText.text = playerGold.ToString();
+        GoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
         CalculateActualPriceAll();
 
         UpdateInventories();
@@ -516,7 +519,7 @@ public class ShopManager : MonoBehaviour
             SaveInventorySlots[i] = saveslot;
         }
         InventorySlotRecords.Push(SaveInventorySlots);
-        PlayerGoldRecords.Push(playerGold);
+        PlayerGoldRecords.Push(player.GetComponent<ChampionStat>().Status.gold);
 
     }
 
@@ -588,7 +591,7 @@ public class ShopManager : MonoBehaviour
         if (InventorySlotRecords.Count > 0) RevertButtonImage.color = new Color(1f, 1f, 1f, 1f);
         else RevertButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-        if (SelectedItemInfo.actualprice <= playerGold) BuyButtonImage.color = new Color(1f, 1f, 1f, 1f);
+        if (SelectedItemInfo.actualprice <= player.GetComponent<ChampionStat>().Status.gold) BuyButtonImage.color = new Color(1f, 1f, 1f, 1f);
         else BuyButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 
@@ -608,8 +611,8 @@ public class ShopManager : MonoBehaviour
         if (InventorySlotRecords.Count > 0)
         {
             int i = 0;
-            playerGold = PlayerGoldRecords.Pop();
-            GoldText.text = playerGold.ToString();
+            player.GetComponent<ChampionStat>().Status.gold = PlayerGoldRecords.Pop();
+            GoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
 
             SelectedInventorySlot = null;
             foreach (InventorySlotRecord savedslot in InventorySlotRecords.Pop())

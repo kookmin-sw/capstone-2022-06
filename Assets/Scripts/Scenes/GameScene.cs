@@ -110,6 +110,7 @@ public class GameScene : BaseScene
         myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         tracker.player = myChamp.transform;
         Camera.main.gameObject.GetComponent<InputTargeting>().Initialize(myChamp);
+        GameObject.Find("ShopManager").GetComponent<ShopManager>().player = myChamp;
         LayerController _layer = myChamp.GetOrAddComponent<LayerController>();
         _layer.SetLayer(Util.GetMyLayerString());
     }

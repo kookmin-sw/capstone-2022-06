@@ -12,7 +12,17 @@ public class ChampionManager : Controller
     PlayerAnimation playerAnim;
     ChampionStat stat;
 
+    PhotonView PV;
+
     [SerializeField] GameObject currentAttacker;
+
+    public int killCount = 0;
+    public int deathCount = 0;
+
+    void Awake()
+    {
+        PV = GetComponent<PhotonView>();    
+    }
 
     void Start()
     {
@@ -35,6 +45,9 @@ public class ChampionManager : Controller
         }
 
         playerAnim.agent.speed = stat.Status.moveSpeed;
+
+        if (Input.GetKeyDown(KeyCode.Space) && PV.IsMine)
+            PV.RPC("TestCount", RpcTarget.All);
     }
 
     void FixedUpdate()
@@ -68,6 +81,9 @@ public class ChampionManager : Controller
 
         if (stat.Status.hp <= 0)
         {
+            if (PV.IsMine)
+                PV.RPC("SetKDCount", RpcTarget.All);
+
             Invoke("OnDie", 30f);
             return;
         }
@@ -85,5 +101,22 @@ public class ChampionManager : Controller
             // 레드팀 리스폰
             transform.Translate(new Vector3(105, 0, 105));
         }
+    }
+
+    [PunRPC]
+    public void SetKDCount()
+    {
+        if (currentAttacker.tag == "Player")
+        {
+            currentAttacker.GetComponent<ChampionManager>().killCount++;
+        }
+        deathCount++;
+    }
+
+    [PunRPC]
+    public void TestCount()
+    {
+        killCount++;
+        deathCount++;
     }
 }

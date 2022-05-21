@@ -1,14 +1,8 @@
 {
     "Contents": [
         {
-            "spritePath" : "Sprites/PlaceHolder",
-            "heroName" : "temp_hero",
-            "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)",
-            "skillJsonPath" : "Data/SkillIcons/MangoawlSkills"
-        },
-        {
-            "spritePath" : "Sprites/PlaceHolder",
-            "heroName" : "temp_hero2",
+            "spritePath" : "Private/Textures/Portraits/Hero_portrait_3",
+            "heroName" : "Mangoawl",
             "prefabPath" : "Private/Prefabs/Champions/Mangawl(0516)",
             "skillJsonPath" : "Data/SkillIcons/MangoawlSkills"
         }

@@ -48,8 +48,11 @@ public class ClickMovement : MonoBehaviour
                     {
                         if (SM != null && !SM.panelactive)
                         {
-                            SM.panelactive = !SM.panelactive;
-                            SM.StorePanel.SetActive(true);
+                            if (SM.IsPlayerInShopArea()) //상점 범위 안일 때만 상호작용
+                            {
+                                SM.panelactive = !SM.panelactive;
+                                SM.StorePanel.SetActive(true);
+                            }
                         }
                     }
                     else
@@ -74,8 +77,11 @@ public class ClickMovement : MonoBehaviour
                     {
                         if (SM != null && !SM.panelactive)
                         {
-                            SM.panelactive = !SM.panelactive;
-                            SM.StorePanel.SetActive(true);
+                            if (SM.IsPlayerInShopArea()) //상점 범위 안일 때만 상호작용
+                            {
+                                SM.panelactive = !SM.panelactive;
+                                SM.StorePanel.SetActive(true);
+                            }
                         }
                     }
                 }

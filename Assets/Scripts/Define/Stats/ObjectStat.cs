@@ -19,10 +19,18 @@ public abstract class ObjectStat : MonoBehaviour
     }
 
     /// <summary>
+    /// RPC를 호출하는 대리 메서드
+    /// </summary>
+    public void UpdateGoHP(int id, float diff)
+    {
+        PV.RPC("UpdateGoHPRPC", RpcTarget.All, id, diff);
+    }
+
+    /// <summary>
     /// 인자로 받은 게임 오브젝트의 HP를 갱신하는 RPC 메서드
     /// </summary>
     [PunRPC]
-    public void UpdateGoHp(int id, float diff)
+    public void UpdateGoHPRPC(int id, float diff)
     {
         GameObject go = PhotonView.Find(id).gameObject;
         ObjectStat _stat = go.GetComponent<ObjectStat>();

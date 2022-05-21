@@ -167,6 +167,11 @@ public class MinionController : Controller, IPunObservable
             {
                 foreach (Collider col in query)
                 {
+                    if (!col.gameObject.GetComponent<Targetable>())
+                    {
+                        continue;
+                    }
+
                     if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= _detectRange)
                     {
                         _lockTarget = col.gameObject;
@@ -227,6 +232,12 @@ public class MinionController : Controller, IPunObservable
         if (stat.Status.hp <= 0)
         {
             _state = State.Die;
+
+            if (attacker != null && attacker.tag == "Player")
+            {
+                attacker.GetComponent<ChampionStat>().Status.gold += stat.Status.GivingGold;
+            }
+
             return;
         }
     }

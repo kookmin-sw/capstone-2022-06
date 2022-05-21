@@ -58,6 +58,7 @@ public class TurretController : Controller
 
     void UpdateTarget()
     {
+        _lockTarget = null;
         targetCandidates = Physics.OverlapSphere(transform.position, _detectRange, targetLayer);
 
         IEnumerable<Collider> query = from target in targetCandidates
@@ -70,6 +71,10 @@ public class TurretController : Controller
 
         foreach(Collider col in query)
         {
+            if (!col.gameObject.GetComponent<Targetable>())
+            {
+                continue;
+            }
             if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= _attackRange)
             {
                 _lockTarget = col.gameObject;

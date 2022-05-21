@@ -12,6 +12,11 @@ public class LayerController : MonoBehaviour
         PV = GetComponent<PhotonView>();
     }
 
+    void Start()
+    {
+        SetLayer(LayerMask.LayerToName(gameObject.layer));
+    }
+
     /// </summary>
     /// 레이어를 설정합니다.
     /// 겸사겸사 자기 팀 레이어가 아니면 OffRenderer를 호출합니다. 자기 팀 레이어면 FieldOfView를 부착합니다.
@@ -32,7 +37,10 @@ public class LayerController : MonoBehaviour
     void _SetLayer(int id, string layerName)
     {
         PhotonView.Find(id).gameObject.layer = LayerMask.NameToLayer(layerName);
-        AttachFovOrDisable(PhotonView.Find(id).gameObject);
+        if (PhotonView.Find(id).gameObject.GetComponent<FieldOfView>() == null)
+        {
+            AttachFovOrDisable(PhotonView.Find(id).gameObject);
+        }
     }
 
     /// <summary>

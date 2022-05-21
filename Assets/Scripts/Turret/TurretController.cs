@@ -22,6 +22,7 @@ public class TurretController : Controller
     TurretStat stat;
 
     [SerializeField] Transform bulletSpawnPos;
+    [SerializeField] GameObject currentAttacker;
 
     // Start is called before the first frame update
     void Start()
@@ -107,10 +108,18 @@ public class TurretController : Controller
 
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (attacker != null)
+            currentAttacker = attacker;
+
         stat.Status.hp -= damage;
 
-        //if (stat.Status.hp <= 0)
-        //    _state = State.Die;
+        if (stat.Status.hp <= 0)
+        {
+            if (currentAttacker.tag == "Player")
+                currentAttacker.GetComponent<ChampionStat>().Status.gold += stat.Status.GivingGold;
+
+            Managers.Resource.Destroy(gameObject);
+        }
     }
 
     #region PhotonSerialize

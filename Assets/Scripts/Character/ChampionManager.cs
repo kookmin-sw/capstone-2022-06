@@ -95,7 +95,9 @@ public class ChampionManager : Controller
         if (stat.Status.hp <= 0)
         {
             if (PV.IsMine)
+            {
                 PV.RPC("SetKDCount", RpcTarget.All);
+            }
 
             OnDie();
             return;
@@ -105,21 +107,15 @@ public class ChampionManager : Controller
     public void OnDie()
     {
         isDead = true;
-        anim.SetTrigger("doDie");
+        heroCombat.targetedEnemy = null;
+        PV.RPC("DeadStateRPC", RpcTarget.All);
+        PV.RPC("OffTargetable", RpcTarget.All);
+        currentAttacker = null;
 
-        if (Util.GetLocalPlayerId() <= 5)
+        if (PV.IsMine)
         {
-            // ������ ������
-            heroCombat.targetedEnemy = null;
-            agent.Warp(new Vector3(-105, 0, -105));
-
-            
-        }
-        else
-        {
-            // ������ ������
-            heroCombat.targetedEnemy = null;
-            agent.Warp(new Vector3(105, 0, 105));
+            UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
+            StartCoroutine(WaitForDestroyCoroutine(panel));
         }
     }
 
@@ -138,5 +134,63 @@ public class ChampionManager : Controller
     {
         killCount++;
         deathCount++;
+    }
+
+    /// <summary>
+    /// 사망하면 더이상 타게팅 되지 않도록 Targetable을 Off 합니다.
+    /// </summary>
+    [PunRPC]
+    void OffTargetable()
+    {
+        Destroy(GetComponent<Targetable>());
+    }
+
+    /// <summary>
+    /// 부활하면 다시 타게팅 되도록 Targetable을 부착하는 RPC
+    /// </summary>
+    [PunRPC]
+    void OnTargetable()
+    {
+        gameObject.GetOrAddComponent<Targetable>().enemyType = Targetable.EnemyType.Champion;
+    }
+
+    [PunRPC]
+    void DeadStateRPC()
+    {
+        anim.ResetTrigger("doRevive");
+        anim.SetTrigger("doDie");
+    }
+
+    [PunRPC]
+    void AliveStateRPC()
+    {
+        anim.ResetTrigger("doRevive");
+        anim.SetTrigger("doDie");
+    }
+
+    IEnumerator WaitForDestroyCoroutine(UI_DeadPanel panel)
+    {
+        yield return new WaitUntil(() => {
+            return panel == null;
+        });
+
+        Vector3 respawnPos;
+
+        if (Util.GetLocalPlayerId() <= 5)
+        {
+            // 블루팀 리스폰
+            respawnPos = new Vector3(-105, 0, -105);
+        }
+        else
+        {
+            // 레드팀 리스폰
+            respawnPos = new Vector3(105, 0, 105);
+        }
+
+        isDead = false;
+        agent.Warp(respawnPos);
+        PV.RPC("AliveStateRPC", RpcTarget.All);
+        PV.RPC("OnTargetable", RpcTarget.All);
+        stat.Status.hp = stat.Status.maxHp;
     }
 }

@@ -7,11 +7,15 @@ public class THSSkill_EProj : MonoBehaviour
 {
     public float damage;
     public float speed;
+    public GameObject champion;
+
+    void Start()
+    {
+        StartCoroutine(DestroyObject());
+    }
 
     void Update()
     {
-        StartCoroutine(DestroyObject());
-
         gameObject.transform.TransformDirection(Vector3.forward);
         gameObject.transform.Translate(new Vector3(0, 0, speed * Time.deltaTime));
     }
@@ -34,7 +38,7 @@ public class THSSkill_EProj : MonoBehaviour
 
         if(other.gameObject.layer == Util.GetEnemyLayer() && (other.tag == "Player" || other.tag == "Minion"))
         {
-            other.GetComponent<Controller>().TakeDamage(damage, this.gameObject);
+            other.GetComponent<Controller>().TakeDamage(damage, champion);
             if (gameObject)
             {
                 PhotonNetwork.Destroy(gameObject);

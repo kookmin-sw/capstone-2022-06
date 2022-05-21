@@ -28,7 +28,7 @@ public class ClickMovement : MonoBehaviour
     void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
-        agent.stoppingDistance = 0.2f;
+        agent.stoppingDistance = 0.05f;
         heroCombatScript = GetComponent<HeroCombat>();
         PV = GetComponent<PhotonView>();
         SM = GameObject.Find("ShopManager").GetComponent<ShopManager>();

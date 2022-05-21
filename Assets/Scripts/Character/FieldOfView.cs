@@ -59,7 +59,10 @@ public class FieldOfView : MonoBehaviour
     {
         foreach (Transform e in visibleEnemies)
         {
-            Util.OffRenderer(e);
+            if (e.tag == "Player" || e.tag == "Minion")
+            {
+                Util.OffRenderer(e);
+            }
         }
         visibleEnemies.Clear();
 

@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.AI;
 
 public class ChampionManager : Controller
 {
     public int skillPoint;
+    public bool isDead;
+    public bool isRevive;
 
-    HeroCombat heroCombatScript;
     PlayerAnimation playerAnim;
     ChampionStat stat;
+    Animator anim;
+    NavMeshAgent agent;
+    HeroCombat heroCombat;
 
     PhotonView PV;
 
@@ -21,15 +26,17 @@ public class ChampionManager : Controller
 
     void Awake()
     {
-        PV = GetComponent<PhotonView>();    
+        PV = GetComponent<PhotonView>();
     }
 
     void Start()
     {
-        heroCombatScript = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroCombat>();
         playerAnim = GetComponent<PlayerAnimation>();
         stat = GetComponent<ChampionStat>();
         stat.Initialize("Mangoawl");
+        anim = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        heroCombat = GetComponent<HeroCombat>();
     }
 
     void Update()
@@ -52,9 +59,12 @@ public class ChampionManager : Controller
 
     void FixedUpdate()
     {
-        stat.Status.healthRegen = 2 + stat.Status.level * 1.5f;
-
-        stat.Status.hp += stat.Status.healthRegen;
+        if(!isDead)
+        {
+            stat.Status.healthRegen = 0.02f + stat.Status.level * 0.05f;
+            stat.Status.hp += stat.Status.healthRegen;
+        }
+        
     }
 
     void LevelUp()
@@ -69,6 +79,9 @@ public class ChampionManager : Controller
 
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (isDead)
+            return;
+
         if (attacker != null)
         {
             currentAttacker = attacker;
@@ -84,22 +97,29 @@ public class ChampionManager : Controller
             if (PV.IsMine)
                 PV.RPC("SetKDCount", RpcTarget.All);
 
-            Invoke("OnDie", 30f);
+            OnDie();
             return;
         }
     }
 
     public void OnDie()
     {
-        if(Util.GetLocalPlayerId() <= 5)
+        isDead = true;
+        anim.SetTrigger("doDie");
+
+        if (Util.GetLocalPlayerId() <= 5)
         {
             // 블루팀 리스폰
-            transform.Translate(new Vector3(-105, 0, -105));
+            heroCombat.targetedEnemy = null;
+            agent.Warp(new Vector3(-105, 0, -105));
+
+            
         }
         else
         {
             // 레드팀 리스폰
-            transform.Translate(new Vector3(105, 0, 105));
+            heroCombat.targetedEnemy = null;
+            agent.Warp(new Vector3(105, 0, 105));
         }
     }
 

@@ -31,7 +31,8 @@ public class CursorManager : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            if (hit.collider.gameObject.layer == enemyLayer && hit.collider == hit.collider.gameObject.GetComponent<CapsuleCollider>())
+            // if (hit.collider.gameObject.layer == enemyLayer && hit.collider == hit.collider.gameObject.GetComponent<CapsuleCollider>())
+            if (hit.collider.gameObject.layer == enemyLayer)
             {
                 Texture2D tex = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
                 Cursor.SetCursor(tex, new Vector2(tex.width / 5, 0), CursorMode.Auto);

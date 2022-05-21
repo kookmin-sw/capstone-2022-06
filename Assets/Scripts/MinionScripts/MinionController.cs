@@ -167,7 +167,7 @@ public class MinionController : Controller, IPunObservable
             {
                 foreach (Collider col in query)
                 {
-                    if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= 7.0f)
+                    if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= _detectRange)
                     {
                         _lockTarget = col.gameObject;
                         _state = State.Targetting;
@@ -191,7 +191,7 @@ public class MinionController : Controller, IPunObservable
 
         _nav.SetDestination(_lockTarget.transform.position);
 
-        if ((transform.position - _lockTarget.transform.position).magnitude <= _attackRange)
+        if (Vector3.Distance(transform.position, _lockTarget.transform.position) <= _attackRange)
         {
             _nav.isStopped = true;
             _nav.ResetPath();
@@ -246,7 +246,8 @@ public class MinionController : Controller, IPunObservable
 
         yield return new WaitForSeconds(3.0f);
 
-        Managers.Resource.Destroy(this.gameObject);
+        if (gameObject != null)
+            Managers.Resource.Destroy(this.gameObject);
     }
 
     #region RPC

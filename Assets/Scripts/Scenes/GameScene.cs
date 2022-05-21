@@ -11,6 +11,9 @@ public class GameScene : BaseScene
     int myId;
     string myPrefabPath;
 
+    Vector3 RedBoom = new Vector3(95, 0, 95);
+    Vector3 BlueBoom = new Vector3(-95, 0, -95);
+
     GameObject myChamp;
 
     void Start()
@@ -128,11 +131,11 @@ public class GameScene : BaseScene
 
         if (loser == "BlueTeam")
         {
-            losePos = new Vector3(-90, Camera.main.transform.position.y, -9);
+            losePos = new Vector3(-95, Camera.main.transform.position.y, -110);
         }
         else
         {
-            losePos = new Vector3(90, Camera.main.transform.position.y, 90);
+            losePos = new Vector3(95, Camera.main.transform.position.y, 70);
         }
 
         StartCoroutine(EndMatchCoroutine(losePos, loser));
@@ -141,19 +144,19 @@ public class GameScene : BaseScene
     IEnumerator EndMatchCoroutine(Vector3 v, string loser)
     {
         yield return new WaitUntil(() => {
-            Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, v, 0.5f);
+            Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, v, 0.14f);
             return Vector3.Distance(Camera.main.transform.position, v) < 0.0001f;
         });
 
         yield return new WaitForSeconds(1.2f);
 
-        Vector3 pos = new Vector3(v.x, 0, v.z);
+        Vector3 pos = new Vector3(v.x, 3, v.x);
         var go = Managers.Resource.Load<GameObject>("Particle/FireExplosionEffects/Prefabs/BigExplosionEffect");
         GameObject particle = Instantiate(go, pos, Quaternion.identity);
 
         yield return new WaitForSeconds(2f);
 
-        var ui = Managers.UI.AttachSubItem<UI_EndPopup>();
+        var ui = Managers.UI.ShowSceneUI<UI_EndPopup>();
         ui.SetResultText(loser);
     }
 }

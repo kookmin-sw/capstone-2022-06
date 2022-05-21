@@ -108,8 +108,7 @@ public class ChampionManager : Controller
     {
         isDead = true;
         heroCombat.targetedEnemy = null;
-        anim.ResetTrigger("doRevive");
-        anim.SetTrigger("doDie");
+        PV.RPC("DeadStateRPC", RpcTarget.All);
         PV.RPC("OffTargetable", RpcTarget.All);
         currentAttacker = null;
 
@@ -155,6 +154,20 @@ public class ChampionManager : Controller
         gameObject.GetOrAddComponent<Targetable>().enemyType = Targetable.EnemyType.Champion;
     }
 
+    [PunRPC]
+    void DeadStateRPC()
+    {
+        anim.ResetTrigger("doRevive");
+        anim.SetTrigger("doDie");
+    }
+
+    [PunRPC]
+    void AliveStateRPC()
+    {
+        anim.ResetTrigger("doRevive");
+        anim.SetTrigger("doDie");
+    }
+
     IEnumerator WaitForDestroyCoroutine(UI_DeadPanel panel)
     {
         yield return new WaitUntil(() => {
@@ -176,8 +189,7 @@ public class ChampionManager : Controller
 
         isDead = false;
         agent.Warp(respawnPos);
-        anim.ResetTrigger("doDie");
-        anim.SetTrigger("doRevive");
+        PV.RPC("AliveStateRPC", RpcTarget.All);
         PV.RPC("OnTargetable", RpcTarget.All);
         stat.Status.hp = stat.Status.maxHp;
     }

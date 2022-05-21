@@ -11,6 +11,11 @@ public class ShopManager : MonoBehaviour
     public RectTransform CanvasRectTransform;
     public bool panelactive = false;
     public GameObject player;
+    public GameObject shop;
+
+    public GameObject Bshop;
+    public GameObject Rshop;
+    public float shopdistance;
     //public int playerGold = 10000; //이후 다른 스크립트에서 static으로 선언 후 접근 해도 됨
 
     public bool[] elixirApplied = new bool[4]; //마법, 분노, 강철, 신속
@@ -73,6 +78,9 @@ public class ShopManager : MonoBehaviour
 
     Stack<InventorySlotRecord[]> InventorySlotRecords = new Stack<InventorySlotRecord[]>();
     Stack<int> PlayerGoldRecords = new Stack<int>();
+    [SerializeField]
+    public Dictionary<string, int> ItemStats = new Dictionary<string, int>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -95,13 +103,20 @@ public class ShopManager : MonoBehaviour
         PlayerGoldRecords = new Stack<int>();
         RevertButtonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f);
         previousinputfieldtext = "";
+        StartCoroutine("ShopObjectSetting");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            player.GetComponent<ChampionStat>().Status.gold += 1000;
+        }
         GoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
         OuterGoldText.text = player.GetComponent<ChampionStat>().Status.gold.ToString();
+
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -132,7 +147,11 @@ public class ShopManager : MonoBehaviour
             previousinputfieldtext = InputFieldText.text.Replace(" ", "");
             SearchItems();
         }
-
+        if (!IsPlayerInShopArea())
+        {
+            InventorySlotRecords.Clear(); //상점 밖으로 나가면 되돌리기 할 수 없음
+            PlayerGoldRecords.Clear();
+        }
     }
     public void ItemSelect(ItemInfo iteminfo)
     {
@@ -229,6 +248,7 @@ public class ShopManager : MonoBehaviour
 
     public void ItemBuy(Item item, int actualprice)
     {
+        if (!IsPlayerInShopArea()) return;
         if (actualprice <= player.GetComponent<ChampionStat>().Status.gold)
         {
             if (item.itemtag.Contains("stackable"))
@@ -345,6 +365,7 @@ public class ShopManager : MonoBehaviour
     }
     public void ItemSell(InventorySlot invslot, float percent, bool isrecursivesell) //판매할 때 받는 돈 퍼센트. 기본 1 (100%)
     {
+        if (!IsPlayerInShopArea()) return;
         if (invslot.stackednum > 1)
         {
             if (!isrecursivesell) RecordInventory();
@@ -354,6 +375,7 @@ public class ShopManager : MonoBehaviour
             InventorySelect(invslot);
             CalculateActualPriceAll();
             UpdateInventories();
+            DictionarySetting();
             return;
         }
         else
@@ -374,6 +396,7 @@ public class ShopManager : MonoBehaviour
             }
             CalculateActualPriceAll();
             UpdateInventories();
+            DictionarySetting();
             return;
         }
 
@@ -405,6 +428,7 @@ public class ShopManager : MonoBehaviour
         CalculateActualPriceAll();
 
         UpdateInventories();
+        DictionarySetting();
     }
 
     public void InventorySelect(InventorySlot invslot)
@@ -597,6 +621,7 @@ public class ShopManager : MonoBehaviour
 
     public void OpenButton()
     {
+        if (!IsPlayerInShopArea()) return;
         panelactive = true;
         StorePanel.SetActive(true);
     }
@@ -608,6 +633,7 @@ public class ShopManager : MonoBehaviour
 
     public void RevertButton()
     {
+        if (!IsPlayerInShopArea()) return;
         if (InventorySlotRecords.Count > 0)
         {
             int i = 0;
@@ -635,6 +661,7 @@ public class ShopManager : MonoBehaviour
                 i++;
             }
             UpdateInventories();
+            DictionarySetting();
 
 
         }
@@ -662,5 +689,67 @@ public class ShopManager : MonoBehaviour
                 }
             }
         }
+    }
+    public bool IsPlayerInShopArea() //상점 안에 있는지 확인
+    {
+        if (player == null || shop == null) return false;
+        if ((player.transform.position - shop.transform.position).magnitude < 17f) return true;
+        return false;
+    }
+    public IEnumerator ShopObjectSetting()
+    {
+        int c = 0;
+        while (c < 50)
+        {
+            if (player != null)
+            {
+                if (player.layer == LayerMask.GetMask("RedTeam"))
+                {
+                    shop = Rshop;
+                    yield break;
+                }
+                else
+                {
+                    shop = Bshop;
+                    yield break;
+                }
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    public void DictionarySetting()
+    {
+        ItemStats.Clear();
+        foreach (InventorySlot invslot in InventorySlots)
+        {
+            if (!invslot.occupied || invslot.iswardslot) continue;
+
+            Dictionary<string,int> stats = invslot.item.stats;
+            foreach (KeyValuePair<string, int> kvp in stats)
+            {
+                if (ItemStats.ContainsKey(kvp.Key))
+                {
+                    ItemStats[kvp.Key] += kvp.Value;
+                }
+                else
+                {
+                    ItemStats.Add(kvp.Key, kvp.Value);
+                }
+            }
+        }
+        if (ItemStats.Count > 0)
+        {
+            Debug.Log("---------------------------");
+            foreach (KeyValuePair<string, int> kvp in ItemStats)
+            {
+                Debug.Log(kvp.Key + ": " + kvp.Value.ToString());
+            }
+        }
+        else
+        {
+            Debug.Log("---------------------------");
+            Debug.Log("Current ItemStats are empty.");
+        }
+
     }
 }

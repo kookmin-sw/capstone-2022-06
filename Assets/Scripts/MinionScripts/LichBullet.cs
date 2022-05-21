@@ -35,6 +35,10 @@ public class LichBullet : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            Managers.Resource.Destroy(gameObject);
+        }
     }
 
     //private void OnTriggerEnter(Collider other)

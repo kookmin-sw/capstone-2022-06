@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class TempleController : Controller, IPunObservable
 {
     HQStat stat;
+    bool broken = false;
 
     [SerializeField] Slider HPSlider;
 
@@ -32,8 +33,9 @@ public class TempleController : Controller, IPunObservable
     {
         stat.Status.hp -= damage;
 
-        if (stat.Status.hp <= 0)
+        if (stat.Status.hp <= 0 && !broken)
         {
+            broken = true;
             var go = GameObject.Find("@Scene").GetComponent<GameScene>();
             go.FinishGame(LayerMask.LayerToName(gameObject.layer));
         }

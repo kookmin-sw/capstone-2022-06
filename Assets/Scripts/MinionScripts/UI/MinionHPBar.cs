@@ -8,6 +8,8 @@ using Photon.Realtime;
 public class MinionHPBar : MonoBehaviour
 {
     [SerializeField] int upPos;
+    [SerializeField] int rightPos;
+    [SerializeField] int backPos;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +21,7 @@ public class MinionHPBar : MonoBehaviour
     void Update()
     {
         Transform parent = transform.parent;
-        transform.position = parent.position + Vector3.up * upPos;
+        transform.position = parent.position + Vector3.up * upPos + Vector3.right * rightPos + Vector3.back * backPos;
         transform.rotation = Camera.main.transform.rotation;
     }
 }

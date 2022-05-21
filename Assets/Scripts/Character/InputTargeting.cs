@@ -32,6 +32,10 @@ public class InputTargeting : MonoBehaviour
                 {
                     selectedHero.GetComponent<HeroCombat>().SetTargetedEnemy(hit.collider.gameObject.GetPhotonView().ViewID);
                 }
+                else
+                {
+                    selectedHero.GetComponent<HeroCombat>().SetTargetedEnemyNull();
+                }
             }
             else
             {

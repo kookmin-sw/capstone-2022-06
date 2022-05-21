@@ -5,9 +5,9 @@ using Photon.Pun;
 using Photon.Realtime;
 
 /*
- * «√∑π¿ÃæÓ¿« ¿¸≈ı ∞¸∑√ Ω∫≈©∏≥∆Æ
+ * ÌîåÎ†àÏù¥Ïñ¥Ïùò Ï†ÑÌà¨ Í¥ÄÎ†® Ïä§ÌÅ¨Î¶ΩÌä∏
  */
-
+ 
 public class HeroCombat : MonoBehaviour
 {
     public enum HeroAttackType { Melee, Ranged };
@@ -54,7 +54,7 @@ public class HeroCombat : MonoBehaviour
                 moveScript.agent.SetDestination(targetedEnemy.transform.position);
                 moveScript.agent.stoppingDistance = attackRange;
 
-                // πÊ«‚
+                // Direction
                 Quaternion rotationToLookAt = Quaternion.LookRotation(targetedEnemy.transform.position - transform.position);
                 float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y, ref moveScript.rotateVelocity, rotateSpeedForAttack * (Time.deltaTime * 5));
 
@@ -62,19 +62,14 @@ public class HeroCombat : MonoBehaviour
             }
             else
             {
-                if(targetedEnemy != null)
+                moveScript.agent.isStopped = true;
+                if (heroAttackType == HeroAttackType.Melee)
                 {
-                    moveScript.agent.isStopped = true;
-                    if (heroAttackType == HeroAttackType.Melee)
+                    if (performMeleeAttack)
                     {
-                        if (performMeleeAttack)
-                        {
-                            // ∞¯∞› ƒ⁄∑Á∆æ
-                            StartCoroutine(MeleeAttackInterval());
-                        }
+                        StartCoroutine(MeleeAttackInterval());
                     }
                 }
-                
             }
         }
     }
@@ -91,7 +86,6 @@ public class HeroCombat : MonoBehaviour
             anim.SetBool("BasicAttack", false);
             performMeleeAttack = true;
         }
-        
     }
 
     public void MeleeAttack()

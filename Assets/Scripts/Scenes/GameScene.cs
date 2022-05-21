@@ -160,5 +160,20 @@ public class GameScene : BaseScene
 
         var ui = Managers.UI.ShowSceneUI<UI_EndPopup>();
         ui.SetResultText(loser);
+
+        AudioClip audioClip;
+        AudioSource audioSource = GetComponent<AudioSource>();
+
+        if (loser == Util.GetMyLayerString())
+        {
+            audioClip = Managers.Resource.Load<AudioClip>("Private/Audio/Background/Defeat");
+        }
+        else
+        {
+            audioClip = Managers.Resource.Load<AudioClip>("Private/Audio/Background/Victory");
+        }
+
+        audioSource.clip = audioClip;
+        audioSource.Play();
     }
 }

@@ -41,6 +41,7 @@ public class THSSkill_EProj : MonoBehaviour
 
         if(other.gameObject.layer == Util.GetEnemyLayer() && (other.tag == "Player" || other.tag == "Minion"))
         {
+            Debug.Log("Champion Hit!");
             other.GetComponent<Controller>().TakeDamage(damage, champion);
             if (gameObject)
             {

@@ -8,10 +8,7 @@ public class LeavesBuff : ParticleBase
     void Start()
     {
         base.Init();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Invoke("GiveHeal", 1.5f);
-        }
+        Invoke("GiveHeal", 1.5f);
     }
 
     /// <summary>
@@ -31,10 +28,7 @@ public class LeavesBuff : ParticleBase
                 continue;
             }
 
-            if (pv.IsMine)
-            {
-                pv.RPC("UpdateGoHp", RpcTarget.All, pv.ViewID, 120f);
-            }
+            stat.UpdateGoHP(pv.ViewID, 120f);
         }
     }
 }

@@ -8,10 +8,7 @@ public class Meteor : ParticleBase
     void Start()
     {
         base.Init();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Invoke("GiveDamage", 0.5f);
-        }
+        Invoke("GiveDamage", 0.5f);
     }
 
     /// <summary>

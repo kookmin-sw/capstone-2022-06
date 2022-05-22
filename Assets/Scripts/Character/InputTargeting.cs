@@ -15,9 +15,14 @@ public class InputTargeting : MonoBehaviour
 
     GameObject _target;
 
+    void Awake()
+    {
+        _mask = 1 << Util.GetEnemyLayer();
+    }
+
     void Start()
     {
-       
+        Invoke("SetChamp", 1f);
     }
 
     void LateUpdate()
@@ -45,21 +50,34 @@ public class InputTargeting : MonoBehaviour
 
     }
 
-    public IEnumerator Initialize(GameObject player)
+    void SetChamp()
     {
-        selectedHero = player;
+        GameObject[] ar = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject go in ar)
+        {
+            if (go.GetPhotonView().IsMine)
+            {
+                selectedHero = go;
+                return;
+            }
+        }
+    }
+
+    // public IEnumerator Initialize(GameObject player)
+    // {
+    //     selectedHero = player;
         
-        yield return new WaitForSeconds(1.0f);
+    //     yield return new WaitForSeconds(1.0f);
 
 
-        if (selectedHero.layer == LayerMask.NameToLayer("RedTeam"))
-            _mask = LayerMask.GetMask("BlueTeam");
-        else
-            _mask = LayerMask.GetMask("RedTeam");
-    }
+    //     if (selectedHero.layer == LayerMask.NameToLayer("RedTeam"))
+    //         _mask = LayerMask.GetMask("BlueTeam");
+    //     else
+    //         _mask = LayerMask.GetMask("RedTeam");
+    // }
 
-    public void StartInitialize()
-    {
-        StartCoroutine("Initialize");
-    }
+    // public void StartInitialize()
+    // {
+    //     StartCoroutine("Initialize");
+    // }
 }

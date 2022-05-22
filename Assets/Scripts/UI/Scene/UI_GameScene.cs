@@ -6,6 +6,8 @@ using Photon.Pun;
 
 public class UI_GameScene : UI_Scene
 {
+    UI_ExitMenuPopup popup;
+
     enum Texts
     {
         TimeText
@@ -13,7 +15,13 @@ public class UI_GameScene : UI_Scene
 
     void Update()
     {
-        
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            if (!popup.gameObject.activeSelf)
+            {
+                popup.gameObject.SetActive(true);
+            }
+        }
     }
 
     void LateUpdate()
@@ -33,6 +41,9 @@ public class UI_GameScene : UI_Scene
         base.Init();
 
         Bind<Text>(typeof(Texts));
+
+        popup = Managers.UI.AttachSubItem<UI_ExitMenuPopup>(transform);
+        popup.gameObject.SetActive(false);
 
         if ((bool)GetPropVal("isCommander"))
         {

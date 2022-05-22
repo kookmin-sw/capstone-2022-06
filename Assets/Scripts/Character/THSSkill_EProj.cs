@@ -65,7 +65,7 @@ public class THSSkill_EProj : MonoBehaviour
         {
             if (go.GetPhotonView().IsMine)
             {
-                champion = go;
+                // champion = go;
                 if (champion.layer == LayerMask.NameToLayer("BlueTeam"))
                 {
                     targetLayer = LayerMask.NameToLayer("RedTeam");

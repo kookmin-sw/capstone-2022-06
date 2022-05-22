@@ -703,7 +703,7 @@ public class ShopManager : MonoBehaviour
         {
             if (player != null)
             {
-                if (player.layer == LayerMask.GetMask("RedTeam"))
+                if (player.layer == 6)
                 {
                     shop = Rshop;
                     yield break;

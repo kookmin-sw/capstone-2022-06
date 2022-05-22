@@ -28,7 +28,7 @@ public class InputTargeting : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, _mask))
             {
                 // 타겟팅이 가능한 경우
-                if (hit.collider.GetComponent<Targetable>() != null)
+                if (hit.collider.GetComponent<Targetable>() != null && !gameObject.GetPhotonView().IsMine)
                 {
                     selectedHero.GetComponent<HeroCombat>().SetTargetedEnemy(hit.collider.gameObject.GetPhotonView().ViewID);
                 }

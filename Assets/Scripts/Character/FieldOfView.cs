@@ -39,7 +39,7 @@ public class FieldOfView : MonoBehaviour
         viewMesh.name = "view";
         viewMeshFilter.mesh = viewMesh;
 
-        StartCoroutine("ScanEnemiesWithDelay", 0.4f);
+        StartCoroutine("ScanEnemiesWithDelay", 0.25f);
     }
 
     private void LateUpdate()
@@ -59,7 +59,7 @@ public class FieldOfView : MonoBehaviour
     {
         foreach (Transform e in visibleEnemies)
         {
-            if (e.tag == "Player" || e.tag == "Minion")
+            if (e != null && (e.tag == "Player" || e.tag == "Minion"))
             {
                 Util.OffRenderer(e);
             }
@@ -86,7 +86,10 @@ public class FieldOfView : MonoBehaviour
 
         foreach (Transform e in visibleEnemies)
         {
-            Util.OnRenderer(e);
+            if (e != null)
+            {
+                Util.OnRenderer(e);
+            }
         }
     }
 

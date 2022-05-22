@@ -95,7 +95,10 @@ public class ChampionManager : Controller
         if (stat == null)
             Debug.Log("Error Stat");
         else
-            PV.RPC("DamageCalculate", RpcTarget.All, damage);
+        {
+            if (PV.IsMine)
+                PV.RPC("DamageCalculate", RpcTarget.All, damage);
+        }
 
         if (stat.Status.hp <= 0)
         {

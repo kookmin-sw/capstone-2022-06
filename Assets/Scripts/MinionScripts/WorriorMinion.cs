@@ -18,6 +18,7 @@ public class WorriorMinion : MinionController
         base.Start();
 
         _attackRange = 4f;
+        _templeAttackRange = 10f;
     }
 
     // Update is called once per frame

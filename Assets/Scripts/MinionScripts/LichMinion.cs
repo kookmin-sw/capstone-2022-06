@@ -20,6 +20,7 @@ public class LichMinion : MinionController
         base.Start();
 
         _attackRange = 15f;
+        _templeAttackRange = 25f;
     }
 
     // Update is called once per frame

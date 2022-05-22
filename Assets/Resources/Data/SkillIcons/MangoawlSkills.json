@@ -1,9 +1,9 @@
 {
     "passive": "Private/Textures/Abilities/ability_p",
-    "q": "Private/Textures/Abilities/ability_w",
-    "w": "Private/Textures/Abilities/ability_w",
-    "e": "Private/Textures/Abilities/ability_w",
-    "r": "Private/Textures/Abilities/ability_w",
+    "q": "Private/Textures/Skill/Warrior_2",
+    "w": "Private/Textures/Skill/13_Healing_spell_2",
+    "e": "Private/Textures/Skill/Barbarian14",
+    "r": "Private/Textures/Skill/Paladin10",
     "d": "Private/Textures/Abilities/ability_d",
     "f": "Private/Textures/Abilities/ability_f"
 }

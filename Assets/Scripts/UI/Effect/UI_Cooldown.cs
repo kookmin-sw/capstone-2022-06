@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UI_Cooldown : MonoBehaviour
 {
     public Image fill;
-    private float maxCooldown = 90f;
+    private float maxCooldown = 30f;
     private float currentCooldown = 0f;
 
     /// <summary> 최대 쿨타임을 변경 </summary>

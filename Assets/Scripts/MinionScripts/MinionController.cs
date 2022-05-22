@@ -27,6 +27,8 @@ public class MinionController : Controller, IPunObservable
     protected bool _isDead = false;
 
     protected float _attackRange;
+    protected float _templeAttackRange;
+    protected float _curAttackRange;
     protected float _detectRange = 15f;
 
     // Reference Attribute
@@ -177,6 +179,12 @@ public class MinionController : Controller, IPunObservable
                     if (Vector3.Distance(transform.position, col.gameObject.transform.position) <= _detectRange)
                     {
                         _lockTarget = col.gameObject;
+
+                        if (_lockTarget.tag == "Temple")
+                            _curAttackRange = _templeAttackRange;
+                        else
+                            _curAttackRange = _attackRange;
+
                         _state = State.Targetting;
                         break;
                     }
@@ -198,7 +206,7 @@ public class MinionController : Controller, IPunObservable
 
         _nav.SetDestination(_lockTarget.transform.position);
 
-        if (Vector3.Distance(transform.position, _lockTarget.transform.position) <= _attackRange)
+        if (Vector3.Distance(transform.position, _lockTarget.transform.position) <= _curAttackRange)
         {
             _nav.isStopped = true;
             _nav.ResetPath();

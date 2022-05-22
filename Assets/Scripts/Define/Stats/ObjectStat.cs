@@ -23,7 +23,10 @@ public abstract class ObjectStat : MonoBehaviour
     /// </summary>
     public void UpdateGoHP(int id, float diff)
     {
-        PV.RPC("UpdateGoHPRPC", RpcTarget.All, id, diff);
+        if (PV.IsMine)
+        {
+            PV.RPC("UpdateGoHPRPC", RpcTarget.All, id, diff);
+        }
     }
 
     /// <summary>

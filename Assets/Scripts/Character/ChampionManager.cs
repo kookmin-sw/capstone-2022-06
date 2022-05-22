@@ -101,6 +101,8 @@ public class ChampionManager : Controller
         {
             if (PV.IsMine)
             {
+                UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
+                StartCoroutine(WaitForDestroyCoroutine(panel));
                 PV.RPC("SetKDCount", RpcTarget.All);
             }
 
@@ -116,12 +118,6 @@ public class ChampionManager : Controller
         PV.RPC("DeadStateRPC", RpcTarget.All);
         PV.RPC("OffTargetable", RpcTarget.All);
         currentAttacker = null;
-
-        if (PV.IsMine)
-        {
-            UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
-            StartCoroutine(WaitForDestroyCoroutine(panel));
-        }
     }
 
     [PunRPC]

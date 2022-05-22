@@ -27,6 +27,7 @@ public class GameScene : BaseScene
         // Blue Team
         if (Util.GetMyLayerString() == "BlueTeam")
         {
+            Debug.Log($"Myid is {myId} so go to blue team");
             spawnPoint.x = Random.Range(-111, -98);
             spawnPoint.z = Random.Range(-111, -98);
         }

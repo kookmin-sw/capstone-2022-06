@@ -95,7 +95,7 @@ public class ChampionManager : Controller
         if (stat == null)
             Debug.Log("Error Stat");
         else
-            stat.Status.hp -= damage * (100 / (100 + stat.Status.defense));
+            PV.RPC("DamageCalculate", RpcTarget.All, damage);
 
         if (stat.Status.hp <= 0)
         {
@@ -193,5 +193,11 @@ public class ChampionManager : Controller
         PV.RPC("AliveStateRPC", RpcTarget.All);
         PV.RPC("OnTargetable", RpcTarget.All);
         stat.Status.hp = stat.Status.maxHp;
+    }
+
+    [PunRPC]
+    public void DamageCalculate(int damage)
+    {
+        stat.Status.hp -= damage * (100 / (100 + stat.Status.defense));
     }
 }

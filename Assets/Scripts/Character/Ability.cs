@@ -452,7 +452,14 @@ public class Ability : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, transform.rotation);
+            if (gameObject.layer == LayerMask.NameToLayer("BlueTeam"))
+            {
+                PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06Blue", transform.position, transform.rotation);
+            }
+            else
+            {
+                PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06Red", transform.position, transform.rotation);
+            }
         }
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
@@ -528,7 +535,14 @@ public class Ability : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
+            if (gameObject.layer == LayerMask.NameToLayer("BlueTeam"))
+            {
+                PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_RBlue", transform.position, transform.rotation);
+            }
+            else
+            {
+                PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_RRed", transform.position, transform.rotation);
+            }
             // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
         }
     }

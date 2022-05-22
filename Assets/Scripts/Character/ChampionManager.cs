@@ -95,7 +95,7 @@ public class ChampionManager : Controller
         if (stat == null)
             Debug.Log("Error Stat");
         else
-            stat.Status.hp -= stat.Status.atk * (100 / (100 + stat.Status.defense));
+            stat.Status.hp -= damage * (100 / (100 + stat.Status.defense));
 
         if (stat.Status.hp <= 0)
         {

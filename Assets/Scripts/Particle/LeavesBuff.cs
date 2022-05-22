@@ -21,14 +21,14 @@ public class LeavesBuff : ParticleBase
         for (int i = 0; i < friends.Length; i++)
         {
             ObjectStat stat = friends[i].gameObject.GetComponent<ObjectStat>();
-            PhotonView pv = stat.gameObject.GetPhotonView();
+            PhotonView pv = friends[i].gameObject.GetPhotonView();
 
             if (!stat || !pv)
             {
                 continue;
             }
 
-            stat.UpdateGoHP(pv.ViewID, 120f);
+            stat.UpdateGoHP(120f);
         }
     }
 }

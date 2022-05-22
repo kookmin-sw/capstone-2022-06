@@ -21,12 +21,9 @@ public abstract class ObjectStat : MonoBehaviour
     /// <summary>
     /// RPC를 호출하는 대리 메서드
     /// </summary>
-    public void UpdateGoHP(int id, float diff)
+    public void UpdateGoHP(float diff)
     {
-        if (PV.IsMine)
-        {
-            PV.RPC("UpdateGoHPRPC", RpcTarget.All, id, diff);
-        }
+        PV.RPC("UpdateGoHPRPC", RpcTarget.All, diff);
     }
 
     /// <summary>
@@ -35,16 +32,8 @@ public abstract class ObjectStat : MonoBehaviour
     [PunRPC]
     public void UpdateGoHPRPC(int id, float diff)
     {
-        GameObject go = PhotonView.Find(id).gameObject;
-        ObjectStat _stat = go.GetComponent<ObjectStat>();
-
-        if (!_stat)
-        {
-            return;
-        }
-
-        _stat.stat.hp += diff;
-        _stat.stat.hp = Mathf.Max(0, _stat.stat.hp);
-        _stat.stat.hp = Mathf.Min(_stat.stat.maxHp, _stat.stat.hp);
+        stat.hp += diff;
+        stat.hp = Mathf.Max(0, stat.hp);
+        stat.hp = Mathf.Min(stat.maxHp, stat.hp);
     }
 }

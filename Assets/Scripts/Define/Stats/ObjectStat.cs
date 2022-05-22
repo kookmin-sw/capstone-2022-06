@@ -30,7 +30,7 @@ public abstract class ObjectStat : MonoBehaviour
     /// 인자로 받은 게임 오브젝트의 HP를 갱신하는 RPC 메서드
     /// </summary>
     [PunRPC]
-    public void UpdateGoHPRPC(int id, float diff)
+    public void UpdateGoHPRPC(float diff)
     {
         stat.hp += diff;
         stat.hp = Mathf.Max(0, stat.hp);

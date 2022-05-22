@@ -76,7 +76,15 @@ public class UI_ComSkill : UI_Base
             int idx = GetCurrentSkillIndex();
             Get<GameObject>(idx).GetComponent<UI_Cooldown>().FillCurrentCooldown();
 
-            PhotonNetwork.Instantiate("Private/" + prefabPath, skillPointer.transform.position, Quaternion.identity);
+            int bound = 2;
+            if ((int)PhotonNetwork.LocalPlayer.CustomProperties["actorId"] <= bound)
+            {
+                PhotonNetwork.Instantiate("Private/" + prefabPath + "Blue", skillPointer.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                PhotonNetwork.Instantiate("Private/" + prefabPath + "Red", skillPointer.transform.position, Quaternion.identity);
+            }
 
             skillAble = false;
             skillMask = 0;

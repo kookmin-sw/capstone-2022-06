@@ -174,7 +174,9 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
             GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(true);
 
-            StartCoroutine(UpdateReadyCount(1));
+            Hashtable tmpHash = PhotonNetwork.LocalPlayer.CustomProperties;
+            tmpHash["isReady"] = true;
+            UpdateProperty(tmpHash);
 
             if (PV.IsMine)
             {
@@ -188,7 +190,6 @@ public class UI_Preparation : UI_Scene
             GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(true);
             GetButton((int)Buttons.UI_ConfirmButton).interactable = false;
 
-            StartCoroutine(UpdateReadyCount(-1));
             UpdateProperty(new Hashtable());
 
             PV.RPC("UpdatePortrait", RpcTarget.AllBuffered, myActorId, initPortraitPath);
@@ -336,26 +337,26 @@ public class UI_Preparation : UI_Scene
             if (myActorId != commanderSlot[0] && myActorId != commanderSlot[1])
             {
                 portrait.GetComponent<Button>().onClick.AddListener(() => {
-                GameObject selected = EventSystem.current.currentSelectedGameObject;
-                GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
-                PortraitButtonData selectedData = selected.GetComponent<PortraitButtonData>();
-                string _spritePath = selectedData.spritePath;
-                string _prefabPath = selectedData.prefabPath;
-                string _champName = selectedData.heroName;
-                string _skillPath = selectedData.skillJsonPath;
-
-                Hashtable myHash = new Hashtable() {
-                    {"isReady", false},
-                    {"isExists", true},
-                    {"isCommander", false},
-                    {"prefabPath", _prefabPath},
-                    {"championName", _champName},
-                    {"actorId", myActorId},
-                    {"skills", _skillPath}
-                };
-                UpdateProperty(myHash);
-
-                PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, _spritePath);
+                    GameObject selected = EventSystem.current.currentSelectedGameObject;
+                    GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
+                    PortraitButtonData selectedData = selected.GetComponent<PortraitButtonData>();
+                    string _spritePath = selectedData.spritePath;
+                    string _prefabPath = selectedData.prefabPath;
+                    string _champName = selectedData.heroName;
+                    string _skillPath = selectedData.skillJsonPath;
+    
+                    Hashtable myHash = new Hashtable() {
+                        {"isReady", false},
+                        {"isExists", true},
+                        {"isCommander", false},
+                        {"prefabPath", _prefabPath},
+                        {"championName", _champName},
+                        {"actorId", myActorId},
+                        {"skills", _skillPath}
+                    };
+                    UpdateProperty(myHash);
+    
+                    PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, _spritePath);
                 });
             }
         }

@@ -29,13 +29,6 @@ public class UI_ComSkill : UI_Base
     /// <summary> 지휘관 스킬 키를 눌렀을 때 일어나는 동작을 작성한 메서드 </summary>
     void OnKeyPressed()
     {
-        // escape 감지시 스킬 비활성화는 게임 종료 이슈를 고려하여 보류
-        // if (Input.GetKeyUp(KeyCode.Escape))
-        // {
-        //     skillPointer.gameObject.SetActive(skillAble);
-        //     return;
-        // }
-
         if (Input.GetKeyUp(KeyCode.Q))
         {
             if (!Get<GameObject>((int)GameObjects.Meteor).GetComponent<UI_Cooldown>().IsCooldownFinished())

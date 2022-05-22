@@ -4,7 +4,7 @@
 
 ## 프로젝트 소개
 
-KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 적을 물리치고 상대편의 본부를 부수는 게임입니다.
+KAOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 적을 물리치고 상대편의 본부를 부수는 게임입니다.
 
 게임의 장르는 Real time 3rd person AOS이며 각 팀은 4명의 전투원과 1명의 지휘관으로 구성되어 상대를 무찌르게 됩니다.
 
@@ -19,9 +19,9 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 |이름|학번|역할|개인 깃허브|
 |-|-|-|-|
 |남경태|****1614|몬스터, 구조물|[링크](https://github.com/namgyeongtae)|
-|이수연|****1661|Leader, UI|[링크](https://github.com/2Baekgu)|
-|우수빈|****1314|Playable 로직, 레벨 디자인|[링크](https://github.com/wsb8618)|
-|최호경|****1717|SFX, State Pattern, UI|[링크](https://github.com/nicotina04)|
+|이수연|****1661|Leader, 상점 UI, 아이템 설계|[링크](https://github.com/2Baekgu)|
+|우수빈|****1314|챔피언 기능, 레벨 디자인|[링크](https://github.com/wsb8618)|
+|최호경|****1717|SFX, 메뉴 UI, 게임 기반 기능|[링크](https://github.com/nicotina04)|
 
 ## Tech Stack
 
@@ -29,3 +29,7 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 |-|-|
 |Unity Engine|2021.2.1f1|
 |Photon Server PUN2|2.40|
+
+## Service Structure
+
+[ServiceStructure](https://user-images.githubusercontent.com/10281005/169692714-e9297a4b-417f-4cf9-87a5-8be4c287db43.png)

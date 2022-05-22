@@ -52,7 +52,7 @@ public class HeroCombat : MonoBehaviour
             {
                 moveScript.agent.isStopped = false;
                 moveScript.agent.SetDestination(targetedEnemy.transform.position);
-                moveScript.agent.stoppingDistance = attackRange;
+                //moveScript.agent.stoppingDistance = attackRange;
 
                 // Direction
                 Quaternion rotationToLookAt = Quaternion.LookRotation(targetedEnemy.transform.position - transform.position);

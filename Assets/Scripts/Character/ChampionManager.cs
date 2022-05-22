@@ -84,6 +84,11 @@ public class ChampionManager : Controller
 
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         if (isDead)
             return;
 
@@ -99,15 +104,10 @@ public class ChampionManager : Controller
 
         if (stat.Status.hp <= 0)
         {
-            if (PV.IsMine)
-            {
-                UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
-                StartCoroutine(WaitForDestroyCoroutine(panel));
-                PV.RPC("SetKDCount", RpcTarget.All);
-            }
-
+            UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
+            StartCoroutine(WaitForDestroyCoroutine(panel));
+            PV.RPC("SetKDCount", RpcTarget.All);
             OnDie();
-            return;
         }
     }
 

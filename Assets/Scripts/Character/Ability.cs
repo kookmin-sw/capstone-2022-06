@@ -453,7 +453,6 @@ public class Ability : MonoBehaviour
         if (PV.IsMine)
         {
             var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, transform.rotation);
-            go.GetComponent<THSSkill_EProj>().champion = gameObject;
         }
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }
@@ -530,7 +529,6 @@ public class Ability : MonoBehaviour
         if (PV.IsMine)
         {
             var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
-            go.GetComponent<THSSkill_RProj>().champion = gameObject;
             // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
         }
     }

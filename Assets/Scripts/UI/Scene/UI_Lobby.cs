@@ -12,7 +12,7 @@ public class UI_Lobby : UI_Scene
     private Button matchmakingButton;
     private Button cancelButton;
     private Button testGameButton;
-    private byte _maxPlayers = 10;
+    private byte _maxPlayers = 4;
     
     enum GameObjects
     {

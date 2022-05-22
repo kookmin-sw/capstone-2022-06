@@ -19,7 +19,10 @@ public class FieldOfViewEditor : Editor
         Handles.color = Color.red;
         foreach (Transform visible in fow.visibleEnemies)
         {
-            Handles.DrawLine(fow.transform.position, visible.position);
+            if (visible != null)
+            {
+                Handles.DrawLine(fow.transform.position, visible.position);
+            }
         }
     }
 }

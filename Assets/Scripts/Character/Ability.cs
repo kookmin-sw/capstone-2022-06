@@ -450,7 +450,7 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_E()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PV.IsMine)
         {
             var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, transform.rotation);
             go.GetComponent<THSSkill_EProj>().champion = gameObject;
@@ -527,13 +527,12 @@ public class Ability : MonoBehaviour
     // 스킬 E 애니메이션 이벤트
     public void SpawnSkill_R()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PV.IsMine)
         {
             var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword07_R", projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
             go.GetComponent<THSSkill_RProj>().champion = gameObject;
             // Instantiate(projPrefab_R, projSpawnPoint_R.transform.position, projSpawnPoint_R.transform.rotation);
         }
-            
     }
 
     void Ability_D()

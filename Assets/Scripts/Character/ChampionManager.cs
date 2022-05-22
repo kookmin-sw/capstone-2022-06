@@ -99,8 +99,6 @@ public class ChampionManager : Controller
 
         if (stat.Status.hp <= 0)
         {
-            UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
-            StartCoroutine(WaitForDestroyCoroutine(panel));
             PV.RPC("SetKDCount", RpcTarget.All);
             OnDie();
         }
@@ -113,6 +111,8 @@ public class ChampionManager : Controller
             return;
         }
 
+        UI_DeadPanel panel = Managers.UI.ShowSceneUI<UI_DeadPanel>();
+        StartCoroutine(WaitForDestroyCoroutine(panel));
         isDead = true;
         heroCombat.targetedEnemy = null;
         PV.RPC("DeadStateRPC", RpcTarget.All);

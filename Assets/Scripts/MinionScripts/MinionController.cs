@@ -88,6 +88,7 @@ public class MinionController : Controller, IPunObservable
                 break;
             case State.Targetting:
                 _nav.isStopped = false;
+                _anim.SetBool("OnAttack", false);
                 if (_lockTarget != null)
                     MoveTo();
                 break;
@@ -105,6 +106,7 @@ public class MinionController : Controller, IPunObservable
 
                 break;
             case State.Die:
+                _nav.isStopped = true;
                 StartCoroutine("UpdateDie");
                 break;
         }
@@ -154,7 +156,7 @@ public class MinionController : Controller, IPunObservable
         else
             targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
 
-        if (_state != State.Targetting)
+        if (_state == State.Walk)
         {
             targetCols = Physics.OverlapSphere(transform.position, _detectRange, targetLayer);
             

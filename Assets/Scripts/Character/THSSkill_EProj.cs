@@ -12,6 +12,15 @@ public class THSSkill_EProj : MonoBehaviour
 
     void Awake()
     {
+        if (gameObject.layer == LayerMask.NameToLayer("BlueTeam"))
+        {
+            targetLayer = LayerMask.NameToLayer("RedTeam");
+        }
+        else
+        {
+            targetLayer = LayerMask.NameToLayer("BlueTeam");
+        }
+    
         SetChamp();
     }
 
@@ -63,18 +72,9 @@ public class THSSkill_EProj : MonoBehaviour
         GameObject[] ar = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject go in ar)
         {
-            if (go.GetPhotonView().IsMine)
+            if (go.GetPhotonView().IsMine && gameObject.layer == go.layer)
             {
                 champion = go;
-                if (champion.layer == LayerMask.NameToLayer("BlueTeam"))
-                {
-                    targetLayer = LayerMask.NameToLayer("RedTeam");
-                }
-                else
-                {
-                    targetLayer = LayerMask.NameToLayer("BlueTeam");
-                }
-
                 return;
             }
         }

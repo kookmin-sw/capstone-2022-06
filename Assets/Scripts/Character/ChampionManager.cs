@@ -84,11 +84,6 @@ public class ChampionManager : Controller
 
     public override void TakeDamage(float damage, GameObject attacker = null)
     {
-        if (!PV.IsMine)
-        {
-            return;
-        }
-
         if (isDead)
             return;
 
@@ -182,7 +177,7 @@ public class ChampionManager : Controller
 
         Vector3 respawnPos;
 
-        if (Util.GetLocalPlayerId() <= 5)
+        if (Util.GetMyLayerString() == "BlueTeam")
         {
             // 블루팀 리스폰
             respawnPos = new Vector3(-105, 0, -105);

@@ -106,12 +106,7 @@ public class HeroCombat : MonoBehaviour
             }
         }
         */
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
-        }
-
+        targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
         performMeleeAttack = true;
     }
 

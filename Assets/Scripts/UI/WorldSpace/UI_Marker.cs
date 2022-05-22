@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class UI_Marker : UI_Base
 {
@@ -14,7 +15,7 @@ public class UI_Marker : UI_Base
     {
         Bind<GameObject>(typeof(GameObjects));
         transform.position = transform.parent.position + new Vector3(0, 9, 0);
-        // SetMarkerColor(new Vector3(255, 0, 0));
+        StartCoroutine(WaitBindCoroutine());
     }
 
     void Start()
@@ -27,10 +28,27 @@ public class UI_Marker : UI_Base
         
     }
 
-    public void SetMarkerColor(Vector3 color)
+    IEnumerator WaitBindCoroutine()
+    {
+        yield return new WaitUntil(() => {
+            return Get<GameObject>((int)GameObjects.Marker) != null;
+        });
+
+        SetMarkerColor();
+    }
+
+    public void SetMarkerColor()
     {
         GameObject marker = Get<GameObject>((int)GameObjects.Marker);
         Image markerImage = marker.GetComponent<Image>();
-        markerImage.color = new Color32((byte)color.x, (byte)color.y, (byte)color.z, 255);
+
+        if (transform.parent.gameObject.layer == LayerMask.NameToLayer("RedTeam"))
+        {
+            markerImage.color = Color.red;
+        }
+        else
+        {
+            markerImage.color = Color.blue;
+        }
     }
 }

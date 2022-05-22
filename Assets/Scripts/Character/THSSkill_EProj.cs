@@ -8,6 +8,7 @@ public class THSSkill_EProj : MonoBehaviour
     public float damage;
     public float speed;
     public GameObject champion;
+    private int targetLayer;
 
     void Awake()
     {
@@ -39,7 +40,7 @@ public class THSSkill_EProj : MonoBehaviour
         if (!champion.GetPhotonView().IsMine)
             return;
 
-        if(other.gameObject.layer == Util.GetEnemyLayer() && (other.tag == "Player" || other.tag == "Minion"))
+        if(other.gameObject.layer == targetLayer && (other.tag == "Player" || other.tag == "Minion"))
         {
             Debug.Log("Champion Hit!");
             other.GetComponent<Controller>().TakeDamage(damage, champion);
@@ -65,6 +66,15 @@ public class THSSkill_EProj : MonoBehaviour
             if (go.GetPhotonView().IsMine)
             {
                 champion = go;
+                if (champion.layer == LayerMask.NameToLayer("BlueTeam"))
+                {
+                    targetLayer = LayerMask.NameToLayer("RedTeam");
+                }
+                else
+                {
+                    targetLayer = LayerMask.NameToLayer("BlueTeam");
+                }
+
                 return;
             }
         }

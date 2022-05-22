@@ -247,18 +247,55 @@ public class MinionController : Controller, IPunObservable
         Animator _anim = GetComponent<Animator>();
         _anim.SetBool("IsDead", true);
 
-        this.gameObject.layer = LayerMask.NameToLayer("Default");
-
-        if (_currentAttacker.gameObject.tag == "Player" && !_isDead)
+        if (!_isDead)
         {
+            GiveExp();
             _isDead = true;
-            _currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+
+            if (_currentAttacker.gameObject.tag == "Player")
+            {
+                _currentAttacker.GetComponent<ObjectStat>().Status.gold += stat.Status.GivingGold;
+            }
         }
+
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         yield return new WaitForSeconds(3.0f);
 
         if (gameObject != null)
             Managers.Resource.Destroy(this.gameObject);
+    }
+
+    protected void GiveExp()
+    {
+        int targetLayer;
+
+        if (this.gameObject.layer == LayerMask.NameToLayer("RedTeam"))
+            targetLayer = 1 << LayerMask.NameToLayer("BlueTeam");
+        else
+            targetLayer = 1 << LayerMask.NameToLayer("RedTeam");
+
+        Collider[] cols = Physics.OverlapSphere(transform.position, 100.0f, targetLayer);
+
+        
+        List<GameObject> players = new List<GameObject>();
+        foreach (Collider col in cols)
+        {
+            if (col.gameObject.tag == "Player")
+            {
+                players.Add(col.gameObject);
+            }
+        }
+
+        if (players.Count > 0)
+        {
+            foreach (GameObject player in players)
+            {
+                player.GetComponent<ChampionStat>().Status.exp += (stat.Status.GivingExp / players.Count);
+            }
+        }
+        else
+            return;
     }
 
     #region RPC

@@ -113,6 +113,11 @@ public class ChampionManager : Controller
 
     public void OnDie()
     {
+        if (!PV.IsMine)
+        {
+            return;
+        }
+
         isDead = true;
         heroCombat.targetedEnemy = null;
         PV.RPC("DeadStateRPC", RpcTarget.All);

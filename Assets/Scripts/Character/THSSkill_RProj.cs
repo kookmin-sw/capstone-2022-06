@@ -28,11 +28,6 @@ public class THSSkill_RProj : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            return;
-        }
-
         if(other.gameObject.layer == Util.GetEnemyLayer() && (other.tag == "Player" || other.tag == "Minion"))
         {
             other.GetComponent<Controller>().TakeDamage(damage, champion);

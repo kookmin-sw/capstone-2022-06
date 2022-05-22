@@ -107,7 +107,7 @@ public class HeroCombat : MonoBehaviour
         }
         */
 
-        if (PV.IsMine)
+        if (PhotonNetwork.IsMasterClient)
         {
             targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
         }

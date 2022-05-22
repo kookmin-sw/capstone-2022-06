@@ -11,6 +11,8 @@ TagManager:
   - THSSkill_R
   - Minion
   - Parent
+  - Shop
+  - Temple
   layers:
   - Default
   - TransparentFX

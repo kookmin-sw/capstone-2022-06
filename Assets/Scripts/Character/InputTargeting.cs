@@ -37,10 +37,10 @@ public class InputTargeting : MonoBehaviour
                     selectedHero.GetComponent<HeroCombat>().SetTargetedEnemyNull();
                 }
             }
-            else
-            {
-                selectedHero.GetComponent<HeroCombat>().SetTargetedEnemyNull();
-            }
+            //else
+            //{
+            //    selectedHero.GetComponent<HeroCombat>().SetTargetedEnemyNull();
+            //}
         }
 
     }

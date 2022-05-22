@@ -196,7 +196,7 @@ public class ChampionManager : Controller
     }
 
     [PunRPC]
-    public void DamageCalculate(int damage)
+    public void DamageCalculate(float damage)
     {
         stat.Status.hp -= damage * (100 / (100 + stat.Status.defense));
     }

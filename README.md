@@ -14,6 +14,10 @@ KAOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해
 
 [![미리보기](https://img.youtube.com/vi/N5zG3Yk2-gw/0.jpg)](https://youtu.be/N5zG3Yk2-gw)
 
+## 시연 영상
+
+Comming soon
+
 ## 팀 소개
 
 |이름|학번|역할|개인 깃허브|

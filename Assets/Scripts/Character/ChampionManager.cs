@@ -73,6 +73,11 @@ public class ChampionManager : Controller
         {
             stat.Status.exp = 0;
             stat.Status.level++;
+            stat.Status.maxHp += 150;
+            stat.Status.hp += 150;
+            stat.Status.atk += 8;
+            stat.Status.ap += 8;
+            stat.Status.defense += 10;
             skillPoint++;
         }
     }
@@ -164,8 +169,8 @@ public class ChampionManager : Controller
     [PunRPC]
     void AliveStateRPC()
     {
-        anim.ResetTrigger("doRevive");
-        anim.SetTrigger("doDie");
+        anim.ResetTrigger("doDie");
+        anim.SetTrigger("doRevive");
     }
 
     IEnumerator WaitForDestroyCoroutine(UI_DeadPanel panel)

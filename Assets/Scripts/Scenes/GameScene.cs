@@ -114,7 +114,7 @@ public class GameScene : BaseScene
         myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
         Managers.UI.AttachMapMarker<UI_Marker>(myChamp.transform, "UI_MobMarker");
         tracker.player = myChamp.transform;
-        Camera.main.gameObject.GetComponent<InputTargeting>().Initialize(myChamp);
+        Camera.main.gameObject.GetComponent<InputTargeting>().StartInitialize();
         Camera.main.gameObject.GetComponent<CameraRoam>().Initialize(myChamp);
         GameObject.Find("ShopManager").GetComponent<ShopManager>().player = myChamp;
         LayerController _layer = myChamp.GetOrAddComponent<LayerController>();

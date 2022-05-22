@@ -115,10 +115,43 @@ public class UI_Preparation : UI_Scene
             "ContentsDiv"
         );
 
+        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
+        // 또한 초상화를 지휘관 초상화로 변경합니다.
+        // 챔피언을 선택할 수 없게 모든 버튼을 inactive로 바꿉니다.
+        if (myActorId == commanderSlot[0] || myActorId == commanderSlot[1])
+        {
+            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
+            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
+            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
+            PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, "Private/Textures/Icons/HeadKing");
+
+            foreach (Transform child in contentsDiv.transform)
+            {
+                Button btn = child.gameObject.GetComponent<Button>();
+                if (btn)
+                {
+                    btn.interactable = false;
+                }
+            }
+
+            Hashtable myHash = new Hashtable() {
+                {"isReady", true},
+                {"isExists", true},
+                {"isCommander", true},
+                {"actorId", myActorId}
+            };
+            UpdateProperty(myHash);
+
+            if (PV.IsMine)
+            {
+                StartCoroutine("WaitAllReady");
+            }
+
+            return;
+        }
+
         if (PV.IsMine)
         {
-            PV.RPC("ClearDummyPortraits", RpcTarget.AllBuffered);
-
             TextAsset jsonText = Managers.Resource.Load<TextAsset>(iconJsonPath);
 
             if (jsonText)
@@ -165,40 +198,6 @@ public class UI_Preparation : UI_Scene
                 StopCoroutine("WaitAllReady");
             }
         });
-
-        // 지휘관이면 챔피언 선택을 막고 전용 문구를 보여줍니다.
-        // 또한 초상화를 지휘관 초상화로 변경합니다.
-        // 챔피언을 선택할 수 없게 모든 버튼을 inactive로 바꿉니다.
-        if (myActorId == commanderSlot[0] || myActorId == commanderSlot[1])
-        {
-            GetButton((int)Buttons.UI_CancelButton).gameObject.SetActive(false);
-            GetButton((int)Buttons.UI_ConfirmButton).gameObject.SetActive(false);
-            GetText((int)Texts.ComStatement).gameObject.SetActive(true);
-            PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, "Private/Textures/Icons/HeadKing");
-
-            foreach (Transform child in contentsDiv.transform)
-            {
-                Button btn = child.gameObject.GetComponent<Button>();
-                if (btn)
-                {
-                    btn.interactable = false;
-                }
-            }
-
-            StartCoroutine(UpdateReadyCount(1));
-
-            Hashtable myHash = new Hashtable() {
-                {"isExists", true},
-                {"isCommander", true},
-                {"actorId", myActorId}
-            };
-            UpdateProperty(myHash);
-
-            if (PV.IsMine)
-            {
-                StartCoroutine("WaitAllReady");
-            }
-        }
     }
 
     /// <summary>
@@ -226,15 +225,23 @@ public class UI_Preparation : UI_Scene
     private IEnumerator WaitAllReady()
     {
         yield return new WaitUntil(() => {
-            object ret;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("readyCount", out ret))
+            int cnt = 0;
+
+            Player[] curPlayers = PhotonNetwork.PlayerList;
+
+            foreach (Player p in curPlayers)
             {
-                return (int)ret == PhotonNetwork.CurrentRoom.PlayerCount;
+                object tmp;
+                if (p.CustomProperties.TryGetValue("isReady", out tmp))
+                {
+                    if ((bool)tmp)
+                    {
+                        ++cnt;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            return cnt == PhotonNetwork.CurrentRoom.PlayerCount;
         });
 
         Debug.Log($"All player get ready : {PhotonNetwork.CurrentRoom.MaxPlayers}");
@@ -326,7 +333,9 @@ public class UI_Preparation : UI_Scene
             // 자기 픽 슬롯의 portrait도 변경할 수 있도록 합니다.
             // 추가로 ConfirmButton을 누를 수 있도록 합니다.
             // 플레이어 프로퍼티를 갱신합니다.
-            portrait.GetComponent<Button>().onClick.AddListener(() => {
+            if (myActorId != commanderSlot[0] && myActorId != commanderSlot[1])
+            {
+                portrait.GetComponent<Button>().onClick.AddListener(() => {
                 GameObject selected = EventSystem.current.currentSelectedGameObject;
                 GetButton((int)Buttons.UI_ConfirmButton).interactable = true;
                 PortraitButtonData selectedData = selected.GetComponent<PortraitButtonData>();
@@ -336,6 +345,7 @@ public class UI_Preparation : UI_Scene
                 string _skillPath = selectedData.skillJsonPath;
 
                 Hashtable myHash = new Hashtable() {
+                    {"isReady", false},
                     {"isExists", true},
                     {"isCommander", false},
                     {"prefabPath", _prefabPath},
@@ -346,7 +356,8 @@ public class UI_Preparation : UI_Scene
                 UpdateProperty(myHash);
 
                 PV.RPC("UpdatePortrait", RpcTarget.All, myActorId, _spritePath);
-            });
+                });
+            }
         }
     }
 }

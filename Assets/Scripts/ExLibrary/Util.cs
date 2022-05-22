@@ -116,7 +116,7 @@ public class Util
     /// </summary>
     public static int GetMyLayer()
     {
-        int bound = 5;
+        int bound = 2;
         object tmp;
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
         {
@@ -159,7 +159,7 @@ public class Util
     /// </summary>
     public static string GetMyLayerString()
     {
-        int bound = 5;
+        int bound = 2;
         object tmp;
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("actorId", out tmp))
         {

@@ -25,18 +25,14 @@ public class CursorManager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit[] hits;
+        RaycastHit hit;
 
-        hits = Physics.RaycastAll(ray);
-
-        foreach (RaycastHit hit in hits)
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyLayer))
         {
-            // if (hit.collider.gameObject.layer == enemyLayer && hit.collider == hit.collider.gameObject.GetComponent<CapsuleCollider>())
             if (hit.collider.gameObject.layer == enemyLayer)
             {
                 Texture2D tex = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
                 Cursor.SetCursor(tex, new Vector2(tex.width / 5, 0), CursorMode.Auto);
-                break;
             }
             else
             {
@@ -44,5 +40,24 @@ public class CursorManager : MonoBehaviour
                 Cursor.SetCursor(tex, new Vector2(tex.width / 3, 0), CursorMode.Auto);
             }
         }
+
+        //RaycastHit[] hits;
+
+        //hits = Physics.RaycastAll(ray);
+
+        //foreach (RaycastHit hit in hits)
+        //{
+        //    if (hit.collider.gameObject.layer == enemyLayer)
+        //    {
+        //        Texture2D tex = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
+        //        Cursor.SetCursor(tex, new Vector2(tex.width / 5, 0), CursorMode.Auto);
+        //        break;
+        //    }
+        //    else
+        //    {
+        //        Texture2D tex = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Hand");
+        //        Cursor.SetCursor(tex, new Vector2(tex.width / 3, 0), CursorMode.Auto);
+        //    }
+        //}
     }
 }

@@ -47,9 +47,10 @@ public class InputTargeting : MonoBehaviour
 
     public IEnumerator Initialize(GameObject player)
     {
+        selectedHero = player;
+        
         yield return new WaitForSeconds(1.0f);
 
-        selectedHero = player;
 
         if (selectedHero.layer == LayerMask.NameToLayer("RedTeam"))
             _mask = LayerMask.GetMask("BlueTeam");

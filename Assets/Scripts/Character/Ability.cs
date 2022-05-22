@@ -453,7 +453,6 @@ public class Ability : MonoBehaviour
         if (PV.IsMine)
         {
             var go = PhotonNetwork.Instantiate("Private/Prefabs/Weapons/Sword06", transform.position, transform.rotation);
-            go.GetComponent<THSSkill_EProj>().champion = this.gameObject;
         }
         // Instantiate(projPrefab_E, projSpawnPoint_E.transform.position, projSpawnPoint_E.transform.rotation);
     }

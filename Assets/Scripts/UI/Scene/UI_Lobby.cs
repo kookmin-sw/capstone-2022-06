@@ -25,6 +25,11 @@ public class UI_Lobby : UI_Scene
         ConnectingText
     }
 
+    enum Buttons
+    {
+        QuitButton
+    }
+
     void Awake()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -36,6 +41,7 @@ public class UI_Lobby : UI_Scene
 
         Bind<GameObject>(typeof(GameObjects));
         Bind<Text>(typeof(Texts));
+        Bind<Button>(typeof(Buttons));
     
         matchmakingPanel = Get<GameObject>((int)GameObjects.MatchmakingPanel);
         Get<Text>((int)Texts.SearchingText).gameObject.SetActive(false);
@@ -45,6 +51,10 @@ public class UI_Lobby : UI_Scene
         {
             matchmakingPanel.SetActive(true);
         }
+
+        GetButton((int)Buttons.QuitButton).onClick.AddListener(() => {
+            Application.Quit();
+        });
 
         matchmakingButton = Util.SearchChild<Button>(matchmakingPanel, "MatchmakingButton", false);
         testGameButton = Util.SearchChild<Button>(matchmakingPanel, "TestGameButton", false);

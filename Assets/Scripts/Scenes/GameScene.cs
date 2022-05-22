@@ -111,6 +111,7 @@ public class GameScene : BaseScene
         CameraFollow tracker = Camera.main.gameObject.GetOrAddComponent<CameraFollow>();
 
         myChamp = PhotonNetwork.Instantiate(myPrefabPath, spawnPoint, Quaternion.identity);
+        Managers.UI.AttachMapMarker<UI_Marker>(myChamp.transform, "UI_MobMarker");
         tracker.player = myChamp.transform;
         Camera.main.gameObject.GetComponent<InputTargeting>().Initialize(myChamp);
         Camera.main.gameObject.GetComponent<CameraRoam>().Initialize(myChamp);

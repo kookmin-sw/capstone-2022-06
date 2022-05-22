@@ -16,7 +16,7 @@ public class UI_ExitMenuPopup : UI_Base
         Bind<Button>(typeof(Buttons));
 
         GetButton((int)Buttons.CancelButton).onClick.AddListener(() => {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         });
 
         GetButton((int)Buttons.ConfirmButton).onClick.AddListener(() => {

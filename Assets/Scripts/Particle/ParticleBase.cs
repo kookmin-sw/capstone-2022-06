@@ -28,13 +28,21 @@ public class ParticleBase : MonoBehaviour
     protected Collider[] ScanOppositeness(float radius)
     {
         int enemyLayer = Util.GetEnemyLayer();
-        return Physics.OverlapSphere(transform.position, radius, 1 << enemyLayer);
+        int mask;
+        if (gameObject.layer == LayerMask.NameToLayer("BlueTeam"))
+        {
+            mask = LayerMask.GetMask("RedTeam");
+        }
+        else
+        {
+            mask = LayerMask.GetMask("BlueTeam");
+        }
+        return Physics.OverlapSphere(transform.position, radius, mask);
     }
 
     /// <summary> 아군 유닛들을 overlapSphere로 스캔하는 메서드 </summary>
     protected Collider[] ScanFriendlies(float radius)
     {
-        int friendLayer = Util.GetMyLayer();
-        return Physics.OverlapSphere(transform.position, radius, 1 << friendLayer);
+        return Physics.OverlapSphere(transform.position, radius, 1 << gameObject.layer);
     }
 }

@@ -106,7 +106,11 @@ public class HeroCombat : MonoBehaviour
             }
         }
         */
-        targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
+
+        if (PV.IsMine)
+        {
+            targetedEnemy.GetComponent<Controller>().TakeDamage(stat.Status.atk, this.gameObject);
+        }
 
         performMeleeAttack = true;
     }

@@ -75,7 +75,7 @@ public class ScoreboardManager : MonoBehaviour
 
         foreach (GameObject p in players)
         {
-            if (p.layer == LayerMask.GetMask("RedTeam"))
+            if (p.layer == LayerMask.NameToLayer("RedTeam"))
             {
                 GameObject player = Instantiate(ChampionInfoPrefab, RedChampionInfoTransform);
                 player.GetComponent<CharacterSlot>().player = p;

@@ -43,13 +43,14 @@ public class TurretController : Controller
     // Update is called once per frame
     void Update()
     {
+        _attackTimer += Time.deltaTime;
+
         if (_lockTarget != null)
         {
             ShootBullet();
-            _attackTimer += Time.deltaTime;
         }
         else
-            _attackTimer = _attackInterval;
+            _attackTimer = _attackInterval - 1;
 
         ChangeTargetNull();
         
@@ -87,6 +88,7 @@ public class TurretController : Controller
     void MakeBullet()
     {
         GameObject bullet = Managers.Resource.Instantiate("Bullet", this.gameObject.transform);
+        
         bullet.transform.position = bulletSpawnPos.position;
 
         bullet.GetComponent<LichBullet>()._target = _lockTarget;
@@ -94,9 +96,10 @@ public class TurretController : Controller
 
     void ShootBullet()
     {
-        if (_attackTimer >= _attackInterval)
+        if (_attackTimer >= _attackInterval && !isShooting)
         {
             MakeBullet();
+            isShooting = true;
             _attackTimer = 0f;
         }
     }

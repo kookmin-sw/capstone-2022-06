@@ -9,6 +9,9 @@ public class LichBullet : MonoBehaviour
 
     public GameObject _target;
 
+    public float _lifeTimer;
+    public float _lifeLimit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +21,13 @@ public class LichBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _lifeTimer += Time.deltaTime;
+        if (_lifeTimer >= _lifeLimit)
+        {
+            transform.parent.GetComponent<Controller>().isShooting = false;
+            Managers.Resource.Destroy(gameObject);
+        }
+
         if (_target != null)
         {
             Vector3 _dir = (_target.transform.position - transform.position).normalized;
@@ -31,12 +41,15 @@ public class LichBullet : MonoBehaviour
                 else
                 {
                     _target.GetComponent<Controller>().TakeDamage(_atk, transform.parent.gameObject);
+
+                    transform.parent.GetComponent<Controller>().isShooting = false;
                     Managers.Resource.Destroy(gameObject);
                 }
             }
         }
         else
         {
+            transform.parent.GetComponent<Controller>().isShooting = false;
             Managers.Resource.Destroy(gameObject);
         }
     }

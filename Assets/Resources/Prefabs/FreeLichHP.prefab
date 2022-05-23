@@ -909,6 +909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 152db8e71945b124d9b7ab8e725cfed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShooting: 0
   _lockTarget: {fileID: 0}
   _currentAttacker: {fileID: 0}
   HPSlider: {fileID: 2183574689225437936}

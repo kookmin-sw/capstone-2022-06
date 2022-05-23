@@ -19,7 +19,7 @@ public class LichMinion : MinionController
     {
         base.Start();
 
-        _attackRange = 15f;
+        _attackRange = 12f;
         _templeAttackRange = 25f;
     }
 
@@ -36,6 +36,7 @@ public class LichMinion : MinionController
     {
         GameObject bullet = Managers.Resource.Instantiate("Bullet", this.gameObject.transform);
         bullet.transform.position = BulletSpawnPos.position;
+        isShooting = true;
 
         if (_lockTarget != null)
             bullet.GetComponent<LichBullet>()._target = _lockTarget;

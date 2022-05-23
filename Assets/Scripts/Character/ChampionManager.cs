@@ -52,9 +52,6 @@ public class ChampionManager : Controller
         }
 
         playerAnim.agent.speed = stat.Status.moveSpeed;
-
-        if (Input.GetKeyDown(KeyCode.Space) && PV.IsMine)
-            PV.RPC("TestCount", RpcTarget.All);
     }
 
     void FixedUpdate()
@@ -102,7 +99,8 @@ public class ChampionManager : Controller
 
         if (stat.Status.hp <= 0)
         {
-            PV.RPC("SetKDCount", RpcTarget.All);
+            if (PV.IsMine)
+                PV.RPC("SetKDCount", RpcTarget.All);
             OnDie();
         }
     }
@@ -130,13 +128,6 @@ public class ChampionManager : Controller
         {
             currentAttacker.GetComponent<ChampionManager>().killCount++;
         }
-        deathCount++;
-    }
-
-    [PunRPC]
-    public void TestCount()
-    {
-        killCount++;
         deathCount++;
     }
 

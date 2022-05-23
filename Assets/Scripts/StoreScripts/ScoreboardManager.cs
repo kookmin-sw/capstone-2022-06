@@ -72,6 +72,7 @@ public class ScoreboardManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log(players.Length);
 
         foreach (GameObject p in players)
         {

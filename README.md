@@ -11,7 +11,7 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 플레이어는 전투원, 지휘관 둘 중 하나의 역할을 선택하여 전투에 임합니다. 전투원은 다양한 캐릭터 중 하나를 골라 캐릭터의 특색을 이용해 상대 전투원을 제압하고 본부를 격파해 게임을 승리로 이끌어야 하며, 지휘관은 자신에게 부여된 지원 능력을 활용하여 팀이 전장에서 유리한 상황을 점할 수 있도록 돕고 마찬가지로 게임에서 승리해야 합니다.
 
 ## 시연 영상
-[![미리보기](https://img.youtube.com/vi/6UGTNKuGWw/0.jpg)](https://youtu.be/m6UGTNKuGWw)
+[![미리보기](https://img.youtube.com/vi/m6UGTNKuGWw/0.jpg)](https://youtu.be/m6UGTNKuGWw)
 
 ## 소개 영상
 

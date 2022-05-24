@@ -53,7 +53,7 @@ KAOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해
 
 ## Service Structure
 
-### 서비스 구조도
+### 서비스 배치도
 
 ![시스템 배치도-Page-1](https://user-images.githubusercontent.com/83545351/169989747-23ac273c-7383-45f8-b185-d00ee6cc0d38.png)
 

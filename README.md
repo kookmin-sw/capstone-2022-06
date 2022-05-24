@@ -4,7 +4,7 @@
 
 ## 프로젝트 소개
 
-KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 적을 물리치고 상대편의 본부를 부수는 게임입니다.
+KAOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 적을 물리치고 상대편의 본부를 부수는 게임입니다.
 
 게임의 장르는 Real time 3rd person AOS이며 각 팀은 4명의 전투원과 1명의 지휘관으로 구성되어 상대를 무찌르게 됩니다.
 
@@ -50,3 +50,7 @@ KOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해 
 |-|-|
 |Unity Engine|2021.2.1f1|
 |Photon Server PUN2|2.40|
+
+## Service Structure
+
+[ServiceStructure](https://user-images.githubusercontent.com/10281005/169692714-e9297a4b-417f-4cf9-87a5-8be4c287db43.png)

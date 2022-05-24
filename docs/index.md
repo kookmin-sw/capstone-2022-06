@@ -53,4 +53,14 @@ KAOS는 미지의 위협이 도사리는 전장에서 팀과의 협동을 통해
 
 ## Service Structure
 
-[ServiceStructure](https://user-images.githubusercontent.com/10281005/169692714-e9297a4b-417f-4cf9-87a5-8be4c287db43.png)
+### 서비스 배치도
+
+![시스템 배치도-Page-1](https://user-images.githubusercontent.com/83545351/169989747-23ac273c-7383-45f8-b185-d00ee6cc0d38.png)
+
+### 챔피언 로직
+
+![시스템 배치도-Page-2 drawio (2)](https://user-images.githubusercontent.com/83545351/169989602-e7c6c569-75a0-4a00-b7d0-fedcf8199519.png)
+
+### 게임 기능구조
+
+![시스템 배치도-Page-3 drawio (2)](https://user-images.githubusercontent.com/83545351/169989377-dba0db2f-5596-4d34-b497-6d3ab7d7d8fe.png)
